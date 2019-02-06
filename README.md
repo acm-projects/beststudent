@@ -20,7 +20,7 @@ So the goal of beststudent is to aid students in staying on top of their classes
 - Third screen where the pomodoro timer is at. 
 
 ## Tools & Resource
-- Git Bash
+- Git Bash [Here's the link](https://gitforwindows.org/)
 - Android Studio: [Here's the link](https://developer.android.com/studio/)
 - [A nice tutorial for basic ui](https://www.youtube.com/watch?v=UoFKd6Unrdk)
 - [Resource #1](https://www.tutorialspoint.com/android/android_studio.htm)
