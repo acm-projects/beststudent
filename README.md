@@ -3,7 +3,7 @@ Hello and welcome to beststudent! This'll be the repo for beststudent, where you
 ## The Goal
 So the goal of beststudent is to aid students in staying on top of their classes. We'll be using Android Studio to bring this idea to life. 
 
-##Minimum Viable Product
+## Minimum Viable Product
 - The ability to add class times
 - The task be sorted by categories (class, extracurricular, personal, etc)
 - The goods that would help students such as pomodoro, schedules, etc..
@@ -32,7 +32,7 @@ So the goal of beststudent is to aid students in staying on top of their classes
 - [more more tutorial](https://www.youtube.com/watch?v=4d-gIPGzmK4)
 
 ## Ideas after the MVP
--Integrate a mood reader after every session. This could help students if they are unhappy and could send a concern message to their love one's. The mood reader could also predict best time to study
+- Integrate a mood reader after every session. This could help students if they are unhappy and could send a concern message to their love one's. The mood reader could also predict best time to study
 - Have a basic day to day task (like drink 8 bottles of water) and have user tick each glass of water to indicate there progess.
 - An option to post links about studying techniques.
 - More will be added after we brainstorm.
