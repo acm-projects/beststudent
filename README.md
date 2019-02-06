@@ -7,17 +7,17 @@ So the goal of beststudent is to aid students in staying on top of their classes
 - The ability to add class times
 - The task be sorted by categories (class, extracurricular, personal, etc)
 - The goods that would help students such as pomodoro, schedules, etc..
-###Backend:
+### Backend:
 - Handles the addition of classes by the user.
 - The pomodoro timer + breaks.
 - Portion of the app that allows users to keep a checklist, and allows tasks to be sorted by categories.
-###Frontend
--Implementing the frontend design of the app
--Launching the app should reveal the App's name: BestStudent followed by a quote
--Total of 3 minimum screens.
--Schedule screen where they can see where their classes are at + extracurriculars. 
--Tasks screen where they can see their checklist. 
--Third screen where the pomodoro timer is at. 
+### Frontend
+- Implementing the frontend design of the app
+- Launching the app should reveal the App's name: BestStudent followed by a quote
+- Total of 3 minimum screens.
+- Schedule screen where they can see where their classes are at + extracurriculars. 
+- Tasks screen where they can see their checklist. 
+- Third screen where the pomodoro timer is at. 
 
 ## Tools & Resource
 - Git Bash
