@@ -36,7 +36,7 @@ So the goal of beststudent is to aid students in staying on top of their classes
 - Integrate a mood reader after every session. This could help students if they are unhappy and could send a concern message to their love one's. The mood reader could also predict best time to study
 - Have a basic day to day task (like drink 8 bottles of water) and have user tick each glass of water to indicate there progess.
 - An option to post links about studying techniques.
-- More will be added after we brainstorm.
+- Additional ideas can be posted at the Kanban board :D
 
 ## Rule
 - First course class, then project. I'd would prefer you don't harm your grades and classes over this.
