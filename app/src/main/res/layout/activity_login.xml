@@ -73,6 +73,18 @@
                 android:text="@string/action_sign_in"
                 android:textStyle="bold" />
 
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Sign out"
+                android:onClick="signOut"/>
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Pomodoro"
+                android:onClick="startTimer"/>
+
         </LinearLayout>
     </ScrollView>
 </LinearLayout>
