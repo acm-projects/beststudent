@@ -43,6 +43,9 @@ public class PomodoroActivity extends AppCompatActivity {
 
         count = 0;
         isPaused = false;
+
+        mins.setText("25");
+        secs.setText("00");
     }
 
     public void startPomodoro(View view) {
@@ -52,16 +55,14 @@ public class PomodoroActivity extends AppCompatActivity {
             if(count >= 0) {
                 if(count % 2 == 1) {
                     startTime = SHORT_BREAK;
-                    workState.setText("Short Break Time");
                 }
                 else {
-                    startTime = WORK;
                     workState.setText("Work Time");
+                    startTime = WORK;
                 }
             }
             else {
                 startTime = LONG_BREAK;
-                workState.setText("Long Break Time");
             }
 
             count++;
@@ -78,8 +79,6 @@ public class PomodoroActivity extends AppCompatActivity {
                 startButton.setVisibility(View.GONE);
                 pauseButton.setVisibility(View.VISIBLE);
                 timeLeft = millisUntilFinished;
-                mins.setTextSize(72);
-                secs.setTextSize(72);
                 mins.setText((TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished)) + "");
                 secs.setText((TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) -
                         TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished))) + "");
@@ -88,8 +87,23 @@ public class PomodoroActivity extends AppCompatActivity {
             @Override
             public void onFinish() {
                 isPaused = false;
-                mins.setText("0");
-                secs.setText("0");
+                if(startTime == WORK) {
+                    if(count == -1) {
+                        workState.setText("Long Break Time");
+                        mins.setText("30");
+                        secs.setText("00");
+                    }
+                    else {
+                        workState.setText("Short Break Time");
+                        mins.setText("5");
+                        secs.setText("00");
+                    }
+                }
+                else {
+                    workState.setText("Work Time");
+                    mins.setText("25");
+                    secs.setText("00");
+                }
                 pauseButton.setVisibility(View.GONE);
                 startButton.setVisibility(View.VISIBLE);
             }

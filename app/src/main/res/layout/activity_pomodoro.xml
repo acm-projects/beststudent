@@ -55,7 +55,8 @@
                 android:id="@+id/minutes"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:gravity="center"/>
+                android:gravity="center"
+                android:textSize="72dp"/>
         </LinearLayout>
 
         <LinearLayout
@@ -66,7 +67,8 @@
                 android:id="@+id/seconds"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:gravity="center"/>
+                android:gravity="center"
+                android:textSize="72dp"/>
         </LinearLayout>
 
     </LinearLayout>
