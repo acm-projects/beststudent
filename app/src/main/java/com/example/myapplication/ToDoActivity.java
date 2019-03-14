@@ -1,6 +1,9 @@
 package com.example.myapplication;
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 
 public class ToDoActivity extends Activity {
     private RecyclerView recyclerView;
@@ -10,8 +13,8 @@ public class ToDoActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.my_activity);
-        recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
+        setContentView(R.layout.todo);
+        recyclerView = (RecyclerView) findViewById(R.id.ToDoList);
 
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
@@ -22,7 +25,13 @@ public class ToDoActivity extends Activity {
         recyclerView.setLayoutManager(layoutManager);
 
         // specify an adapter (see also next example)
+        String[] myDataset = {"Tom", "Jerry", "Sue"};
         mAdapter = new MyAdapter(myDataset);
         recyclerView.setAdapter(mAdapter);
+
+        FloatingActionButton button = (FloatingActionButton)findViewById(R.id.addButton);
+        button.setFocusable(true);
+        button.setFocusableInTouchMode(true);
+        button.requestFocus();
     }
 }
