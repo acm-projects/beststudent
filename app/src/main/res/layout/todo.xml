@@ -70,7 +70,7 @@
         android:id="@+id/ToDoList"
         android:layout_width="match_parent"
         android:layout_height="650dp"
-        android:background="@drawable/common_google_signin_btn_icon_dark_normal_background"
+        android:background="@color/colorAccent"
         android:scrollbars="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
