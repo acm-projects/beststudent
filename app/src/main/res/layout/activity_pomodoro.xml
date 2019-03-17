@@ -11,7 +11,7 @@
         android:id="@+id/start_countdown"
         android:paddingLeft="50sp"
         android:paddingRight="50sp"
-        android:layout_marginLeft="100dp"
+        android:layout_marginLeft="120dp"
         android:layout_marginTop="400dp"
         android:onClick="startPomodoro"
         android:text="Start" />
@@ -22,11 +22,23 @@
         android:id="@+id/pause_countdown"
         android:paddingLeft="50sp"
         android:paddingRight="50sp"
-        android:layout_marginLeft="100dp"
+        android:layout_marginLeft="120dp"
         android:layout_marginTop="400dp"
         android:visibility="gone"
         android:text="Pause"
         android:onClick="pausePomodoro"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/stop_alarm"
+        android:paddingLeft="50sp"
+        android:paddingRight="50sp"
+        android:layout_marginLeft="120dp"
+        android:layout_marginTop="400dp"
+        android:visibility="gone"
+        android:text="Stop"
+        android:onClick="stopAlarm"/>
 
     <LinearLayout
         android:layout_width="match_parent"
