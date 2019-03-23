@@ -1,6 +1,5 @@
 package com.example.myapplication;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import android.view.View;
@@ -10,14 +9,15 @@ import android.os.CountDownTimer;
 import java.util.concurrent.TimeUnit;
 import android.media.MediaPlayer;
 
-public class PomodoroActivity extends AppCompatActivity {
-
+public class PomodoroActivity extends ChooseTimerActivity {
+    private static final int MULTIPLIER = 60000;
     public static final long MILLI = 1000; // 1000 milliseconds in one second
-    public static final long WORK = 15000; // 25 minutes
-    public static final long LONG_BREAK = 18000; // 30 minutes
-    public static final long SHORT_BREAK = 3000; // 5 minutes
 
-    CountDownTimer countdown;
+    public long WORK;
+    public long LONG_BREAK;
+    public long SHORT_BREAK;
+
+    private CountDownTimer countdown;
     private Button startButton;
     private Button pauseButton;
     private Button stopButton;
@@ -32,6 +32,7 @@ public class PomodoroActivity extends AppCompatActivity {
     boolean isPaused;
 
     private MediaPlayer mediaPlayer;
+    private String display;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,12 +50,18 @@ public class PomodoroActivity extends AppCompatActivity {
         count = 0;
         isPaused = false;
 
-        mins.setText("25");
+        mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.alarm);
+
+        WORK = getIntent().getLongExtra("work_extra", 1500000); // 25 minutes default
+        LONG_BREAK = getIntent().getLongExtra("long_extra", 1800000); // 30 minutes default
+        SHORT_BREAK = getIntent().getLongExtra("short_extra", 300000); // 5 minutes default
+
+        display = Long.toString(WORK/MULTIPLIER);
+        mins.setText(display);
         secs.setText("00");
     }
 
     public void startPomodoro(View view) {
-
         if(!isPaused) {
             // choose the start time of the timer
             if(count >= 0) {
@@ -97,7 +104,12 @@ public class PomodoroActivity extends AppCompatActivity {
                 isPaused = false;
                 pauseButton.setVisibility(View.GONE);
                 stopButton.setVisibility(View.VISIBLE);
-                workState.setText("CONGRATULATIONS YOU MADE IT");
+                if(startTime == WORK) {
+                    workState.setText("CONGRATULATIONS YOU MADE IT");
+                }
+                else {
+                    workState.setText("Break Over");
+                }
             }
         }.start();
     }
@@ -123,18 +135,21 @@ public class PomodoroActivity extends AppCompatActivity {
         if(startTime == WORK) {
             if(count == -1) {
                 workState.setText("Long Break Time");
-                mins.setText("30");
+                display = Long.toString(LONG_BREAK/MULTIPLIER);
+                mins.setText(display);
                 secs.setText("00");
             }
             else {
                 workState.setText("Short Break Time");
-                mins.setText("5");
+                display = Long.toString(SHORT_BREAK/MULTIPLIER);
+                mins.setText(display);
                 secs.setText("00");
             }
         }
         else {
             workState.setText("Work Time");
-            mins.setText("25");
+            display = Long.toString(WORK/MULTIPLIER);
+            mins.setText(display);
             secs.setText("00");
         }
     }
@@ -145,9 +160,10 @@ public class PomodoroActivity extends AppCompatActivity {
             mediaPlayer.stop();
         }
         else {
-            countdown.cancel();
+            if(countdown != null) {
+                countdown.cancel();
+            }
         }
-        //countdown.cancel();
         super.onBackPressed();
     }
 }

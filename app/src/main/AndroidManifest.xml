@@ -13,7 +13,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".PomodoroActivity"></activity>
+        <activity
+            android:name=".ChooseTimerActivity"
+            android:label="@string/title_activity_choose_timer"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".PomodoroActivity" />
         <activity
             android:name=".LoginActivity"
             android:label="@string/app_name">

@@ -117,7 +117,7 @@ public class LoginActivity extends AppCompatActivity { //implements LoaderCallba
 
     // start Pomodoro activity
     public void startTimer(View view) {
-        startActivity(new Intent(getApplicationContext(), PomodoroActivity.class));
+        startActivity(new Intent(getApplicationContext(), ChooseTimerActivity.class));
     }
 }
 
