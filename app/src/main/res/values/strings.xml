@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">My Application</string>
+    <string name="app_name">Best Student</string>
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password (optional)</string>
@@ -11,7 +11,9 @@
     <string name="error_field_required">This field is required</string>
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."</string>
+    <!-- Strings related to to do list -->
     <string name="to_do">To Do</string>
-    <string name="menuButton">Menu Button</string>
-    <string name="task1">Task 1</string>
+    <string name="sample_date_text">Thu March 7, 2019 4:00 PM</string>
+    <string name="task_goes_here">TASK GOES HERE</string>
+    <string name="menuButton">menuButton</string>
 </resources>
