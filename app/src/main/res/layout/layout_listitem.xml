@@ -37,5 +37,12 @@
             android:textColor="@color/colorTextGrey"
             android:text="@string/sample_date_text" />
 
+        <TextView
+            android:id="@+id/notes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/notes_go_here"
+            android:textColor="@color/colorTextDarkerGrey" />
+
     </LinearLayout>
 </LinearLayout>

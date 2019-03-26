@@ -60,6 +60,13 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
         SimpleDateFormat format1 = new SimpleDateFormat("EEE MMMM dd, yyyy h:mm a", Locale.US);
         holder.date.setText(format1.format(taskList.get(position).getDueDate().getTime()));
+
+        String notes = taskList.get(position).getNotes();
+        if (notes.isEmpty()){
+            holder.note.setVisibility(View.GONE);
+        } else {
+            holder.note.setText(taskList.get(position).getNotes());
+        }
     }
 
     // Return the size of your dataset (invoked by the layout manager)
@@ -76,12 +83,14 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         // each data item is just a string in this case
         public TextView taskName;
         public TextView date;
+        public TextView note;
         public LinearLayout parentLayout;
 
         public MyViewHolder(View v) {
             super(v);
             taskName = itemView.findViewById(R.id.task_name);
             date = itemView.findViewById(R.id.due_date);
+            note = itemView.findViewById(R.id.notes);
             parentLayout = itemView.findViewById(R.id.parent_layout);
         }
     }

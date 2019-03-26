@@ -1,4 +1,5 @@
 package com.example.myapplication;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -7,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.View;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -27,6 +29,7 @@ public class ToDoActivity extends AppCompatActivity {
 
         Toolbar myToolbar = findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
+        myToolbar.setSubtitle(R.string.to_do);
 
         Log.d(TAG,"onCreate: started.");
         initTasks();
@@ -44,9 +47,12 @@ public class ToDoActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         FloatingActionButton button = findViewById(R.id.addButton);
-        button.setFocusable(true);
-        button.setFocusableInTouchMode(true);
-        button.requestFocus();
+        button.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
+                startActivity(new Intent(ToDoActivity.this, AddActivity.class));
+            }
+        });
+
     }
 
     private void initTasks(){
@@ -61,14 +67,17 @@ public class ToDoActivity extends AppCompatActivity {
         Calendar cal5 = new GregorianCalendar(2019, Calendar.APRIL, 7, 16, 0);
         myDataset.add(new Task("5 GOV EXAM", cal5));
         Calendar cal6 = new GregorianCalendar(2019, Calendar.APRIL, 13, 16, 0);
-        myDataset.add(new Task("6 Sleep", cal6));
+        myDataset.add(new Task("6 Sleep", cal6, "At least 3 hours"));
         Calendar cal7 = new GregorianCalendar(2019, Calendar.APRIL, 16, 13, 30);
         myDataset.add(new Task("7 Buy oranges", cal7));
         Calendar cal8 = new GregorianCalendar(2019, Calendar.APRIL, 19, 20, 15);
-        myDataset.add(new Task("8 Draw Temoc", cal8));
+        myDataset.add(new Task("8 Draw Temoc", cal8, "Remember to bring paint"));
         myDataset.add(new Task("9 Praise Enarc", cal1));
         myDataset.add(new Task("10 Blood sacrifice", cal1));
-        myDataset.add(new Task("11 Dance club", cal1));
+        myDataset.add(new Task("11 Dance club", cal1, "We're up all night 'til the sun\n" +
+                "We're up all night to get some\n" +
+                "We're up all night for good fun\n" +
+                "We're up all night to get lucky"));
         myDataset.add(new Task("12 Find outfit", cal1));
         myDataset.add(new Task("13 ACM Dance Party", cal1));
         myDataset.add(new Task("14 ???", cal1));
