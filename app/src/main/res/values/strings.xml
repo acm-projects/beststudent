@@ -42,9 +42,17 @@
     <string name="priority_1_low_5_high">Priority (1 low - 5 high)</string>
     <string name="approx_how_long_to_complete">Approx. how long to complete?</string>
     <string name="hours">Hours</string>
-    <string name="minutes">Minutes</string>
     <string name="hash">#</string>
     <string name="dash">-</string>
     <string name="_1h_30m">1h 30m</string>
+    <string name="work_time">Work Time</string>
+    <string name="short_break">Short Break</string>
+    <string name="long_break">Long Break</string>
+    <string name="set_timer">Set Timer</string>
+    <string name="start">Start</string>
+    <string name="pause">Pause</string>
+    <string name="stop">Stop</string>
+    <string name="seconds">Seconds</string>
+    <string name="minutes">Minutes</string>
 
 </resources>

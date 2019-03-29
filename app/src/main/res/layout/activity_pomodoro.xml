@@ -18,7 +18,7 @@
         android:layout_marginLeft="120dp"
         android:layout_marginTop="400dp"
         android:onClick="startPomodoro"
-        android:text="Start" />
+        android:text="@string/start" />
 
     <Button
         android:layout_width="wrap_content"
@@ -30,7 +30,7 @@
         android:layout_marginLeft="120dp"
         android:layout_marginTop="400dp"
         android:visibility="gone"
-        android:text="Pause"
+        android:text="@string/pause"
         android:onClick="pausePomodoro"/>
 
     <Button
@@ -43,7 +43,7 @@
         android:layout_marginLeft="120dp"
         android:layout_marginTop="400dp"
         android:visibility="gone"
-        android:text="Stop"
+        android:text="@string/stop"
         android:onClick="stopAlarm" />
 
     <LinearLayout
@@ -57,7 +57,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:paddingTop="80dp"
-            android:text="Pomodoro Timer"
+            android:text="@string/pomodoro"
             android:textSize="36sp" />
     </LinearLayout>
 
@@ -65,7 +65,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="150dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:baselineAligned="false">
 
         <LinearLayout
             android:layout_width="0dp"
@@ -98,7 +99,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="250dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:baselineAligned="false">
 
         <LinearLayout
             android:layout_width="0dp"
@@ -108,7 +110,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:text="Minutes"/>
+                android:text="@string/minutes"/>
         </LinearLayout>
 
         <LinearLayout
@@ -119,7 +121,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:text="Seconds"/>
+                android:text="@string/seconds"/>
         </LinearLayout>
 
     </LinearLayout>

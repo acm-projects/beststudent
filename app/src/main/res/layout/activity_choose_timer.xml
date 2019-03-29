@@ -17,7 +17,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Work Time"
+            android:text="@string/work_time"
             android:textSize="24sp"
             android:gravity="center"/>
         <NumberPicker
@@ -31,7 +31,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Short Break"
+            android:text="@string/short_break"
             android:textSize="24sp"
             android:gravity="center"/>
         <NumberPicker
@@ -45,7 +45,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Long Break"
+            android:text="@string/long_break"
             android:textSize="24sp"
             android:gravity="center"/>
         <NumberPicker
@@ -61,7 +61,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Set Timer"
+        android:text="@string/set_timer"
         android:paddingLeft="50sp"
         android:paddingRight="50sp"
         android:layout_alignParentBottom="true"

@@ -41,8 +41,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         // create a new view
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.layout_listitem, parent, false);
-        MyViewHolder vh = new MyViewHolder(view);
-        return vh;
+        return new MyViewHolder(view);
     }
 
     // Replace the contents of a view (invoked by the layout manager)
