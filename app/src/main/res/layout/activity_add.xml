@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorAccent"
@@ -50,8 +52,67 @@
                 android:textColorLink="@color/colorPrimary"
                 android:textSize="24sp" />
 
+            <Button
+                android:id="@+id/button_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="5dp"
+                android:background="@color/colorTextGrey"
+                android:clickable="true"
+                android:focusable="false"
+                android:gravity="center|start|left"
+                android:onClick="showDatePickerDialog"
+                android:paddingStart="5dp"
+                android:paddingLeft="5dp"
+                android:paddingEnd="5dp"
+                android:paddingRight="5dp"
+                android:text="@string/due_date_prompt"
+                android:textAlignment="viewStart"
+                android:textAppearance="@style/TextAppearance.AppCompat"
+                android:textColor="@color/browser_actions_text_color"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/text_due_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/due_time_prompt"
+                android:textColor="@color/colorTextGrey"
+                android:textColorLink="@color/colorPrimary"
+                android:textSize="24sp" />
+
+            <Button
+                android:id="@+id/button_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="5dp"
+                android:background="@color/colorTextGrey"
+                android:clickable="true"
+                android:focusable="false"
+                android:gravity="center|start|left"
+                android:onClick="showTimePickerDialog"
+                android:paddingStart="5dp"
+                android:paddingLeft="5dp"
+                android:paddingEnd="5dp"
+                android:paddingRight="5dp"
+                android:text="@string/due_time_prompt"
+                android:textAlignment="viewStart"
+                android:textAppearance="@style/TextAppearance.AppCompat"
+                android:textColor="@color/browser_actions_text_color"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/text_class_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/class_name"
+                android:textColor="@color/colorTextGrey"
+                android:textColorLink="@color/colorPrimary"
+                android:textSize="24sp" />
+
+
             <android.support.design.widget.TextInputLayout
-                android:id="@+id/text_edit_due_date"
+                android:id="@+id/text_edit_class_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:boxBackgroundColor="@color/colorTextGrey"
@@ -64,13 +125,85 @@
             </android.support.design.widget.TextInputLayout>
 
             <TextView
+                android:id="@+id/text_priority"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/priority_1_low_5_high"
+                android:textColor="@color/colorTextGrey"
+                android:textColorLink="@color/colorPrimary"
+                android:textSize="24sp" />
+
+            <Spinner
+                android:id="@+id/spinner_priority"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginVertical="5dp"
+                android:background="@color/colorTextGrey"
+                android:dropDownWidth="match_parent"
+                android:entries="@array/priorityNumList"
+                android:focusable="false"
+                android:nestedScrollingEnabled="true"
+                android:spinnerMode="dropdown">
+            </Spinner>
+
+            <TextView
+                android:id="@+id/text_duration"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/approx_how_long_to_complete"
+                android:textColor="@color/colorTextGrey"
+                android:textColorLink="@color/colorPrimary"
+                android:textSize="24sp" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:baselineAligned="false" >
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/text_edit_duration_hour"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    app:boxBackgroundColor="@color/colorTextGrey"
+                    app:boxBackgroundMode="outline"
+                    android:layout_weight="1">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="@string/hours"
+                        android:textColorLink="@color/colorPrimary" />
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/text_edit_duration_minute"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    app:boxBackgroundColor="@color/colorTextGrey"
+                    app:boxBackgroundMode="outline">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="@string/minutes"
+                        android:textColorLink="@color/colorPrimary" />
+                </android.support.design.widget.TextInputLayout>
+            </LinearLayout>
+
+            <TextView
                 android:id="@+id/text_notes"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/notes"
                 android:textColor="@color/colorTextGrey"
                 android:textColorLink="@color/colorPrimary"
-                android:textSize="24sp" />
+                android:textSize="24sp"
+                android:labelFor="@id/text_edit_notes"/>
 
             <EditText
                 android:id="@+id/text_edit_notes"
@@ -83,21 +216,20 @@
                 android:maxLines="8"
                 android:minLines="4"
                 android:scrollbars="vertical"
-                android:textColorLink="@color/colorPrimary">
-
+                android:textColorLink="@color/colorPrimary"
+                android:importantForAutofill="no">
             </EditText>
+
+            <Button
+                android:id="@+id/button_add"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="15dp"
+                android:background="@color/colorPrimary"
+                android:clickable="true"
+                android:focusable="true"
+                android:onClick="addTask"
+                android:text="@string/add_task_event" />
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
-    <!-- android:onClick="sendFeedback" -->
-    <Button
-        android:id="@+id/button_add"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:background="@color/colorPrimary"
-        android:text="@string/add_task_event"
-        android:clickable="true"
-        android:focusable="true"
-        android:onClick="addTask"/>
-
 </LinearLayout>
