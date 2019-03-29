@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/action_add_task"
+            android:icon="@drawable/ic_baseline_playlist_add_24px"
+            android:title="@string/add_task_event"
+            app:showAsAction="ifRoom" />
+        <item
+            android:id="@+id/action_to_do"
+            android:icon="@drawable/ic_baseline_list_24px"
+            android:title="@string/to_do"
+            app:showAsAction="ifRoom"/>
+        <item
+            android:id="@+id/action_pomodoro"
+            android:icon="@drawable/ic_baseline_alarm_24px"
+            android:title="@string/pomodoro"
+            app:showAsAction="ifRoom"/>
+        <item
+            android:id="@+id/action_change_pomodoro"
+            android:icon="@drawable/ic_baseline_alarm_add_24px"
+            android:title="@string/choose_timer"
+            app:showAsAction="ifRoom"/>
+
+    </group>
+</menu>

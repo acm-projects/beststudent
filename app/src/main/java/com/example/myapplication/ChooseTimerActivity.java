@@ -2,9 +2,15 @@ package com.example.myapplication;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.NumberPicker;
 
@@ -23,13 +29,22 @@ public class ChooseTimerActivity extends AppCompatActivity {
     public long longMinsInMilli = 1800000; // 30 minutes
     public long shortMinsInMilli = 300000; // 5 minutes
 
+    // drawer layout for navigation
+    private DrawerLayout drawerLayout;
+    private ActionBarDrawerToggle abdt;
+    private Toolbar myToolbar;
+    private NavigationView navView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choose_timer);
 
-        Toolbar myToolbar = findViewById(R.id.my_toolbar);
-        setSupportActionBar(myToolbar);
+        // sets toolbar and nav
+        myToolbar = findViewById(R.id.my_toolbar);
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        navView = (NavigationView) findViewById(R.id.navigation);
+        setToolbar();
         myToolbar.setSubtitle(R.string.choose_timer);
 
         workpicker = (NumberPicker) findViewById(R.id.work_picker);
@@ -78,5 +93,55 @@ public class ChooseTimerActivity extends AppCompatActivity {
         intent.putExtra("long_extra", longMinsInMilli);
         intent.putExtra("short_extra", shortMinsInMilli);
         startActivity(intent);
+    }
+
+    /**
+     *  Set toolbar and navigation
+     */
+    public void setToolbar(){
+        // sets toolbar
+        setSupportActionBar(myToolbar);
+        ActionBar actionbar = getSupportActionBar();
+        actionbar.setDisplayHomeAsUpEnabled(true);
+
+        abdt = new ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close);
+        drawerLayout.addDrawerListener(abdt);
+        abdt.syncState();
+        navView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(MenuItem menuItem) {
+                menuItem.setChecked(true);
+                drawerLayout.closeDrawers();
+                if (menuItem.getItemId() == R.id.action_pomodoro){
+                    startActivity(new Intent(ChooseTimerActivity.this, PomodoroActivity.class));
+                    return true;
+                } else if (menuItem.getItemId() == R.id.action_change_pomodoro) {
+                    startActivity(new Intent(ChooseTimerActivity.this, ChooseTimerActivity.class));
+                    return true;
+                } else if (menuItem.getItemId() == R.id.action_add_task) {
+                    startActivity(new Intent(ChooseTimerActivity.this, AddActivity.class));
+                    return true;
+                } else if (menuItem.getItemId() == R.id.action_to_do) {
+                    startActivity(new Intent(ChooseTimerActivity.this, ToDoActivity.class));
+                    return true;
+                }
+                return true;
+            }
+        });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                drawerLayout.openDrawer(GravityCompat.START);
+                return true;
+            case R.id.action_add_task:
+                // User chose the "Settings" item, show the app settings UI...
+                startActivity(new Intent(ChooseTimerActivity.this, AddActivity.class));
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }

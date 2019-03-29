@@ -1,8 +1,15 @@
 package com.example.myapplication;
 
+import android.content.Intent;
 import android.os.Bundle;
 
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -35,13 +42,18 @@ public class PomodoroActivity extends ChooseTimerActivity {
     private MediaPlayer mediaPlayer;
     private String display;
 
+    // drawer layout for navigation
+    private DrawerLayout drawerLayout;
+    private ActionBarDrawerToggle abdt;
+    private Toolbar myToolbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pomodoro);
 
-        Toolbar myToolbar = findViewById(R.id.my_toolbar);
-        setSupportActionBar(myToolbar);
+        // sets toolbar and nav
+        setToolbar();
         myToolbar.setSubtitle(R.string.pomodoro);
 
         startButton = (Button) findViewById(R.id.start_countdown);
@@ -64,6 +76,59 @@ public class PomodoroActivity extends ChooseTimerActivity {
         display = Long.toString(WORK/MULTIPLIER);
         mins.setText(display);
         secs.setText("00");
+    }
+
+    /**
+     *  Set toolbar and navigation
+     */
+    public void setToolbar(){
+        // sets toolbar
+        myToolbar = findViewById(R.id.my_toolbar);
+        setSupportActionBar(myToolbar);
+        ActionBar actionbar = getSupportActionBar();
+        actionbar.setDisplayHomeAsUpEnabled(true);
+
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        abdt = new ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close);
+        drawerLayout.addDrawerListener(abdt);
+        abdt.syncState();
+        NavigationView navView = (NavigationView) findViewById(R.id.navigation);
+        navView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(MenuItem menuItem) {
+                menuItem.setChecked(true);
+                drawerLayout.closeDrawers();
+                if (menuItem.getItemId() == R.id.action_pomodoro){
+                    startActivity(new Intent(PomodoroActivity.this, PomodoroActivity.class));
+                    return true;
+                } else if (menuItem.getItemId() == R.id.action_change_pomodoro) {
+                    startActivity(new Intent(PomodoroActivity.this, ChooseTimerActivity.class));
+                    return true;
+                } else if (menuItem.getItemId() == R.id.action_add_task) {
+                    startActivity(new Intent(PomodoroActivity.this, AddActivity.class));
+                    return true;
+                } else if (menuItem.getItemId() == R.id.action_to_do) {
+                    startActivity(new Intent(PomodoroActivity.this, ToDoActivity.class));
+                    return true;
+                }
+                return true;
+            }
+        });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                drawerLayout.openDrawer(GravityCompat.START);
+                return true;
+            case R.id.action_add_task:
+                // User chose the "Settings" item, show the app settings UI...
+                startActivity(new Intent(PomodoroActivity.this, AddActivity.class));
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     public void startPomodoro(View view) {
