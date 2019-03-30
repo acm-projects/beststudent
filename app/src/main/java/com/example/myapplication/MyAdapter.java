@@ -66,7 +66,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
         // sets due date and formats
         SimpleDateFormat format1 = new SimpleDateFormat("EEE MMMM dd, yyyy h:mm a", Locale.US);
-        holder.date.setText(format1.format(taskList.get(position).getDueDate().getTime()));
+        holder.date.setText(format1.format(taskList.get(position).getDueDate()));
 
         // sets notes if there are any
         String notes = taskList.get(position).getNotes();

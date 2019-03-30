@@ -2,12 +2,11 @@ package com.example.myapplication;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 
 import android.view.View;
 import android.widget.NumberPicker;
 
-public class ChooseTimerActivity extends AppCompatActivity {
+public class ChooseTimerActivity extends LoginActivity {
     private static final int MAX_MINS = 60;
     private static final int MULTIPLIER = 60000;
     private static final int DEFAULT_WORK = 25;

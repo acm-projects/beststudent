@@ -2,6 +2,8 @@ package com.example.myapplication;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,6 +11,13 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.time.Duration;
 import java.util.ArrayList;
@@ -18,7 +27,7 @@ import java.util.GregorianCalendar;
 /**
  * Activity for to do list
  */
-public class ToDoActivity extends AppCompatActivity {
+public class ToDoActivity extends LoginActivity {
     // tag for debug
     private static final String TAG = "ToDoActivity";
 
@@ -27,12 +36,20 @@ public class ToDoActivity extends AppCompatActivity {
 
     // recyclerview to show tasks
     private RecyclerView recyclerView;
-    private RecyclerView.Adapter mAdapter;
+    protected RecyclerView.Adapter mAdapter;
+
+    // Firebase variables
+    protected DatabaseReference mTasksDatabaseRef;
+    protected ChildEventListener mChildEventListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.todo);
+
+        // initialize database
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        mTasksDatabaseRef = mFirebaseDatabase.getReference().child("users").child(user.getUid()).child("tasks");
 
         // sets toolbar
         Toolbar myToolbar = findViewById(R.id.my_toolbar);
@@ -68,7 +85,7 @@ public class ToDoActivity extends AppCompatActivity {
      * initializes some task for testing
      */
     private void initTasks(){
-        Calendar cal1 = new GregorianCalendar(2019, Calendar.MARCH, 30, 16, 0);
+        /*Calendar cal1 = new GregorianCalendar(2019, Calendar.MARCH, 30, 16, 0);
         Calendar cal2 = new GregorianCalendar(2019, Calendar.MARCH, 31, 16, 0);
         Calendar cal3 = new GregorianCalendar(2019, Calendar.APRIL, 2, 12, 30);
         Calendar cal4 = new GregorianCalendar(2019, Calendar.APRIL, 3, 8, 15);
@@ -94,7 +111,7 @@ public class ToDoActivity extends AppCompatActivity {
         myDataset.add(new Task("12 Find outfit", cal1, "", "", Duration.ofSeconds(0), 5));
         myDataset.add(new Task("13 ACM Dance Party", cal1, "ACM", "", Duration.ofMinutes(120), 2));
         myDataset.add(new Task("14 ???", cal1, "???", "???", Duration.ofHours(75), 1));
-        myDataset.add(new Task("15 Profit", cal8, "", "", Duration.ofSeconds(0), 5));
+        myDataset.add(new Task("15 Profit", cal8, "", "", Duration.ofSeconds(0), 5));*/
 
     }
 }

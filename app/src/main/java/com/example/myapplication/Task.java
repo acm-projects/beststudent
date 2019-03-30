@@ -5,7 +5,7 @@ import java.util.Calendar;
 
 public class Task {
     private String taskName;
-    private Calendar dueDate;
+    private String dueDate;
     private String className;
     private String notes;
     private Duration duration;
@@ -16,7 +16,7 @@ public class Task {
     public static final int DEFAULT_PRIORITY = 3;
     public static final String NO_CLASS = "No Class";
 
-    public Task(String name, Calendar date, String cl, String note, Duration d, int priorLvl) {
+    public Task(String name, String date, String cl, String note, Duration d, int priorLvl) {
         taskName = name;
         dueDate = date;
         if (cl.isEmpty())
@@ -33,7 +33,7 @@ public class Task {
         taskName = name;
     }
 
-    public void setDueDate(Calendar date){
+    public void setDueDate(String date){
         dueDate = date;
     }
 
@@ -61,7 +61,7 @@ public class Task {
         return taskName;
     }
 
-    public Calendar getDueDate(){
+    public String getDueDate(){
         return dueDate;
     }
 

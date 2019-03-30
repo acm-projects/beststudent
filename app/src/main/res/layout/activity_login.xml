@@ -85,6 +85,12 @@
                 android:text="Pomodoro"
                 android:onClick="startTimer"/>
 
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="View Tasks"
+                android:onClick="startToDo"/>
+
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

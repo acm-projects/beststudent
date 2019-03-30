@@ -4,6 +4,9 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -17,12 +20,17 @@ import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+
 import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
-public class AddActivity extends AppCompatActivity {
+public class AddActivity extends ToDoActivity {
     // tag for debugging
     private static final String TAG = "AddActivity";
     // current date
@@ -40,6 +48,7 @@ public class AddActivity extends AppCompatActivity {
 
     // user's due date
     private static Calendar dueDate;
+    private String strDate;
 
     /**
      * Method for when add task page loads
@@ -85,13 +94,15 @@ public class AddActivity extends AppCompatActivity {
         // instantiates due date as current time for now
         dueDate = Calendar.getInstance();
 
+        // call database read listener
+        attachDatabaseReadListener();
     }
 
     /**
      * Adds a task after user is done filling out form
-     * @param button
+     * @param view
      */
-    public void addTask(View button) {
+    public void addTask(View view) {
         // gets name of task
         final EditText nameField = (EditText) findViewById(R.id.text_edit_name);
         String name = nameField.getText().toString();
@@ -128,8 +139,23 @@ public class AddActivity extends AppCompatActivity {
         Duration d = Duration.ofMinutes(minutes);
         d.plusHours(hours);
 
+        // get the due date in string format
+        SimpleDateFormat sdformat = new SimpleDateFormat("EEE MMMM dd, yyyy h:mm a", Locale.US);
+        strDate = sdformat.format(dueDate.getTime());
+
         // creates new task with all of user's info
-        Task t = new Task(name, dueDate, className, notes, d, priority);
+        Task t = new Task(name, strDate, className, notes, d, priority);
+
+        // push task to database
+        mTasksDatabaseRef.push().setValue(t);
+        // empty text fields
+        nameField.setText("");
+        classNameField.setText("");
+        notesField.setText("");
+        hourField.setText("");
+        minuteField.setText("");
+
+        Toast.makeText(this, "Task Added!", Toast.LENGTH_SHORT).show();
     }
 
     /**
@@ -170,14 +196,9 @@ public class AddActivity extends AppCompatActivity {
             // Do something with the time chosen by the user
             dueDate.set(Calendar.HOUR_OF_DAY, hourOfDay);
             dueDate.set(Calendar.MINUTE, minute);
-            String ampm = "";
-            if (hourOfDay / 12 == 1) {
-                ampm = "PM";
-                hourOfDay = hourOfDay % 12;
-            }
-            else
-                ampm = "AM";
-            String time = String.format(Locale.US, "%d:%02d %s", hourOfDay, minute, ampm);
+            // get the formatted time
+            SimpleDateFormat sdfTime = new SimpleDateFormat("h:mm a", Locale.US);
+            String time = sdfTime.format(dueDate.getTime());
             timeEdit.setText(time);
         }
     }
@@ -204,6 +225,37 @@ public class AddActivity extends AppCompatActivity {
             dueDate.set(Calendar.DATE, day);
             String date = (month + 1) + "/" + day + "/" + year;
             dateEdit.setText(date);
+        }
+    }
+
+    protected void attachDatabaseReadListener() {
+        if(mChildEventListener == null) {
+            mChildEventListener = new ChildEventListener() {
+                @Override
+                public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+                }
+
+                @Override
+                public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+                }
+
+                @Override
+                public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+                }
+
+                @Override
+                public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            };
         }
     }
 

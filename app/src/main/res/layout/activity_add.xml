@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorAccent"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    tools:context=".AddActivity">
 
     <include layout="@layout/toolbar"/>
 
@@ -31,13 +32,13 @@
                 android:textSize="24sp" />
 
             <android.support.design.widget.TextInputLayout
-                android:id="@+id/text_edit_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:boxBackgroundColor="@color/colorTextGrey"
                 app:boxBackgroundMode="outline">
 
                 <android.support.design.widget.TextInputEditText
+                    android:id="@+id/text_edit_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColorLink="@color/colorPrimary" />
@@ -112,13 +113,13 @@
 
 
             <android.support.design.widget.TextInputLayout
-                android:id="@+id/text_edit_class_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:boxBackgroundColor="@color/colorTextGrey"
                 app:boxBackgroundMode="outline">
 
                 <android.support.design.widget.TextInputEditText
+                    android:id="@+id/text_edit_class_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColorLink="@color/colorPrimary" />
@@ -163,7 +164,6 @@
                 android:baselineAligned="false" >
 
                 <android.support.design.widget.TextInputLayout
-                    android:id="@+id/text_edit_duration_hour"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     app:boxBackgroundColor="@color/colorTextGrey"
@@ -171,6 +171,7 @@
                     android:layout_weight="1">
 
                     <android.support.design.widget.TextInputEditText
+                        android:id="@+id/text_edit_duration_hour"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -179,7 +180,6 @@
                 </android.support.design.widget.TextInputLayout>
 
                 <android.support.design.widget.TextInputLayout
-                    android:id="@+id/text_edit_duration_minute"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -187,6 +187,7 @@
                     app:boxBackgroundMode="outline">
 
                     <android.support.design.widget.TextInputEditText
+                        android:id="@+id/text_edit_duration_minute"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"

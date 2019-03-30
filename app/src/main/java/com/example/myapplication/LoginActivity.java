@@ -9,8 +9,14 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.firebase.ui.auth.AuthUI;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GetTokenResult;
+import com.google.firebase.auth.SignInMethodQueryResult;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Arrays;
 import java.util.List;
@@ -27,6 +33,9 @@ public class LoginActivity extends AppCompatActivity { //implements LoaderCallba
     // Firebase instance variables
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
+    protected FirebaseDatabase mFirebaseDatabase;
+    private DatabaseReference mUsersDatabaseRef;
+    protected FirebaseUser user;
 
     private String mUserName;
 
@@ -37,13 +46,16 @@ public class LoginActivity extends AppCompatActivity { //implements LoaderCallba
 
         mUserName = ANONYMOUS;
 
+        // initialize firebase
         mAuth = FirebaseAuth.getInstance();
+        mFirebaseDatabase = FirebaseDatabase.getInstance();
+        mUsersDatabaseRef = mFirebaseDatabase.getReference().child("users");
 
         // Firebase sign in/sign out
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
+                user = firebaseAuth.getCurrentUser();
                 // user is signed in
                 if(user != null) {
                     onSignedInInitialize(user.getDisplayName());
@@ -78,6 +90,10 @@ public class LoginActivity extends AppCompatActivity { //implements LoaderCallba
             // successfully signed in
             if(resultCode == RESULT_OK) {
                 Toast.makeText(this, "Signed in!", Toast.LENGTH_SHORT).show();
+                user = FirebaseAuth.getInstance().getCurrentUser();
+                User newUser = new User(user.getDisplayName(), user.getEmail());
+                //push user to database
+                mUsersDatabaseRef.child(user.getUid()).setValue(newUser);
             }
             // sign in failed
             else if(resultCode == RESULT_CANCELED) {
@@ -118,6 +134,11 @@ public class LoginActivity extends AppCompatActivity { //implements LoaderCallba
     // start Pomodoro activity
     public void startTimer(View view) {
         startActivity(new Intent(getApplicationContext(), ChooseTimerActivity.class));
+    }
+
+    // start to-do list
+    public void startToDo(View view) {
+        startActivity(new Intent(getApplicationContext(), ToDoActivity.class));
     }
 }
 
