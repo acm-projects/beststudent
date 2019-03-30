@@ -135,6 +135,12 @@ public class AddActivity extends AppCompatActivity {
                 } else if (menuItem.getItemId() == R.id.action_to_do) {
                     startActivity(new Intent(AddActivity.this, ToDoActivity.class));
                     return true;
+                } else if (menuItem.getItemId() == R.id.action_settings) {
+                    startActivity(new Intent(AddActivity.this, SettingsActivity.class));
+                    return true;
+                } else if (menuItem.getItemId() == R.id.action_calendar) {
+                    startActivity(new Intent(AddActivity.this, CalendarActivity.class));
+                    return true;
                 }
                 return true;
             }

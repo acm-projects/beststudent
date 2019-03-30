@@ -14,6 +14,11 @@
             android:title="@string/to_do"
             app:showAsAction="ifRoom"/>
         <item
+            android:id="@+id/action_calendar"
+            android:icon="@drawable/ic_baseline_calendar_today_24px"
+            android:title="@string/calendar"
+            app:showAsAction="ifRoom"/>
+        <item
             android:id="@+id/action_pomodoro"
             android:icon="@drawable/ic_baseline_alarm_24px"
             android:title="@string/pomodoro"
@@ -22,6 +27,11 @@
             android:id="@+id/action_change_pomodoro"
             android:icon="@drawable/ic_baseline_alarm_add_24px"
             android:title="@string/choose_timer"
+            app:showAsAction="ifRoom"/>
+        <item
+            android:id="@+id/action_settings"
+            android:icon="@drawable/ic_baseline_settings_20px"
+            android:title="@string/settings"
             app:showAsAction="ifRoom"/>
 
     </group>

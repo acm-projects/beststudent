@@ -9,7 +9,7 @@
     android:layout_gravity="left"
     android:fitsSystemWindows="true"
     tools:openDrawer="start">
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -21,7 +21,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp">
+            android:layout_marginTop="100dp"
+            android:layout_marginBottom="50dp">
 
             <TextView
                 android:id="@+id/work_state"
@@ -37,9 +38,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginVertical="20dp"
-            android:layout_marginTop="0dp"
             android:baselineAligned="false"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:paddingTop="200dp">
 
             <TextView
                 android:id="@+id/minutes"
@@ -54,9 +55,9 @@
                 android:id="@+id/seconds"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:textColor="@color/colorTextGrey"
                 android:layout_weight="1"
                 android:gravity="center"
+                android:textColor="@color/colorTextGrey"
                 android:textSize="72sp" />
         </LinearLayout>
 
@@ -65,63 +66,71 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="0dp"
             android:baselineAligned="false"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:paddingTop="335dp">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
+                android:text="@string/minutes"
                 android:textColor="@color/colorTextGrey"
-                android:text="@string/minutes" />
+                android:textSize="18sp" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
+                android:text="@string/seconds"
                 android:textColor="@color/colorTextGrey"
-                android:text="@string/seconds" />
+                android:textSize="18sp" />
 
         </LinearLayout>
 
-
-        <Button
-            android:id="@+id/start_countdown"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginHorizontal="10dp"
-            android:layout_marginVertical="40dp"
-            android:onClick="startPomodoro"
-            android:text="@string/start"
-            android:background="@color/colorPrimary" />
+            android:paddingTop="400dp">
 
-        <Button
-            android:id="@+id/pause_countdown"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginHorizontal="10dp"
-            android:layout_marginVertical="40dp"
-            android:onClick="pausePomodoro"
-            android:text="@string/pause"
-            android:visibility="gone"
-            android:background="@color/colorPrimary" />
+            <Button
+                android:id="@+id/start_countdown"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginVertical="40dp"
+                android:background="@color/colorPrimary"
+                android:onClick="startPomodoro"
+                android:text="@string/start" />
 
-        <Button
-            android:id="@+id/stop_alarm"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginHorizontal="10dp"
-            android:layout_marginVertical="40dp"
-            android:onClick="stopAlarm"
-            android:text="@string/stop"
-            android:visibility="gone"
-            android:background="@color/colorPrimary"/>
+            <Button
+                android:id="@+id/pause_countdown"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginVertical="40dp"
+                android:background="@color/colorPrimary"
+                android:onClick="pausePomodoro"
+                android:text="@string/pause"
+                android:visibility="gone" />
 
-    </LinearLayout>
+            <Button
+                android:id="@+id/stop_alarm"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginVertical="40dp"
+                android:background="@color/colorPrimary"
+                android:onClick="stopAlarm"
+                android:text="@string/stop"
+                android:visibility="gone" />
+        </RelativeLayout>
+
+    </RelativeLayout>
 
     <android.support.design.widget.NavigationView
         android:id="@+id/navigation"

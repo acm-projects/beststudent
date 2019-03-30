@@ -1,24 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-    <LinearLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/content_frame"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+    android:id="@+id/content_frame"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/my_toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="80dp"
-            android:background="@color/colorPrimaryDark"
-            android:minHeight="80dp"
-            android:paddingHorizontal="10dp"
-            android:theme="?attr/actionBarTheme"
-            app:layout_constraintTop_toTopOf="parent"
-            app:navigationIcon="@drawable/ic_baseline_menu_24px"
-            app:subtitleTextColor="@color/colorTextGrey"
-            app:titleTextColor="@color/colorTextGrey" />
-    </LinearLayout>
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/my_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background="@color/colorPrimaryDark"
+        android:minHeight="80dp"
+        app:navigationIcon="@drawable/ic_baseline_menu_24px"
+        app:subtitleTextColor="@color/colorTextGrey"
+        app:titleTextColor="@color/colorTextGrey" />
+</LinearLayout>

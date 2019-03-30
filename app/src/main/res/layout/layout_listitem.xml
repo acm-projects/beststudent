@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/parent_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -14,7 +15,8 @@
         android:layout_weight="0"
         android:checked="false"
         android:clickable="true"
-        android:focusable="true" />
+        android:focusable="true"
+        android:buttonTint="@color/colorPrimary"/>
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -90,7 +92,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/class_name"
-            android:textColor="@color/colorPrimaryDark" />
+            android:textColor="@color/colorPrimary" />
 
         <TextView
             android:id="@+id/notes"

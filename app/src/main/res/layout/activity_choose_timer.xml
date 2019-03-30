@@ -10,23 +10,24 @@
     android:fitsSystemWindows="true"
     tools:openDrawer="start"
     android:background="@color/colorAccent">
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
         tools:context=".ChooseTimerActivity">
 
         <include layout="@layout/toolbar" />
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:scrollbarStyle="insideOverlay">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="110dp"
-                android:orientation="vertical"
-                android:paddingBottom="5dp">
+                android:layout_marginTop="20dp"
+                android:orientation="vertical">
 
                 <TextView
                     android:layout_width="match_parent"
@@ -40,11 +41,12 @@
                     android:id="@+id/work_picker"
                     android:layout_width="wrap_content"
                     android:layout_height="100dp"
+                    android:layout_gravity="center"
                     android:layout_marginVertical="15dp"
-                    android:layout_marginStart="155dp"
-                    android:layout_marginLeft="155dp"
-                    android:gravity="center"
-                    android:textColor="@color/colorTextGrey"></NumberPicker>
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:theme="@style/AppTheme.Picker">
+                </NumberPicker>
 
                 <TextView
                     android:layout_width="match_parent"
@@ -58,11 +60,13 @@
                     android:id="@+id/short_picker"
                     android:layout_width="wrap_content"
                     android:layout_height="100dp"
+                    android:layout_gravity="center"
                     android:layout_marginVertical="15dp"
-                    android:layout_marginStart="155dp"
-                    android:layout_marginLeft="155dp"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
                     android:gravity="center"
-                    android:textColor="@color/colorTextGrey"></NumberPicker>
+                    android:theme="@style/AppTheme.Picker">
+                </NumberPicker>
 
                 <TextView
                     android:layout_width="match_parent"
@@ -76,11 +80,13 @@
                     android:id="@+id/long_picker"
                     android:layout_width="wrap_content"
                     android:layout_height="100dp"
+                    android:layout_gravity="center"
                     android:layout_marginVertical="15dp"
-                    android:layout_marginStart="155dp"
-                    android:layout_marginLeft="155dp"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
                     android:gravity="center"
-                    android:textColor="@color/colorTextGrey"></NumberPicker>
+                    android:theme="@style/AppTheme.Picker">
+                </NumberPicker>
 
                 <Button
                     android:layout_width="match_parent"
@@ -92,7 +98,7 @@
                     android:text="@string/set_timer" />
             </LinearLayout>
         </ScrollView>
-    </RelativeLayout>
+    </LinearLayout>
 
     <android.support.design.widget.NavigationView
         android:id="@+id/navigation"

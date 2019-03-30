@@ -124,6 +124,12 @@ public class ChooseTimerActivity extends AppCompatActivity {
                 } else if (menuItem.getItemId() == R.id.action_to_do) {
                     startActivity(new Intent(ChooseTimerActivity.this, ToDoActivity.class));
                     return true;
+                } else if (menuItem.getItemId() == R.id.action_settings) {
+                    startActivity(new Intent(ChooseTimerActivity.this, SettingsActivity.class));
+                    return true;
+                } else if (menuItem.getItemId() == R.id.action_calendar) {
+                    startActivity(new Intent(ChooseTimerActivity.this, CalendarActivity.class));
+                    return true;
                 }
                 return true;
             }
