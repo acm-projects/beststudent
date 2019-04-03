@@ -20,6 +20,7 @@ import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 
@@ -101,6 +102,8 @@ public class CalendarActivity extends AppCompatActivity {
                             myDataset.add(tempTask);
                         }
                     }
+                    // sort data by due date
+                    Collections.sort(myDataset);
                 }
                 // specify an adapter (see also next example)
                 mAdapter = new MyAdapter(myDataset, CalendarActivity.this);
@@ -127,14 +130,14 @@ public class CalendarActivity extends AppCompatActivity {
                         // prevent multiple instances of same data
                         myDataset = new ArrayList<>();
                         // get all the data in database
-                        if(dataSnapshot.hasChildren()) {
-                            for(DataSnapshot data: dataSnapshot.getChildren()) {
-                                Task tempTask = data.getValue(Task.class);
-                                if(tempTask.getDueDate().contains(match)) {
-                                    myDataset.add(tempTask);
-                                }
+                        for(DataSnapshot data: dataSnapshot.getChildren()) {
+                            Task tempTask = data.getValue(Task.class);
+                            if(tempTask.getDueDate().contains(match)) {
+                                myDataset.add(tempTask);
                             }
                         }
+                        // sort data by due date
+                        Collections.sort(myDataset);
                         // specify an adapter (see also next example)
                         mAdapter = new MyAdapter(myDataset, CalendarActivity.this);
                         recyclerView.setAdapter(mAdapter);
@@ -150,17 +153,6 @@ public class CalendarActivity extends AppCompatActivity {
 
         // use a linear layout manager
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-
-
-//        ArrayList<Task> currentTasks = new ArrayList<>();
-//        for (int k = 0; k < myDataset.size(); k++) {
-//            if (myDataset.get(k).getDueDate().get(Calendar.YEAR) == calendar.get(Calendar.YEAR)
-//                && myDataset.get(k).getDueDate().get(Calendar.MONTH) == calendar.get(Calendar.MONTH)
-//                && myDataset.get(k).getDueDate().get(Calendar.DATE) == calendar.get(Calendar.DATE)) {
-//                currentTasks.add(myDataset.get(k));
-//            }
-//        }
     }
 
     /**
@@ -201,7 +193,7 @@ public class CalendarActivity extends AppCompatActivity {
                 } else if (menuItem.getItemId() == R.id.action_calendar) {
                     startActivity(new Intent(CalendarActivity.this, CalendarActivity.class));
                     return true;
-                }
+                } 
                 return true;
             }
         });
