@@ -1,14 +1,13 @@
 package com.example.myapplication;
 
 import java.time.Duration;
-import java.util.Calendar;
 
 public class Task {
     private String taskName;
     private String dueDate;
     private String className;
     private String notes;
-    private Duration duration;
+    private String duration;
     private int priority;
     private boolean isComplete;
 
@@ -16,7 +15,11 @@ public class Task {
     public static final int DEFAULT_PRIORITY = 3;
     public static final String NO_CLASS = "No Class";
 
-    public Task(String name, String date, String cl, String note, Duration d, int priorLvl) {
+    public Task() {
+
+    }
+
+    public Task(String name, String date, String cl, String note, String d, int priorLvl) {
         taskName = name;
         dueDate = date;
         if (cl.isEmpty())
@@ -45,7 +48,7 @@ public class Task {
         notes = note;
     }
 
-    public void setDuration(Duration d){
+    public void setDuration(String d){
         duration = d;
     }
 
@@ -73,7 +76,7 @@ public class Task {
         return notes;
     }
 
-    public Duration getDuration(){
+    public String getDuration(){
         return duration;
     }
 

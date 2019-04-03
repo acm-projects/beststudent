@@ -65,8 +65,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         });
 
         // sets due date and formats
-        SimpleDateFormat format1 = new SimpleDateFormat("EEE MMMM dd, yyyy h:mm a", Locale.US);
-        holder.date.setText(format1.format(taskList.get(position).getDueDate()));
+        holder.date.setText(taskList.get(position).getDueDate());
 
         // sets notes if there are any
         String notes = taskList.get(position).getNotes();
@@ -79,25 +78,11 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         // sets class name
         holder.className.setText(taskList.get(position).getClassName());
 
-
         // sets priority level
         holder.priority.setText(String.valueOf(taskList.get(position).getPriority()));
 
         // set duration
-        Duration d = taskList.get(position).getDuration();
-        int s = (int) d.getSeconds();
-        String time = "";
-        if ((s / 86400) != 0)
-            time += (s / 86400) + "d ";
-        if ((s % 86400) / 3600 != 0)
-            time += ((s % 86400) / 3600) + "h ";
-        if (((s % 86400) % 3600) / 60 != 0)
-            time += (((s % 86400) % 3600) / 60) + "m ";
-        // defaults to 0 minutes if empty
-        if (time.isEmpty())
-            time += "0m ";
-        holder.duration.setText(time);
-
+        holder.duration.setText(taskList.get(position).getDuration());
     }
 
     // Return the size of your dataset (invoked by the layout manager)

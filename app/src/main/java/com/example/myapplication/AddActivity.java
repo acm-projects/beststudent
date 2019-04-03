@@ -4,30 +4,20 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.DialogFragment;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.format.DateFormat;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.NumberPicker;
 import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-
 import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Locale;
 
 public class AddActivity extends ToDoActivity {
@@ -49,6 +39,7 @@ public class AddActivity extends ToDoActivity {
     // user's due date
     private static Calendar dueDate;
     private String strDate;
+    private String time = "";
 
     /**
      * Method for when add task page loads
@@ -93,9 +84,6 @@ public class AddActivity extends ToDoActivity {
 
         // instantiates due date as current time for now
         dueDate = Calendar.getInstance();
-
-        // call database read listener
-        attachDatabaseReadListener();
     }
 
     /**
@@ -137,14 +125,24 @@ public class AddActivity extends ToDoActivity {
 
         // sets the duration of task
         Duration d = Duration.ofMinutes(minutes);
-        d.plusHours(hours);
+        d = d.plusHours(hours);
+        int s = (int) d.getSeconds();
+        if ((s / 86400) != 0)
+            time += (s / 86400) + "d ";
+        if ((s % 86400) / 3600 != 0)
+            time += ((s % 86400) / 3600) + "h ";
+        if (((s % 86400) % 3600) / 60 != 0)
+            time += (((s % 86400) % 3600) / 60) + "m ";
+        // defaults to 0 minutes if empty
+        if (time.isEmpty())
+            time += "0m ";
 
         // get the due date in string format
         SimpleDateFormat sdformat = new SimpleDateFormat("EEE MMMM dd, yyyy h:mm a", Locale.US);
         strDate = sdformat.format(dueDate.getTime());
 
         // creates new task with all of user's info
-        Task t = new Task(name, strDate, className, notes, d, priority);
+        Task t = new Task(name, strDate, className, notes, time, priority);
 
         // push task to database
         mTasksDatabaseRef.push().setValue(t);
@@ -227,36 +225,4 @@ public class AddActivity extends ToDoActivity {
             dateEdit.setText(date);
         }
     }
-
-    protected void attachDatabaseReadListener() {
-        if(mChildEventListener == null) {
-            mChildEventListener = new ChildEventListener() {
-                @Override
-                public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-                }
-
-                @Override
-                public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-                }
-
-                @Override
-                public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-
-                }
-
-                @Override
-                public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                }
-            };
-        }
-    }
-
 }
