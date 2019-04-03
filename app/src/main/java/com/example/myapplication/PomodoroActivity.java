@@ -1,6 +1,5 @@
 package com.example.myapplication;
 
-
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -283,6 +282,4 @@ public class PomodoroActivity extends ChooseTimerActivity {
         }
         super.onBackPressed();
     }
-
-
 }

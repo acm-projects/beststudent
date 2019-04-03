@@ -2,6 +2,7 @@ package com.example.myapplication;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -22,7 +23,14 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 
-public class CalendarActivity extends AppCompatActivity {
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
+
+public class CalendarActivity extends LoginActivity {
 
     // tag for debugging
     private static final String TAG = "CalendarActivity";
@@ -35,11 +43,17 @@ public class CalendarActivity extends AppCompatActivity {
     private Toolbar myToolbar;
 
     // list of tasks
-    private ArrayList<Task> myDataset = new ArrayList<>();
+    private ArrayList<Task> myDataset;
 
     // recyclerview to show tasks
     private RecyclerView recyclerView;
     private RecyclerView.Adapter mAdapter;
+
+    // Firebase variables
+    protected DatabaseReference mTasksDatabaseRef;
+
+    // get database match with date picked
+    String match;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,25 +64,86 @@ public class CalendarActivity extends AppCompatActivity {
         setToolbar();
         myToolbar.setSubtitle(R.string.calendar);
 
-        // initializes a list of tasks for testing purposes
-        initTasks();
+        // sets recycler view
         recyclerView = findViewById(R.id.cal_to_do_list);
 
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
         recyclerView.setHasFixedSize(true);
 
-        // specify an adapter (see also next example)
-        mAdapter = new MyAdapter(myDataset, this);
-        recyclerView.setAdapter(mAdapter);
+        // set calendar format
+        final TextView date = findViewById(R.id.text_date);
+        calendar = Calendar.getInstance();
+        final SimpleDateFormat form = new SimpleDateFormat("EEE MMMM dd, yyyy", Locale.US);
+        match = form.format((calendar.getTime()));
+        date.setText(match);
+
+        // initialize database
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        mTasksDatabaseRef = mFirebaseDatabase.getReference().child("users").child(user.getUid()).child("tasks");
+        mTasksDatabaseRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                // prevent multiple instances of same data
+                myDataset = new ArrayList<>();
+                // get all the data in database
+                if(dataSnapshot.hasChildren()) {
+                    for(DataSnapshot data: dataSnapshot.getChildren()) {
+                        Task tempTask = data.getValue(Task.class);
+                        if(tempTask.getDueDate().contains(match)) {
+                            myDataset.add(tempTask);
+                        }
+                    }
+                }
+                // specify an adapter (see also next example)
+                mAdapter = new MyAdapter(myDataset, CalendarActivity.this);
+                recyclerView.setAdapter(mAdapter);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
+
+        // update calendar date
+        CalendarView cal = findViewById(R.id.calendar_view);
+        cal.setOnDateChangeListener( new CalendarView.OnDateChangeListener() {
+            public void onSelectedDayChange(CalendarView view, int year, int month, int dayOfMonth) {
+                calendar = new GregorianCalendar(year, month, dayOfMonth );
+                match = form.format((calendar.getTime()));
+                date.setText(match);
+
+                mTasksDatabaseRef.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        // prevent multiple instances of same data
+                        myDataset = new ArrayList<>();
+                        // get all the data in database
+                        if(dataSnapshot.hasChildren()) {
+                            for(DataSnapshot data: dataSnapshot.getChildren()) {
+                                Task tempTask = data.getValue(Task.class);
+                                if(tempTask.getDueDate().contains(match)) {
+                                    myDataset.add(tempTask);
+                                }
+                            }
+                        }
+                        // specify an adapter (see also next example)
+                        mAdapter = new MyAdapter(myDataset, CalendarActivity.this);
+                        recyclerView.setAdapter(mAdapter);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                    }
+                });
+
+            }
+        });
 
         // use a linear layout manager
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        final TextView date = findViewById(R.id.text_date);
-        calendar = Calendar.getInstance();
-        final SimpleDateFormat form = new SimpleDateFormat("EEE MMMM dd, yyyy", Locale.US);
-        date.setText(form.format((calendar.getTime())));
+
 
 //        ArrayList<Task> currentTasks = new ArrayList<>();
 //        for (int k = 0; k < myDataset.size(); k++) {
@@ -78,14 +153,6 @@ public class CalendarActivity extends AppCompatActivity {
 //                currentTasks.add(myDataset.get(k));
 //            }
 //        }
-
-        CalendarView cal = findViewById(R.id.calendar_view);
-        cal.setOnDateChangeListener( new CalendarView.OnDateChangeListener() {
-            public void onSelectedDayChange(CalendarView view, int year, int month, int dayOfMonth) {
-                calendar = new GregorianCalendar(year, month, dayOfMonth );
-                date.setText(form.format((calendar.getTime())));
-            }
-        });
     }
 
     /**
@@ -145,32 +212,5 @@ public class CalendarActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
-
-    /**
-     * initializes some task for testing
-     */
-    private void initTasks(){
-        Calendar cal1 = new GregorianCalendar(2019, Calendar.MARCH, 30, 16, 0);
-        Calendar cal2 = new GregorianCalendar(2019, Calendar.MARCH, 31, 16, 0);
-        Calendar cal3 = new GregorianCalendar(2019, Calendar.APRIL, 2, 12, 30);
-        Calendar cal4 = new GregorianCalendar(2019, Calendar.APRIL, 3, 8, 15);
-        Calendar cal5 = new GregorianCalendar(2019, Calendar.APRIL, 7, 16, 0);
-        Calendar cal6 = new GregorianCalendar(2019, Calendar.APRIL, 13, 16, 0);
-        Calendar cal7 = new GregorianCalendar(2019, Calendar.APRIL, 16, 13, 30);
-        Calendar cal8 = new GregorianCalendar(2019, Calendar.APRIL, 19, 20, 15);
-
-        myDataset.add(new Task("Draw Temoc", cal1, "UTD", "Remember to bring paint", Duration.ofSeconds(0), 3));
-        myDataset.add(new Task("Praise Enarc", cal2, "Life", "", Duration.ofSeconds(0), 1));
-        myDataset.add(new Task("Blood sacrifice", cal3, "", "", Duration.ofMinutes(30), 2));
-        myDataset.add(new Task("Dance club", cal4, "DFC", "We're up all night 'til the sun\n" +
-                "We're up all night to get some\n" +
-                "We're up all night for good fun\n" +
-                "We're up all night to get lucky", Duration.ofSeconds(0), 4));
-        myDataset.add(new Task("Find outfit", cal5, "", "", Duration.ofSeconds(0), 5));
-        myDataset.add(new Task("ACM Dance Party", cal6, "ACM", "", Duration.ofMinutes(120), 2));
-        myDataset.add(new Task("???", cal7, "???", "???", Duration.ofHours(75), 1));
-        myDataset.add(new Task("Profit", cal8, "", "", Duration.ofSeconds(0), 5));
-
     }
 }

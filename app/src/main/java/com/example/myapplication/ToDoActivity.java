@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -48,7 +49,6 @@ public class ToDoActivity extends LoginActivity {
 
     // Firebase variables
     protected DatabaseReference mTasksDatabaseRef;
-    protected ChildEventListener mChildEventListener;
 
     // drawer layout for navigation
     private DrawerLayout drawerLayout;
@@ -58,7 +58,7 @@ public class ToDoActivity extends LoginActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.todo);
+        setContentView(R.layout.activity_todo);
 
         // sets toolbar
         setToolbar();
@@ -76,8 +76,8 @@ public class ToDoActivity extends LoginActivity {
                 // prevent multiple instances of same data
                 myDataset = new ArrayList<>();
                 // get all the data in database
-                for(DataSnapshot datass: dataSnapshot.getChildren()) {
-                    Task tempTask = datass.getValue(Task.class);
+                for(DataSnapshot data: dataSnapshot.getChildren()) {
+                    Task tempTask = data.getValue(Task.class);
                     myDataset.add(tempTask);
                 }
                 // specify an adapter (see also next example)
