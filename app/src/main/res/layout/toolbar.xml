@@ -2,19 +2,19 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/content_frame"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/my_toolbar"
-        app:layout_constraintTop_toTopOf="parent"
-        app:navigationIcon="@android:drawable/arrow_down_float"
-        app:subtitleTextColor="@color/colorTextGrey"
-        app:titleTextColor="@color/colorTextGrey"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="80dp"
         android:background="@color/colorPrimaryDark"
         android:minHeight="80dp"
-        android:theme="?attr/actionBarTheme" />
+        app:navigationIcon="@drawable/ic_baseline_menu_24px"
+        app:subtitleTextColor="@color/colorTextGrey"
+        app:titleTextColor="@color/colorTextGrey" />
 </LinearLayout>
