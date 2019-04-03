@@ -20,7 +20,7 @@ import java.util.List;
 /**
  * A login screen that offers login via email/password.
  */
-public class LoginActivity extends AppCompatActivity { //implements LoaderCallbacks<Cursor> {
+public class LoginActivity extends AppCompatActivity {
 
     // constants
     public static final String ANONYMOUS = "anonymous";
@@ -29,9 +29,9 @@ public class LoginActivity extends AppCompatActivity { //implements LoaderCallba
     // Firebase instance variables
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
-    protected FirebaseDatabase mFirebaseDatabase;
+    private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference mUsersDatabaseRef;
-    protected FirebaseUser user;
+    private FirebaseUser user;
 
     private String mUserName;
 

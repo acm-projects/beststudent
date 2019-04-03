@@ -24,13 +24,15 @@ import java.util.GregorianCalendar;
 import java.util.Locale;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class CalendarActivity extends LoginActivity {
+public class CalendarActivity extends AppCompatActivity {
 
     // tag for debugging
     private static final String TAG = "CalendarActivity";
@@ -50,7 +52,10 @@ public class CalendarActivity extends LoginActivity {
     private RecyclerView.Adapter mAdapter;
 
     // Firebase variables
-    protected DatabaseReference mTasksDatabaseRef;
+    // Firebase variables
+    private DatabaseReference mTasksDatabaseRef;
+    private FirebaseDatabase mFirebaseDatabase;
+    private FirebaseUser user;
 
     // get database match with date picked
     String match;
@@ -80,7 +85,9 @@ public class CalendarActivity extends LoginActivity {
 
         // initialize database
         user = FirebaseAuth.getInstance().getCurrentUser();
+        mFirebaseDatabase = FirebaseDatabase.getInstance();
         mTasksDatabaseRef = mFirebaseDatabase.getReference().child("users").child(user.getUid()).child("tasks");
+        // get today's tasks
         mTasksDatabaseRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -113,6 +120,7 @@ public class CalendarActivity extends LoginActivity {
                 match = form.format((calendar.getTime()));
                 date.setText(match);
 
+                // get tasks of days when date is changed
                 mTasksDatabaseRef.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

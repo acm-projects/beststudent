@@ -25,12 +25,17 @@ import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.util.Calendar;
 import java.util.Locale;
 
-public class AddActivity extends ToDoActivity {
+public class AddActivity extends AppCompatActivity {
     // tag for debugging
     private static final String TAG = "AddActivity";
     // current date
@@ -56,6 +61,11 @@ public class AddActivity extends ToDoActivity {
     private ActionBarDrawerToggle abdt;
     private Toolbar myToolbar;
 
+    // Firebase variables
+    private DatabaseReference mTasksDatabaseRef;
+    private FirebaseDatabase mFirebaseDatabase;
+    private FirebaseUser user;
+
     /**
      * Method for when add task page loads
      * @param savedInstanceState saves dynamic user data in case activity is put in the background
@@ -69,8 +79,8 @@ public class AddActivity extends ToDoActivity {
         // sets layout page
         setContentView(R.layout.activity_add);
 
-        // sets toolbar
-        Toolbar myToolbar = findViewById(R.id.my_toolbar);
+        // sets tool bar
+        setToolbar();
         myToolbar.setSubtitle(R.string.add_task_event);
 
         // instantiates buttons by id
@@ -108,7 +118,8 @@ public class AddActivity extends ToDoActivity {
      */
     public void setToolbar(){
         // sets toolbar
-        myToolbar = findViewById(R.id.my_toolbar);
+        View v = getLayoutInflater().inflate(R.layout.activity_add,null);
+        myToolbar = (Toolbar) v.findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
         ActionBar actionbar = getSupportActionBar();
         actionbar.setDisplayHomeAsUpEnabled(true);
@@ -220,8 +231,13 @@ public class AddActivity extends ToDoActivity {
         // creates new task with all of user's info
         Task t = new Task(name, strDate, className, notes, time, priority);
 
+        // initialize database
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        mFirebaseDatabase = FirebaseDatabase.getInstance();
+        mTasksDatabaseRef = mFirebaseDatabase.getReference().child("users").child(user.getUid()).child("tasks");
         // push task to database
         mTasksDatabaseRef.push().setValue(t);
+
         // empty text fields
         nameField.setText("");
         classNameField.setText("");

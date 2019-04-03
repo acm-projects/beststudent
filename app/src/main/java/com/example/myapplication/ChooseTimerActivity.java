@@ -14,7 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.NumberPicker;
 
-public class ChooseTimerActivity extends LoginActivity {
+public class ChooseTimerActivity extends AppCompatActivity {
     private static final int MAX_MINS = 60;
     private static final int MULTIPLIER = 60000;
     private static final int DEFAULT_WORK = 25;

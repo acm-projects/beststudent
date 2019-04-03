@@ -22,10 +22,12 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.time.Duration;
@@ -36,7 +38,7 @@ import java.util.GregorianCalendar;
 /**
  * Activity for to do list
  */
-public class ToDoActivity extends LoginActivity {
+public class ToDoActivity extends AppCompatActivity {
     // tag for debug
     private static final String TAG = "ToDoActivity";
 
@@ -45,10 +47,12 @@ public class ToDoActivity extends LoginActivity {
 
     // recyclerview to show tasks
     private RecyclerView recyclerView;
-    protected RecyclerView.Adapter mAdapter;
+    private RecyclerView.Adapter mAdapter;
 
     // Firebase variables
-    protected DatabaseReference mTasksDatabaseRef;
+    private DatabaseReference mTasksDatabaseRef;
+    private FirebaseDatabase mFirebaseDatabase;
+    private FirebaseUser user;
 
     // drawer layout for navigation
     private DrawerLayout drawerLayout;
@@ -69,6 +73,7 @@ public class ToDoActivity extends LoginActivity {
 
         // initialize database
         user = FirebaseAuth.getInstance().getCurrentUser();
+        mFirebaseDatabase = FirebaseDatabase.getInstance();
         mTasksDatabaseRef = mFirebaseDatabase.getReference().child("users").child(user.getUid()).child("tasks");
         mTasksDatabaseRef.addValueEventListener(new ValueEventListener() {
             @Override
