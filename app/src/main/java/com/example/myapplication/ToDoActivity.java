@@ -30,10 +30,15 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Locale;
 
 /**
  * Activity for to do list
@@ -85,6 +90,8 @@ public class ToDoActivity extends AppCompatActivity {
                     Task tempTask = data.getValue(Task.class);
                     myDataset.add(tempTask);
                 }
+                // sort the data in order of due date
+                Collections.sort(myDataset);
                 // specify an adapter (see also next example)
                 mAdapter = new MyAdapter(myDataset, ToDoActivity.this);
                 recyclerView.setAdapter(mAdapter);
@@ -142,7 +149,7 @@ public class ToDoActivity extends AppCompatActivity {
                 } else if (menuItem.getItemId() == R.id.action_calendar) {
                     startActivity(new Intent(ToDoActivity.this, CalendarActivity.class));
                     return true;
-                }
+                } 
                 return true;
             }
         });

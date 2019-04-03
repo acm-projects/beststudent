@@ -1,8 +1,11 @@
 package com.example.myapplication;
 
-import java.time.Duration;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
-public class Task {
+public class Task implements Comparable<Task>{
     private String taskName;
     private String dueDate;
     private String className;
@@ -11,14 +14,12 @@ public class Task {
     private int priority;
     private boolean isComplete;
 
-
+    // constants
     public static final int DEFAULT_PRIORITY = 3;
     public static final String NO_CLASS = "No Class";
 
-    public Task() {
-
-    }
-
+    // constructors
+    public Task() {}
     public Task(String name, String date, String cl, String note, String d, int priorLvl) {
         taskName = name;
         dueDate = date;
@@ -86,5 +87,20 @@ public class Task {
 
     public boolean isComplete() {
         return isComplete;
+    }
+
+    @Override
+    public int compareTo(Task obj) {
+        // get the due date in Date format
+        SimpleDateFormat sdformat = new SimpleDateFormat("EEE MMMM dd, yyyy h:mm a", Locale.US);
+        try {
+            Date date = sdformat.parse(getDueDate());
+            Date objDate = sdformat.parse(obj.getDueDate());
+            return date.compareTo(objDate);
+        }
+        catch (ParseException e) {
+            e.getMessage();
+        }
+        return 0;
     }
 }
