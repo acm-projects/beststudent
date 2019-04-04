@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.salwamaheen.beststudent;
 
 import org.junit.Test;
 
