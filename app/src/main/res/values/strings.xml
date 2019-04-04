@@ -41,7 +41,7 @@
     <string name="approx_how_long_to_complete">Approx. how long to complete?</string>
     <string name="hours">Hours</string>
     <string name="hash">#</string>
-    <string name="dash">-</string>
+    <string name="dash"> - </string>
     <string name="_1h_30m">1h 30m</string>
     <string name="work_time">Work Time</string>
     <string name="short_break">Short Break</string>
@@ -62,4 +62,7 @@
 
     <!-- Calendar Strings-->
     <string name="calendar">Calendar</string>
+    <string name="sort_by">Sort By</string>
+    <string name="priority">Priority</string>
+    <string name="date">Date</string>
 </resources>

@@ -38,18 +38,10 @@ import java.util.Locale;
 public class AddActivity extends AppCompatActivity {
     // tag for debugging
     private static final String TAG = "AddActivity";
-    // current date
-    private static final Calendar c = Calendar.getInstance();
+
     // button views to get due date and time
     private static Button dateEdit;
     private static Button timeEdit;
-
-    // values of current date
-    private static int hour;
-    private static int minute;
-    private static int year;
-    private static int month;
-    private static int day;
 
     // user's due date
     private static Calendar dueDate;
@@ -81,36 +73,23 @@ public class AddActivity extends AppCompatActivity {
 
         // sets tool bar
         setToolbar();
-        myToolbar.setSubtitle(R.string.add_task_event);
 
         // instantiates buttons by id
         dateEdit = findViewById(R.id.button_date);
         timeEdit = findViewById(R.id.button_time);
 
-        // instantiates values of current date
-        hour = c.get(Calendar.HOUR_OF_DAY);
-        minute = c.get(Calendar.MINUTE);
-        year = c.get(Calendar.YEAR);
-        month = c.get(Calendar.MONTH);
-        day = c.get(Calendar.DAY_OF_MONTH);
+        // instantiates due date as current time for now
+        dueDate = Calendar.getInstance();
 
-        // Set time on button to current time
-        String ampm = "";
-        if (hour / 12 == 1) {
-            ampm = "PM";
-            hour = hour % 12;
-        }
-        else
-            ampm = "AM";
-        String time = String.format(Locale.US, "%d:%02d %s", hour, minute, ampm);
+        // get the formatted time
+        SimpleDateFormat sdfTime = new SimpleDateFormat("h:mm a", Locale.US);
+        String time = sdfTime.format(dueDate.getTime());
         timeEdit.setText(time);
 
         // Set date on button to current date
-        String date = (month + 1) + "/" + day + "/" + year;
+        String date = (dueDate.get(Calendar.MONTH)) + "/" + dueDate.get(Calendar.DATE) + "/"
+                + dueDate.get(Calendar.YEAR);
         dateEdit.setText(date);
-
-        // instantiates due date as current time for now
-        dueDate = Calendar.getInstance();
     }
 
     /**
@@ -118,8 +97,7 @@ public class AddActivity extends AppCompatActivity {
      */
     public void setToolbar(){
         // sets toolbar
-        View v = getLayoutInflater().inflate(R.layout.activity_add,null);
-        myToolbar = (Toolbar) v.findViewById(R.id.my_toolbar);
+        myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
         ActionBar actionbar = getSupportActionBar();
         actionbar.setDisplayHomeAsUpEnabled(true);
@@ -165,7 +143,7 @@ public class AddActivity extends AppCompatActivity {
                 drawerLayout.openDrawer(GravityCompat.START);
                 return true;
             case R.id.action_add_task:
-                // User chose the "Settings" item, show the app settings UI...
+                // User chose the "Add" item, goes to add page
                 startActivity(new Intent(AddActivity.this, AddActivity.class));
                 return true;
             default:
@@ -283,7 +261,7 @@ public class AddActivity extends AppCompatActivity {
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             // Use the current time as the default values for the picker
             // Create a new instance of TimePickerDialog and return it
-            return new TimePickerDialog(getActivity(), this, hour, minute,
+            return new TimePickerDialog(getActivity(), this, dueDate.get(Calendar.HOUR_OF_DAY), dueDate.get(Calendar.MINUTE),
                     DateFormat.is24HourFormat(getActivity()));
         }
 
@@ -310,7 +288,8 @@ public class AddActivity extends AppCompatActivity {
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             // Use the current date as the default date in the picker
             // Create a new instance of DatePickerDialog and return it
-            return new DatePickerDialog(getActivity(), this, year, month, day);
+            return new DatePickerDialog(getActivity(), this, dueDate.get(Calendar.YEAR), dueDate.get(Calendar.MONTH),
+                    dueDate.get(Calendar.DATE));
         }
 
         // changes due date and button text to selected values

@@ -14,12 +14,14 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -71,7 +73,6 @@ public class ToDoActivity extends AppCompatActivity {
 
         // sets toolbar
         setToolbar();
-        myToolbar.setSubtitle(R.string.to_do);
 
         // set recycler view
         recyclerView = findViewById(R.id.ToDoList);
@@ -155,6 +156,11 @@ public class ToDoActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * sets toolbar buttons
+     * @param menu menu of buttons for toolbar
+     * @return true
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -162,6 +168,11 @@ public class ToDoActivity extends AppCompatActivity {
         return true;
     }
 
+    /**
+     * Sets what happens when toolbar buttons are clicked
+     * @param item button clicked
+     * @return true if valid button successfully clicked
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -172,8 +183,28 @@ public class ToDoActivity extends AppCompatActivity {
                 // User chose the "Settings" item, show the app settings UI...
                 startActivity(new Intent(ToDoActivity.this, AddActivity.class));
                 return true;
+            case R.id.action_sort_priority:
+                sortByPriority();
+                return true;
+            case R.id.action_sort_date:
+                sortByDate();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    /**
+     * Sorts list by priority
+     */
+    public void sortByPriority(){
+        Toast.makeText(this, "Sorted by priority!", Toast.LENGTH_SHORT).show();
+    }
+
+    /**
+     * Sorts list by date
+     */
+    public void sortByDate(){
+        Toast.makeText(this, "Sorted by date!", Toast.LENGTH_SHORT).show();
     }
 }

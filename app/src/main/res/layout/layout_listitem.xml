@@ -12,6 +12,7 @@
         android:id="@+id/checkBox"
         android:layout_width="40dp"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="5dp"
         android:layout_weight="0"
         android:checked="false"
         android:clickable="true"
@@ -64,11 +65,11 @@
 
             <TextView
                 android:id="@+id/dash"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:gravity="center"
                 android:text="@string/dash"
-                android:padding="0dp"
                 android:textColor="@color/colorTextGrey" />
 
             <TextView

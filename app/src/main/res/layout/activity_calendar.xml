@@ -33,7 +33,7 @@
             android:textColorLink="@color/colorPrimary"
             android:gravity="center"
             android:paddingVertical="10dp"
-            android:textSize="24sp" />
+            android:textSize="18sp" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/cal_to_do_list"
@@ -54,6 +54,10 @@
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
         app:layout_constraintStart_toStartOf="parent"
+        android:background="@color/colorAccent"
+        app:itemTextColor="@color/colorTextGrey"
+        app:itemIconTint="@color/colorPrimary"
+        app:headerLayout="@layout/layout_header"
         app:menu="@menu/nav_menu"/>
 
 </android.support.v4.widget.DrawerLayout>

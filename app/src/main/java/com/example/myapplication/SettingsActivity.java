@@ -29,7 +29,6 @@ public class SettingsActivity extends AppCompatActivity {
 
         // sets toolbar
         setToolbar();
-        myToolbar.setSubtitle(R.string.settings);
     }
 
     /**

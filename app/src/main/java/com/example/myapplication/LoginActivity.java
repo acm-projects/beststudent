@@ -90,6 +90,8 @@ public class LoginActivity extends AppCompatActivity {
                 User newUser = new User(user.getDisplayName(), user.getEmail());
                 //push user to database
                 mUsersDatabaseRef.child(user.getUid()).setValue(newUser);
+                finish();
+                startActivity(new Intent(LoginActivity.this, ToDoActivity.class));
             }
             // sign in failed
             else if(resultCode == RESULT_CANCELED) {

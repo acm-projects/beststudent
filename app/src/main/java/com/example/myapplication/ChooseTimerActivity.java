@@ -45,7 +45,6 @@ public class ChooseTimerActivity extends AppCompatActivity {
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         navView = (NavigationView) findViewById(R.id.navigation);
         setToolbar();
-        myToolbar.setSubtitle(R.string.choose_timer);
 
         workpicker = (NumberPicker) findViewById(R.id.work_picker);
         workpicker.setMinValue(0);

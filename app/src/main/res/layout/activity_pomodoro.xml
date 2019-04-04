@@ -40,7 +40,7 @@
             android:layout_marginVertical="20dp"
             android:baselineAligned="false"
             android:orientation="horizontal"
-            android:paddingTop="200dp">
+            android:paddingTop="175dp">
 
             <TextView
                 android:id="@+id/minutes"
@@ -67,7 +67,7 @@
             android:layout_marginTop="0dp"
             android:baselineAligned="false"
             android:orientation="horizontal"
-            android:paddingTop="335dp">
+            android:paddingTop="300dp">
 
             <TextView
                 android:layout_width="match_parent"
@@ -92,15 +92,15 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="400dp">
+            android:paddingTop="350dp"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginVertical="40dp">
 
             <Button
                 android:id="@+id/start_countdown"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginHorizontal="10dp"
-                android:layout_marginVertical="40dp"
                 android:background="@color/colorPrimary"
                 android:onClick="startPomodoro"
                 android:text="@string/start" />
@@ -110,8 +110,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginHorizontal="10dp"
-                android:layout_marginVertical="40dp"
                 android:background="@color/colorPrimary"
                 android:onClick="pausePomodoro"
                 android:text="@string/pause"
@@ -122,8 +120,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginHorizontal="10dp"
-                android:layout_marginVertical="40dp"
                 android:background="@color/colorPrimary"
                 android:onClick="stopAlarm"
                 android:text="@string/stop"
@@ -140,6 +136,10 @@
         android:fitsSystemWindows="true"
         android:visibility="visible"
         app:layout_constraintStart_toStartOf="parent"
+        android:background="@color/colorAccent"
+        app:itemTextColor="@color/colorTextGrey"
+        app:itemIconTint="@color/colorPrimary"
+        app:headerLayout="@layout/layout_header"
         app:menu="@menu/nav_menu" />
 
 </android.support.v4.widget.DrawerLayout>

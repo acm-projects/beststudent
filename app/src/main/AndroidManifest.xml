@@ -27,27 +27,33 @@
         </activity>
 
         <activity
-            android:name=".ToDoActivity">
+            android:name=".ToDoActivity"
+            android:label="@string/to_do">
         </activity>
 
         <activity
-            android:name=".AddActivity">
+            android:name=".AddActivity"
+            android:label="@string/add_task_event">
         </activity>
 
         <activity
-            android:name=".PomodoroActivity">
+            android:name=".PomodoroActivity"
+            android:label="@string/pomodoro">
         </activity>
 
         <activity
-            android:name=".ChooseTimerActivity">
+            android:name=".ChooseTimerActivity"
+            android:label="@string/choose_timer">
         </activity>
 
         <activity
-            android:name=".SettingsActivity">
+            android:name=".SettingsActivity"
+            android:label="@string/settings">
         </activity>
 
         <activity
-            android:name=".CalendarActivity">
+            android:name=".CalendarActivity"
+            android:label="@string/calendar">
         </activity>
 
     </application>

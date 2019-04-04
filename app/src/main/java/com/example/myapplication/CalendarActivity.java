@@ -68,7 +68,6 @@ public class CalendarActivity extends AppCompatActivity {
 
         // sets toolbar
         setToolbar();
-        myToolbar.setSubtitle(R.string.calendar);
 
         // sets recycler view
         recyclerView = findViewById(R.id.cal_to_do_list);
