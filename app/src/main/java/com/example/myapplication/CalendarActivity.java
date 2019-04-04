@@ -104,7 +104,7 @@ public class CalendarActivity extends AppCompatActivity {
                     // sort data by due date
                     Collections.sort(myDataset);
                 }
-                // specify an adapter (see also next example)
+                // specify an adapter
                 mAdapter = new MyAdapter(myDataset, CalendarActivity.this);
                 recyclerView.setAdapter(mAdapter);
             }
@@ -146,7 +146,6 @@ public class CalendarActivity extends AppCompatActivity {
                     public void onCancelled(@NonNull DatabaseError databaseError) {
                     }
                 });
-
             }
         });
 

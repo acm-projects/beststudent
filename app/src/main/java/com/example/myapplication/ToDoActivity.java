@@ -93,7 +93,7 @@ public class ToDoActivity extends AppCompatActivity {
                 }
                 // sort the data in order of due date
                 Collections.sort(myDataset);
-                // specify an adapter (see also next example)
+                // specify an adapter
                 mAdapter = new MyAdapter(myDataset, ToDoActivity.this);
                 recyclerView.setAdapter(mAdapter);
             }

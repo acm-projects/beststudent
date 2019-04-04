@@ -100,8 +100,6 @@
                 android:id="@+id/start_countdown"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:background="@color/colorPrimary"
                 android:onClick="startPomodoro"
                 android:text="@string/start" />
 
@@ -109,8 +107,6 @@
                 android:id="@+id/pause_countdown"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:background="@color/colorPrimary"
                 android:onClick="pausePomodoro"
                 android:text="@string/pause"
                 android:visibility="gone" />
@@ -119,8 +115,6 @@
                 android:id="@+id/stop_alarm"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:background="@color/colorPrimary"
                 android:onClick="stopAlarm"
                 android:text="@string/stop"
                 android:visibility="gone" />
