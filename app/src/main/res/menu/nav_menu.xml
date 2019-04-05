@@ -32,4 +32,8 @@
             android:icon="@drawable/ic_baseline_settings_20px"
             android:title="@string/settings"
             app:showAsAction="ifRoom"/>
+        <item
+            android:id="@+id/log_out"
+            android:title="Log Out"
+            app:showAsAction="ifRoom"/>
 </menu>
