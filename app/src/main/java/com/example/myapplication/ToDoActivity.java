@@ -1,32 +1,46 @@
 package com.example.myapplication;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.CheckBox;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.Duration;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.Locale;
 
 /**
  * Activity for to do list
@@ -59,7 +73,6 @@ public class ToDoActivity extends AppCompatActivity {
 
         // sets toolbar
         setToolbar();
-        myToolbar.setSubtitle(R.string.to_do);
 
         // set recycler view
         recyclerView = findViewById(R.id.ToDoList);
@@ -80,7 +93,7 @@ public class ToDoActivity extends AppCompatActivity {
                 }
                 // sort the data in order of due date
                 Collections.sort(myDataset);
-                // specify an adapter (see also next example)
+                // specify an adapter
                 mAdapter = new MyAdapter(myDataset, ToDoActivity.this);
                 recyclerView.setAdapter(mAdapter);
             }
@@ -137,15 +150,17 @@ public class ToDoActivity extends AppCompatActivity {
                 } else if (menuItem.getItemId() == R.id.action_calendar) {
                     startActivity(new Intent(ToDoActivity.this, CalendarActivity.class));
                     return true;
-                } else if (menuItem.getItemId() == R.id.sign_out) {
-                    startActivity(new Intent(ToDoActivity.this, LoginActivity.class));
-                    return true;
-                }
+                } 
                 return true;
             }
         });
     }
 
+    /**
+     * sets toolbar buttons
+     * @param menu menu of buttons for toolbar
+     * @return true
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -153,6 +168,11 @@ public class ToDoActivity extends AppCompatActivity {
         return true;
     }
 
+    /**
+     * Sets what happens when toolbar buttons are clicked
+     * @param item button clicked
+     * @return true if valid button successfully clicked
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -163,8 +183,28 @@ public class ToDoActivity extends AppCompatActivity {
                 // User chose the "Settings" item, show the app settings UI...
                 startActivity(new Intent(ToDoActivity.this, AddActivity.class));
                 return true;
+            case R.id.action_sort_priority:
+                sortByPriority();
+                return true;
+            case R.id.action_sort_date:
+                sortByDate();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    /**
+     * Sorts list by priority
+     */
+    public void sortByPriority(){
+        Toast.makeText(this, "Sorted by priority!", Toast.LENGTH_SHORT).show();
+    }
+
+    /**
+     * Sorts list by date
+     */
+    public void sortByDate(){
+        Toast.makeText(this, "Sorted by date!", Toast.LENGTH_SHORT).show();
     }
 }

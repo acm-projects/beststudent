@@ -12,6 +12,7 @@
         android:id="@+id/my_toolbar"
         android:layout_width="match_parent"
         android:layout_height="80dp"
+        android:paddingHorizontal="5dp"
         android:background="@color/colorPrimaryDark"
         android:minHeight="80dp"
         app:navigationIcon="@drawable/ic_baseline_menu_24px"

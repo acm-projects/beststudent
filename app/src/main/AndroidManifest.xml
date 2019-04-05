@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.myapplication">
+
     <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
@@ -13,24 +15,47 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:theme="@style/AppTheme">
+
         <activity
             android:name=".LoginActivity"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
-
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>
         </activity>
-        <activity android:name=".SignUpActivity"></activity>
-        <activity android:name=".ToDoActivity" />
-        <activity android:name=".AddActivity" />
-        <activity android:name=".PomodoroActivity" />
-        <activity android:name=".ChooseTimerActivity" />
-        <activity android:name=".SettingsActivity" />
-        <activity android:name=".CalendarActivity" />
+
+        <activity
+            android:name=".ToDoActivity"
+            android:label="@string/to_do">
+        </activity>
+
+        <activity
+            android:name=".AddActivity"
+            android:label="@string/add_task_event">
+        </activity>
+
+        <activity
+            android:name=".PomodoroActivity"
+            android:label="@string/pomodoro">
+        </activity>
+
+        <activity
+            android:name=".ChooseTimerActivity"
+            android:label="@string/choose_timer">
+        </activity>
+
+        <activity
+            android:name=".SettingsActivity"
+            android:label="@string/settings">
+        </activity>
+
+        <activity
+            android:name=".CalendarActivity"
+            android:label="@string/calendar">
+        </activity>
+
     </application>
 
 </manifest>

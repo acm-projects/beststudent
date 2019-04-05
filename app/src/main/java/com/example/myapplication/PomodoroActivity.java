@@ -65,7 +65,6 @@ public class PomodoroActivity extends AppCompatActivity {
 
         // sets toolbar and nav
         setToolbar();
-        myToolbar.setSubtitle(R.string.pomodoro);
 
         // sets buttons
         startButton = (Button) findViewById(R.id.start_countdown);
@@ -207,7 +206,7 @@ public class PomodoroActivity extends AppCompatActivity {
                 pauseButton.setVisibility(View.GONE);
                 stopButton.setVisibility(View.VISIBLE);
                 if(Math.abs(count) % 2 == 1) {
-                    workState.setText("CONGRATULATIONS YOU MADE IT");
+                    workState.setText("CONGRATULATIONS! YOU MADE IT!");
                 }
                 else {
                     workState.setText("Break Over");

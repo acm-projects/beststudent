@@ -21,8 +21,9 @@
         <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:clipToPadding="false"
             android:fillViewport="true"
-            android:padding="5dp">
+            android:padding="10dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -36,11 +37,12 @@
                     android:text="@string/name_prompt"
                     android:textColor="@color/colorTextGrey"
                     android:textColorLink="@color/colorPrimary"
-                    android:textSize="24sp" />
+                    android:textSize="18sp" />
 
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:textSize="18sp"
                     app:boxBackgroundColor="@color/colorTextGrey"
                     app:boxBackgroundMode="outline">
 
@@ -58,7 +60,7 @@
                     android:text="@string/due_date_prompt"
                     android:textColor="@color/colorTextGrey"
                     android:textColorLink="@color/colorPrimary"
-                    android:textSize="24sp" />
+                    android:textSize="18sp" />
 
                 <Button
                     android:id="@+id/button_date"
@@ -70,15 +72,13 @@
                     android:focusable="false"
                     android:gravity="center|start|left"
                     android:onClick="showDatePickerDialog"
-                    android:paddingStart="5dp"
-                    android:paddingLeft="5dp"
-                    android:paddingEnd="5dp"
-                    android:paddingRight="5dp"
+                    android:paddingHorizontal="5dp"
+
                     android:text="@string/due_date_prompt"
                     android:textAlignment="viewStart"
                     android:textAppearance="@style/TextAppearance.AppCompat"
                     android:textColor="@color/browser_actions_text_color"
-                    android:textSize="20sp" />
+                    android:textSize="18sp" />
 
                 <TextView
                     android:id="@+id/text_due_time"
@@ -87,7 +87,7 @@
                     android:text="@string/due_time_prompt"
                     android:textColor="@color/colorTextGrey"
                     android:textColorLink="@color/colorPrimary"
-                    android:textSize="24sp" />
+                    android:textSize="18sp" />
 
                 <Button
                     android:id="@+id/button_time"
@@ -107,7 +107,7 @@
                     android:textAlignment="viewStart"
                     android:textAppearance="@style/TextAppearance.AppCompat"
                     android:textColor="@color/browser_actions_text_color"
-                    android:textSize="20sp" />
+                    android:textSize="18sp" />
 
                 <TextView
                     android:id="@+id/text_class_name"
@@ -116,12 +116,13 @@
                     android:text="@string/class_name"
                     android:textColor="@color/colorTextGrey"
                     android:textColorLink="@color/colorPrimary"
-                    android:textSize="24sp" />
+                    android:textSize="18sp" />
 
 
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:textSize="18sp"
                     app:boxBackgroundColor="@color/colorTextGrey"
                     app:boxBackgroundMode="outline">
 
@@ -139,7 +140,7 @@
                     android:text="@string/priority_1_low_5_high"
                     android:textColor="@color/colorTextGrey"
                     android:textColorLink="@color/colorPrimary"
-                    android:textSize="24sp" />
+                    android:textSize="18sp" />
 
                 <Spinner
                     android:id="@+id/spinner_priority"
@@ -151,7 +152,8 @@
                     android:entries="@array/priorityNumList"
                     android:focusable="false"
                     android:nestedScrollingEnabled="true"
-                    android:spinnerMode="dropdown">
+                    android:spinnerMode="dropdown"
+                    android:textSize="18sp">
 
                 </Spinner>
 
@@ -162,7 +164,7 @@
                     android:text="@string/approx_how_long_to_complete"
                     android:textColor="@color/colorTextGrey"
                     android:textColorLink="@color/colorPrimary"
-                    android:textSize="24sp" />
+                    android:textSize="18sp" />
 
 
                 <LinearLayout
@@ -175,6 +177,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
+                        android:textSize="18sp"
                         app:boxBackgroundColor="@color/colorTextGrey"
                         app:boxBackgroundMode="outline">
 
@@ -191,6 +194,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
+                        android:textSize="18sp"
                         app:boxBackgroundColor="@color/colorTextGrey"
                         app:boxBackgroundMode="outline">
 
@@ -212,12 +216,13 @@
                     android:text="@string/notes"
                     android:textColor="@color/colorTextGrey"
                     android:textColorLink="@color/colorPrimary"
-                    android:textSize="24sp" />
+                    android:textSize="18sp" />
 
                 <EditText
                     android:id="@+id/text_edit_notes"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
                     android:background="@color/browser_actions_bg_grey"
                     android:gravity="top"
                     android:importantForAutofill="no"
@@ -226,29 +231,33 @@
                     android:maxLines="8"
                     android:minLines="4"
                     android:scrollbars="vertical"
-                    android:textColorLink="@color/colorPrimary">
+                    android:textColorLink="@color/colorPrimary"
+                    android:textSize="18sp">
                 </EditText>
 
                 <Button
                     android:id="@+id/button_add"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginVertical="15dp"
-                    android:background="@color/colorPrimary"
-                    android:clickable="true"
-                    android:focusable="true"
+                    android:layout_marginTop="15dp"
                     android:onClick="addTask"
                     android:text="@string/add_task_event" />
             </LinearLayout>
         </android.support.v4.widget.NestedScrollView>
     </LinearLayout>
+
     <android.support.design.widget.NavigationView
         android:id="@+id/navigation"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
+        android:background="@color/colorAccent"
         android:fitsSystemWindows="true"
+        android:visibility="visible"
+        app:headerLayout="@layout/layout_header"
+        app:itemIconTint="@color/colorPrimary"
+        app:itemTextColor="@color/colorTextGrey"
         app:layout_constraintStart_toStartOf="parent"
-        app:menu="@menu/nav_menu"/>
+        app:menu="@menu/nav_menu" />
 
 </android.support.v4.widget.DrawerLayout>
