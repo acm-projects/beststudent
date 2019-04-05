@@ -17,7 +17,6 @@ import android.widget.CalendarView;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
-import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -26,7 +25,6 @@ import java.util.Locale;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -193,7 +191,10 @@ public class CalendarActivity extends AppCompatActivity {
                 } else if (menuItem.getItemId() == R.id.action_calendar) {
                     startActivity(new Intent(CalendarActivity.this, CalendarActivity.class));
                     return true;
-                } 
+                } else if (menuItem.getItemId() == R.id.sign_out) {
+                    startActivity(new Intent(CalendarActivity.this, LoginActivity.class));
+                    return true;
+                }
                 return true;
             }
         });

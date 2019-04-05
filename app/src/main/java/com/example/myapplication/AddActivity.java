@@ -18,9 +18,9 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.NumberPicker;
 import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -151,6 +151,9 @@ public class AddActivity extends AppCompatActivity {
                     return true;
                 } else if (menuItem.getItemId() == R.id.action_calendar) {
                     startActivity(new Intent(AddActivity.this, CalendarActivity.class));
+                    return true;
+                } else if (menuItem.getItemId() == R.id.sign_out) {
+                    startActivity(new Intent(AddActivity.this, LoginActivity.class));
                     return true;
                 }
                 return true;

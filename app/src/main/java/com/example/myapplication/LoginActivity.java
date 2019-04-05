@@ -5,10 +5,15 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.firebase.ui.auth.AuthUI;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -20,121 +25,129 @@ import java.util.List;
 /**
  * A login screen that offers login via email/password.
  */
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
+    // user input variables
+    private EditText userEmail;
+    private EditText userPassword;
 
-    // constants
-    public static final String ANONYMOUS = "anonymous";
-    public static final int RC_SIGN_IN = 1;
-
-    // Firebase instance variables
+    // Firebase variables
     private FirebaseAuth mAuth;
-    private FirebaseAuth.AuthStateListener mAuthListener;
-    private FirebaseDatabase mFirebaseDatabase;
-    private DatabaseReference mUsersDatabaseRef;
-    private FirebaseUser user;
-
-    private String mUserName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        mUserName = ANONYMOUS;
+        // find text fields of existing user
+        userEmail = findViewById(R.id.editTextEmailAddress);
+        userPassword = findViewById(R.id.editTextPass);
 
-        // initialize firebase
+        // find Buttons
+        findViewById(R.id.login).setOnClickListener(this);
+        findViewById(R.id.create_account).setOnClickListener(this);
+
+        // initialize Firebase
         mAuth = FirebaseAuth.getInstance();
-        mFirebaseDatabase = FirebaseDatabase.getInstance();
-        mUsersDatabaseRef = mFirebaseDatabase.getReference().child("users");
-
-        // Firebase sign in/sign out
-        mAuthListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                user = firebaseAuth.getCurrentUser();
-                // user is signed in
-                if(user != null) {
-                    onSignedInInitialize(user.getDisplayName());
-                }
-                // user is signed out
-                else {
-                    onSignedOutCleanUp();
-                    // choose authentication providers
-                    List<AuthUI.IdpConfig> providers = Arrays.asList(
-                            new AuthUI.IdpConfig.EmailBuilder().build(),
-                            new AuthUI.IdpConfig.GoogleBuilder().build()
-                    );
-
-                    // Create and launch sign-in intent
-                    startActivityForResult(
-                            AuthUI.getInstance()
-                                    .createSignInIntentBuilder()
-                                    .setIsSmartLockEnabled(false)
-                                    .setAvailableProviders(providers)
-                                    .build(),
-                            RC_SIGN_IN
-                    );
-                }
-            }
-        };
     }
 
+    // check user when login activity starts
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == RC_SIGN_IN) {
-            // successfully signed in
-            if(resultCode == RESULT_OK) {
-                Toast.makeText(this, "Signed in!", Toast.LENGTH_SHORT).show();
-                user = FirebaseAuth.getInstance().getCurrentUser();
-                User newUser = new User(user.getDisplayName(), user.getEmail());
-                //push user to database
-                mUsersDatabaseRef.child(user.getUid()).setValue(newUser);
-            }
-            // sign in failed
-            else if(resultCode == RESULT_CANCELED) {
-                Toast.makeText(this, "Sign in canceled", Toast.LENGTH_SHORT).show();
-                finish();
-            }
+    public void onStart() {
+        super.onStart();
+        // check if user is signed in and update UI if they are
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        updateUI(currentUser);
+    }
+
+    /**
+     *  Sign into account with email and password
+     *  @param email the email address linked to account
+     *  @param password the password linked to account
+     */
+    private void signIn(String email, String password) {
+
+        // check if user input is valid
+        if(!validateForm()) {
+            return;
+        }
+
+        mAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if(task.isSuccessful()) {
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            Toast.makeText(LoginActivity.this, "Signed In!", Toast.LENGTH_SHORT).show();
+                            updateUI(user);
+                        }
+                        else {
+                            Toast.makeText(LoginActivity.this, "Email or password was incorrect.", Toast.LENGTH_SHORT).show();
+                            updateUI(null);
+                        }
+                    }
+                });
+    }
+
+    /**
+     *  Sign out from account
+     */
+    public void signOut() {
+        mAuth.signOut();
+        updateUI(null);
+    }
+
+    /**
+     * Validate that user input is in correct format
+     * @return if the user correctly input fields
+     */
+    private boolean validateForm() {
+        boolean valid = true;
+
+        String existingEmail = userEmail.getText().toString();
+        if(TextUtils.isEmpty(existingEmail)) {
+            userEmail.setError("Email Required");
+            valid = false;
+        }
+        else {
+            userEmail.setError(null);
+        }
+
+        String existingPassword = userPassword.getText().toString();
+        if(TextUtils.isEmpty(existingPassword)) {
+            userPassword.setError("Password Required");
+            valid = false;
+        }
+        else {
+            userPassword.setError(null);
+        }
+
+        return valid;
+    }
+
+    /**
+     * Update UI depending on the user
+     * @param user the Firebase user creating account or signing in
+     */
+    private void updateUI(FirebaseUser user) {
+        if(user != null) {
+            startActivity(new Intent(LoginActivity.this, ToDoActivity.class));
+        }
+        else {
+            return;
         }
     }
 
-    private void onSignedInInitialize(String username) {
-        mUserName = username;
-    }
-
-    private void onSignedOutCleanUp() {
-        AuthUI.getInstance().signOut(this);
-        mUserName = ANONYMOUS;
-    }
-
     @Override
-    protected void onPause() {
-        super.onPause();
-        if(mAuthListener != null) {
-            mAuth.removeAuthStateListener(mAuthListener);
+    public void onClick(View view) {
+        int identifier = view.getId();
+        if(identifier == R.id.create_account) {
+            startActivity(new Intent(LoginActivity.this, SignUpActivity.class));
         }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        mAuth.addAuthStateListener(mAuthListener);
-    }
-
-    // sign out button is clicked
-    public void signOut(View view) {
-        onSignedOutCleanUp();
-    }
-
-    // start Pomodoro activity
-    public void startTimer(View view) {
-        startActivity(new Intent(getApplicationContext(), ChooseTimerActivity.class));
-    }
-
-    // start to-do list
-    public void startToDo(View view) {
-        startActivity(new Intent(getApplicationContext(), ToDoActivity.class));
+        else if(identifier == R.id.login) {
+            if(!TextUtils.isEmpty(userEmail.getText().toString()) && !TextUtils.isEmpty(userPassword.getText().toString())) {
+                signIn(userEmail.getText().toString(), userPassword.getText().toString());
+            }
+        }
     }
 }
 

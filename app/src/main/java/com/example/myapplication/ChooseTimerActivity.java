@@ -130,6 +130,9 @@ public class ChooseTimerActivity extends AppCompatActivity {
                 } else if (menuItem.getItemId() == R.id.action_calendar) {
                     startActivity(new Intent(ChooseTimerActivity.this, CalendarActivity.class));
                     return true;
+                } else if (menuItem.getItemId() == R.id.sign_out) {
+                    startActivity(new Intent(ChooseTimerActivity.this, LoginActivity.class));
+                    return true;
                 }
                 return true;
             }

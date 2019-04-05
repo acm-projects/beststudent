@@ -19,6 +19,11 @@
             android:title="@string/calendar"
             app:showAsAction="ifRoom"/>
         <item
+            android:id="@+id/action_weekly_schedule"
+            android:icon="@drawable/ic_baseline_event_available_24px"
+            android:title="Weekly Schedule"
+            app:showAsAction="ifRoom"/>
+        <item
             android:id="@+id/action_pomodoro"
             android:icon="@drawable/ic_baseline_alarm_24px"
             android:title="@string/pomodoro"
@@ -32,6 +37,10 @@
             android:id="@+id/action_settings"
             android:icon="@drawable/ic_baseline_settings_20px"
             android:title="@string/settings"
+            app:showAsAction="ifRoom"/>
+        <item
+            android:id="@+id/sign_out"
+            android:title="Log Out"
             app:showAsAction="ifRoom"/>
 
     </group>
