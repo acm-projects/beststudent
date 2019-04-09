@@ -133,6 +133,8 @@ public class AddActivity extends AppCompatActivity {
                 } else if (menuItem.getItemId() == R.id.sign_out) {
                     startActivity(new Intent(AddActivity.this, LoginActivity.class));
                     return true;
+                } else if (menuItem.getItemId() == R.id.action_classes) {
+                    startActivity(new Intent(AddActivity.this, ClassesActivity.class));
                 }
                 return true;
             }

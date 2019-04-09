@@ -192,6 +192,8 @@ public class CalendarActivity extends AppCompatActivity {
                 } else if (menuItem.getItemId() == R.id.sign_out) {
                     startActivity(new Intent(CalendarActivity.this, LoginActivity.class));
                     return true;
+                } else if (menuItem.getItemId() == R.id.action_classes) {
+                    startActivity(new Intent(CalendarActivity.this, ClassesActivity.class));
                 }
                 return true;
             }

@@ -28,12 +28,16 @@
             android:title="@string/choose_timer"
             app:showAsAction="ifRoom"/>
         <item
+            android:id="@+id/action_classes"
+            android:title="Classes"
+            app:showAsAction="ifRoom"/>
+        <item
             android:id="@+id/action_settings"
             android:icon="@drawable/ic_baseline_settings_20px"
             android:title="@string/settings"
             app:showAsAction="ifRoom"/>
         <item
-            android:id="@+id/log_out"
+            android:id="@+id/sign_out"
             android:title="Log Out"
             app:showAsAction="ifRoom"/>
 </menu>
