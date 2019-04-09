@@ -146,7 +146,7 @@ public class AddActivity extends AppCompatActivity {
                     startActivity(new Intent(AddActivity.this, CalendarActivity.class));
                     return true;
                 } else if (menuItem.getItemId() == R.id.sign_out) {
-                    startActivity(new Intent(AddActivity.this, LoginActivity.class));
+                    startActivity(new Intent(AddActivity.this, LogoutActivity.class));
                     return true;
                 } else if (menuItem.getItemId() == R.id.action_classes) {
                     startActivity(new Intent(AddActivity.this, ClassesActivity.class));

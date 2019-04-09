@@ -130,7 +130,7 @@ public class ClassesActivity extends AppCompatActivity {
                     startActivity(new Intent(ClassesActivity.this, CalendarActivity.class));
                     return true;
                 } else if (menuItem.getItemId() == R.id.sign_out) {
-                    startActivity(new Intent(ClassesActivity.this, LoginActivity.class));
+                    startActivity(new Intent(ClassesActivity.this, LogoutActivity.class));
                     return true;
                 } else if (menuItem.getItemId() == R.id.action_classes) {
                     startActivity(new Intent(ClassesActivity.this, ClassesActivity.class));

@@ -70,7 +70,7 @@ public class SettingsActivity extends AppCompatActivity {
                     startActivity(new Intent(SettingsActivity.this, CalendarActivity.class));
                     return true;
                 } else if (menuItem.getItemId() == R.id.sign_out) {
-                    startActivity(new Intent(SettingsActivity.this, LoginActivity.class));
+                    startActivity(new Intent(SettingsActivity.this, LogoutActivity.class));
                     return true;
                 } else if (menuItem.getItemId() == R.id.action_classes) {
                     startActivity(new Intent(SettingsActivity.this, ClassesActivity.class));

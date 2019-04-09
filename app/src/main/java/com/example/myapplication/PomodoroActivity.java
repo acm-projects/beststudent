@@ -128,7 +128,7 @@ public class PomodoroActivity extends AppCompatActivity {
                     startActivity(new Intent(PomodoroActivity.this, CalendarActivity.class));
                     return true;
                 } else if (menuItem.getItemId() == R.id.sign_out) {
-                    startActivity(new Intent(PomodoroActivity.this, LoginActivity.class));
+                    startActivity(new Intent(PomodoroActivity.this, LogoutActivity.class));
                     return true;
                 } else if (menuItem.getItemId() == R.id.action_classes) {
                     startActivity(new Intent(PomodoroActivity.this, ClassesActivity.class));

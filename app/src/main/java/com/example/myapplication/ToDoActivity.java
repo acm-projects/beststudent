@@ -150,6 +150,9 @@ public class ToDoActivity extends AppCompatActivity {
                 } else if (menuItem.getItemId() == R.id.action_calendar) {
                     startActivity(new Intent(ToDoActivity.this, CalendarActivity.class));
                     return true;
+                } else if (menuItem.getItemId() == R.id.sign_out) {
+                    startActivity(new Intent(ToDoActivity.this, LogoutActivity.class));
+                    return true;
                 } else if (menuItem.getItemId() == R.id.action_classes) {
                     startActivity(new Intent(ToDoActivity.this, ClassesActivity.class));
                 }
