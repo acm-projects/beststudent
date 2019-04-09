@@ -29,6 +29,7 @@
             app:showAsAction="ifRoom"/>
         <item
             android:id="@+id/action_classes"
+            android:icon="@drawable/ic_class_black_24dp"
             android:title="Classes"
             app:showAsAction="ifRoom"/>
         <item
@@ -38,6 +39,7 @@
             app:showAsAction="ifRoom"/>
         <item
             android:id="@+id/sign_out"
+            android:icon="@drawable/ic_exit_to_app_black_24dp"
             android:title="Log Out"
             app:showAsAction="ifRoom"/>
 </menu>
