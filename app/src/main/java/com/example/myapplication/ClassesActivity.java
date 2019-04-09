@@ -89,8 +89,6 @@ public class ClassesActivity extends AppCompatActivity {
 
         // use a linear layout manager
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        plus = findViewById(R.id.plus_class);
     }
 
     /**

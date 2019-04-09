@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.view.GravityCompat;
@@ -17,6 +18,7 @@ import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
@@ -27,12 +29,17 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 
 public class AddActivity extends AppCompatActivity {
@@ -55,8 +62,13 @@ public class AddActivity extends AppCompatActivity {
 
     // Firebase variables
     private DatabaseReference mTasksDatabaseRef;
+    private DatabaseReference mClassesDatabaseRef;
     private FirebaseDatabase mFirebaseDatabase;
     private FirebaseUser user;
+
+    // dynamic class spinner
+    private Spinner classSpinner;
+    private List<String> classStrs;
 
     /**
      * Method for when add task page loads
@@ -90,6 +102,9 @@ public class AddActivity extends AppCompatActivity {
         String date = (dueDate.get(Calendar.MONTH)) + "/" + dueDate.get(Calendar.DATE) + "/"
                 + dueDate.get(Calendar.YEAR);
         dateEdit.setText(date);
+
+        // call to add class items to class spinner
+        addItemsToClassSpinner();
     }
 
     /**
@@ -156,6 +171,39 @@ public class AddActivity extends AppCompatActivity {
         }
     }
 
+    // dynamically add class items
+    public void addItemsToClassSpinner() {
+        classSpinner = findViewById(R.id.class_spinner);
+
+        // initialize database
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        mFirebaseDatabase = FirebaseDatabase.getInstance();
+        mClassesDatabaseRef = mFirebaseDatabase.getReference().child("users").child(user.getUid()).child("classes");
+        mClassesDatabaseRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                // prevent multiple instances of same data
+                classStrs = new ArrayList<>();
+                // get all the data in database
+                for(DataSnapshot data: dataSnapshot.getChildren()) {
+                    SchoolClass tempClass = data.getValue(SchoolClass.class);
+                    classStrs.add(tempClass.getClassName());
+                }
+                classStrs.add("No Class");
+                // specify an adapter
+                ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(AddActivity.this,
+                        R.layout.support_simple_spinner_dropdown_item, classStrs);
+                dataAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+                classSpinner.setAdapter(dataAdapter);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
     /**
      * Adds a task after user is done filling out form
      * @param view
@@ -166,8 +214,10 @@ public class AddActivity extends AppCompatActivity {
         String name = nameField.getText().toString();
 
         // gets class of task
-        final EditText classNameField = (EditText) findViewById(R.id.text_edit_class_name);
-        String className = classNameField.getText().toString();
+        String className = "No Class";
+        if(!classSpinner.getSelectedItem().toString().isEmpty()) {
+            className = classSpinner.getSelectedItem().toString();
+        }
 
         // get notes
         final EditText notesField = (EditText) findViewById(R.id.text_edit_notes);
@@ -223,7 +273,6 @@ public class AddActivity extends AppCompatActivity {
 
         // empty text fields
         nameField.setText("");
-        classNameField.setText("");
         notesField.setText("");
         hourField.setText("");
         minuteField.setText("");

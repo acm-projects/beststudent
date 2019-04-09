@@ -119,19 +119,31 @@
                     android:textSize="18sp" />
 
 
-                <android.support.design.widget.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="18sp"
-                    app:boxBackgroundColor="@color/colorTextGrey"
-                    app:boxBackgroundMode="outline">
+                <!--<android.support.design.widget.TextInputLayout-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:textSize="18sp"-->
+                    <!--app:boxBackgroundColor="@color/colorTextGrey"-->
+                    <!--app:boxBackgroundMode="outline">-->
 
-                    <android.support.design.widget.TextInputEditText
-                        android:id="@+id/text_edit_class_name"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textColorLink="@color/colorPrimary" />
-                </android.support.design.widget.TextInputLayout>
+                    <!--<android.support.design.widget.TextInputEditText-->
+                        <!--android:id="@+id/text_edit_class_name"-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:textColorLink="@color/colorPrimary" />-->
+                <!--</android.support.design.widget.TextInputLayout>-->
+
+                <Spinner
+                    android:id="@+id/class_spinner"
+                    android:layout_width="fill_parent"
+                    android:layout_height="45dp"
+                    android:layout_marginVertical="5dp"
+                    android:background="@color/colorTextGrey"
+                    android:dropDownWidth="match_parent"
+                    android:focusable="false"
+                    android:nestedScrollingEnabled="true"
+                    android:spinnerMode="dropdown"
+                    android:textSize="18sp" />
 
                 <TextView
                     android:id="@+id/text_priority"
