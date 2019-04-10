@@ -67,7 +67,7 @@ public class SignUpActivity extends AppCompatActivity {
         }
 
         mAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                .addOnCompleteListener(SignUpActivity.this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()) {
@@ -82,8 +82,12 @@ public class SignUpActivity extends AppCompatActivity {
                             updateUI(user);
                         }
                         else {
-                            Toast.makeText(SignUpActivity.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SignUpActivity.this, "Email already taken.", Toast.LENGTH_SHORT).show();
                             updateUI(null);
+                            loading.setVisibility(View.GONE);
+                            emailField.setVisibility(View.VISIBLE);
+                            usernameField.setVisibility(View.VISIBLE);
+                            passwordField.setVisibility(View.VISIBLE);
                         }
                     }
                 });
