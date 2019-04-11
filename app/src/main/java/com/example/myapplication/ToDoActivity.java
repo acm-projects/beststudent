@@ -114,6 +114,10 @@ public class ToDoActivity extends AppCompatActivity {
 
     /**
      *  Set toolbar and navigation
+     *
+     *
+     *
+     *
      */
     public void setToolbar(){
         // sets toolbar
@@ -198,6 +202,69 @@ public class ToDoActivity extends AppCompatActivity {
      * Sorts list by priority
      */
     public void sortByPriority(){
+
+
+        setContentView(R.layout.activity_todo);
+
+        // sets toolbar
+        setToolbar();
+
+        // set recycler view
+        recyclerView = findViewById(R.id.ToDoList);
+
+        // initialize database
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        mFirebaseDatabase = FirebaseDatabase.getInstance();
+        mTasksDatabaseRef = mFirebaseDatabase.getReference().child("users").child(user.getUid()).child("tasks");
+        mTasksDatabaseRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                // prevent multiple instances of same data
+                myDataset = new ArrayList<>();
+                // get all the data in database
+                for(DataSnapshot data: dataSnapshot.getChildren()) {
+                    Task tempTask = data.getValue(Task.class);
+                    myDataset.add(tempTask);
+                }
+                // sort the data in order of due date
+
+                for (int i = 0; i < myDataset.size(); i++)
+                      {
+                          for (int j = myDataset.size() - 1; j > i; j--)
+                          {
+                              if (myDataset.get(i).getPriority() < myDataset.get(j).getPriority())
+                              {
+
+                                  int tmp = myDataset.get(i).getPriority();
+                                  myDataset.get(i).setPriority(myDataset.get(j).getPriority());
+                                  myDataset.get(j).setPriority(tmp);
+
+                              }
+
+                          }
+
+                      }
+
+
+                // specify an adapter
+                mAdapter = new MyAdapter(myDataset, ToDoActivity.this);
+                recyclerView.setAdapter(mAdapter);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        // use this setting to improve performance if you know that changes
+        // in content do not change the layout size of the RecyclerView
+        recyclerView.setHasFixedSize(true);
+
+        // use a linear layout manager
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+
         Toast.makeText(this, "Sorted by priority!", Toast.LENGTH_SHORT).show();
     }
 
@@ -205,6 +272,53 @@ public class ToDoActivity extends AppCompatActivity {
      * Sorts list by date
      */
     public void sortByDate(){
+
+
+        setContentView(R.layout.activity_todo);
+
+        // sets toolbar
+        setToolbar();
+
+        // set recycler view
+        recyclerView = findViewById(R.id.ToDoList);
+
+        // initialize database
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        mFirebaseDatabase = FirebaseDatabase.getInstance();
+        mTasksDatabaseRef = mFirebaseDatabase.getReference().child("users").child(user.getUid()).child("tasks");
+        mTasksDatabaseRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                // prevent multiple instances of same data
+                myDataset = new ArrayList<>();
+                // get all the data in database
+                for(DataSnapshot data: dataSnapshot.getChildren()) {
+                    Task tempTask = data.getValue(Task.class);
+                    myDataset.add(tempTask);
+                }
+                // sort the data in order of due date
+                Collections.sort(myDataset);
+                // specify an adapter
+                mAdapter = new MyAdapter(myDataset, ToDoActivity.this);
+                recyclerView.setAdapter(mAdapter);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        // use this setting to improve performance if you know that changes
+        // in content do not change the layout size of the RecyclerView
+        recyclerView.setHasFixedSize(true);
+
+        // use a linear layout manager
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+
+
+
         Toast.makeText(this, "Sorted by date!", Toast.LENGTH_SHORT).show();
     }
 }
