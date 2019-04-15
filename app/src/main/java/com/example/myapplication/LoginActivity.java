@@ -41,6 +41,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     // Firebase variables
     private FirebaseAuth mAuth;
+    private FirebaseDatabase mFirebaseDatabase;
+    private DatabaseReference mUsersDatabaseRef;
 
     // Google sign in
     private GoogleSignInClient mGoogleSignInClient;
@@ -59,16 +61,19 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         // find Buttons
         findViewById(R.id.login).setOnClickListener(this);
         findViewById(R.id.create_account).setOnClickListener(this);
+        findViewById(R.id.google_sign_in).setOnClickListener(this);
 
-        /*// configure Google sign in
+        // configure Google sign in
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
-        mGoogleSignInClient = GoogleSignIn.getClient(LoginActivity.this, gso);*/
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
         // initialize Firebase
         mAuth = FirebaseAuth.getInstance();
+        mFirebaseDatabase = FirebaseDatabase.getInstance();
+        mUsersDatabaseRef = mFirebaseDatabase.getReference().child("users");
     }
 
     // check user when login activity starts
@@ -150,8 +155,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
-
-    /*@Override
+    // check if google sign in worked
+    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
@@ -162,17 +167,17 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 // Google Sign In was successful, authenticate with Firebase
                 GoogleSignInAccount account = task.getResult(ApiException.class);
                 firebaseAuthWithGoogle(account);
-            } catch (ApiException e) {
+            }
+            catch (ApiException e) {
                 // Google Sign In failed, update UI appropriately
                 Log.w(TAG, "Google sign in failed", e);
-                // [START_EXCLUDE]
                 updateUI(null);
-                // [END_EXCLUDE]
             }
         }
     }
 
-    private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
+    // link Firebase with Google sign in
+    private void firebaseAuthWithGoogle(final GoogleSignInAccount acct) {
         Log.d(TAG, "firebaseAuthWithGoogle:" + acct.getId());
 
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
@@ -184,16 +189,28 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
                             FirebaseUser user = mAuth.getCurrentUser();
+                            // create user info
+                            User newUser = new User(acct.getDisplayName(), acct.getEmail());
+                            //push user to database
+                            mUsersDatabaseRef.child(user.getUid()).setValue(newUser);
+                            Toast.makeText(LoginActivity.this, "Signed In!", Toast.LENGTH_SHORT).show();
                             updateUI(user);
-                        } else {
+                        }
+                        else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
-                            //Snackbar.make(findViewById(R.id.main_layout), "Authentication Failed.", Snackbar.LENGTH_SHORT).show();
+                            Toast.makeText(LoginActivity.this, "Authentication Failed.", Toast.LENGTH_SHORT).show();
                             updateUI(null);
                         }
                     }
                 });
-    }*/
+    }
+
+    // google sign in
+    private void signInGoogle() {
+        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+        startActivityForResult(signInIntent, RC_SIGN_IN);
+    }
 
     @Override
     public void onClick(View view) {
@@ -202,9 +219,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             startActivity(new Intent(LoginActivity.this, SignUpActivity.class));
         }
         else if(identifier == R.id.login) {
-            if(!TextUtils.isEmpty(userEmail.getText().toString()) && !TextUtils.isEmpty(userPassword.getText().toString())) {
-                signIn(userEmail.getText().toString(), userPassword.getText().toString());
-            }
+            signIn(userEmail.getText().toString(), userPassword.getText().toString());
+        }
+        else if(identifier == R.id.google_sign_in) {
+            signInGoogle();
         }
     }
 }
