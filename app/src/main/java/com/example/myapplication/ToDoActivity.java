@@ -1,46 +1,31 @@
 package com.example.myapplication;
 
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.Duration;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.Locale;
 
 /**
  * Activity for to do list
@@ -203,6 +188,47 @@ public class ToDoActivity extends AppCompatActivity {
      * Sorts list by priority
      */
     public void sortByPriority(){
+
+        // initialize database
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        mFirebaseDatabase = FirebaseDatabase.getInstance();
+        mTasksDatabaseRef = mFirebaseDatabase.getReference().child("users").child(user.getUid()).child("tasks");
+        mTasksDatabaseRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                // prevent multiple instances of same data
+                myDataset = new ArrayList<>();
+                // get all the data in database
+                for(DataSnapshot data: dataSnapshot.getChildren()) {
+                    Task tempTask = data.getValue(Task.class);
+                    myDataset.add(tempTask);
+                }
+
+                // sort the data in order of priority
+                for (int i = 0; i < myDataset.size(); i++)
+                {
+                    for (int j = myDataset.size() - 1; j > i; j--)
+                    {
+                        if (myDataset.get(i).getPriority() > myDataset.get(j).getPriority())
+                        {
+                            int tmp = myDataset.get(i).getPriority();
+                            myDataset.get(i).setPriority(myDataset.get(j).getPriority());
+                            myDataset.get(j).setPriority(tmp);
+                        }
+                    }
+                }
+
+                // specify an adapter
+                mAdapter = new MyAdapter(myDataset, ToDoActivity.this);
+                recyclerView.setAdapter(mAdapter);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
         Toast.makeText(this, "Sorted by priority!", Toast.LENGTH_SHORT).show();
     }
 
@@ -210,6 +236,34 @@ public class ToDoActivity extends AppCompatActivity {
      * Sorts list by date
      */
     public void sortByDate(){
+
+        // initialize database
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        mFirebaseDatabase = FirebaseDatabase.getInstance();
+        mTasksDatabaseRef = mFirebaseDatabase.getReference().child("users").child(user.getUid()).child("tasks");
+        mTasksDatabaseRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                // prevent multiple instances of same data
+                myDataset = new ArrayList<>();
+                // get all the data in database
+                for(DataSnapshot data: dataSnapshot.getChildren()) {
+                    Task tempTask = data.getValue(Task.class);
+                    myDataset.add(tempTask);
+                }
+                // sort the data in order of due date
+                Collections.sort(myDataset);
+                // specify an adapter
+                mAdapter = new MyAdapter(myDataset, ToDoActivity.this);
+                recyclerView.setAdapter(mAdapter);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
         Toast.makeText(this, "Sorted by date!", Toast.LENGTH_SHORT).show();
     }
 }
