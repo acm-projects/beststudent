@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_add_task"
+        android:icon="@drawable/ic_baseline_playlist_add_24px"
+        android:title="@string/add_task_event"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_sort_by"
+        android:icon="@drawable/ic_baseline_sort_24px"
+        android:title="@string/sort_by"
+        android:iconTint="@color/colorPrimary"
+        app:showAsAction="ifRoom" >
+        <menu>
+            <item
+                android:id="@+id/action_sort_priority"
+                android:title="@string/priority"
+                app:showAsAction="ifRoom" />
+            <item
+                android:id="@+id/action_sort_date"
+                android:title="@string/date"
+                app:showAsAction="ifRoom" />
+        </menu>
+    </item>
+</menu>

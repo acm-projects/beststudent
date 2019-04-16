@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">My Application</string>
+    <string name="app_name">Best Student</string>
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password (optional)</string>
@@ -10,6 +10,60 @@
     <string name="error_incorrect_password">This password is incorrect</string>
     <string name="error_field_required">This field is required</string>
     <string name="permission_rationale">"Contacts permissions are needed for providing email
-        completions."
-    </string>
+        completions."</string>
+
+    <!-- Strings related to the to do list -->
+    <string name="to_do">To Do</string>
+    <string name="sample_date_text">Thu March 7, 2019 4:00 PM</string>
+    <string name="task_goes_here">TASK GOES HERE</string>
+    <string name="menuButton">menuButton</string>
+
+    <!-- Strings related to adding tasks / events -->
+    <string name="add_task_event">Add Task / Event</string>
+    <string name="name_prompt">Name</string>
+    <string name="due_date_prompt">Due Date</string>
+    <string name="due_time_prompt">Time Due</string>
+    <string name="class_name">Class Name</string>
+    <string name="notes">Notes</string>
+    <string name="notes_go_here">Notes go here</string>
+    <string name="choose_priority">Choose Priority Level (5 high - 1 low)</string>
+    <string name="priority1">1</string>
+    <string name="priority2">2</string>
+    <string name="priority3">3</string>
+    <string name="priority4">4</string>
+    <string name="priority5">5</string>
+
+    <!-- Pomodoro strings -->
+    <string name="title_activity_choose_timer">ChooseTimerActivity</string>
+    <string name="pomodoro">Pomodoro Timer</string>
+    <string name="choose_timer">Set Pomodoro Timer</string>
+    <string name="priority_1_low_5_high">Priority (1 low - 5 high)</string>
+    <string name="approx_how_long_to_complete">Approx. how long to complete?</string>
+    <string name="hours">Hours</string>
+    <string name="hash">#</string>
+    <string name="dash"> - </string>
+    <string name="_1h_30m">1h 30m</string>
+    <string name="work_time">Work Time</string>
+    <string name="short_break">Short Break</string>
+    <string name="long_break">Long Break</string>
+    <string name="set_timer">Set Timer</string>
+    <string name="start">Start</string>
+    <string name="pause">Pause</string>
+    <string name="stop">Stop</string>
+    <string name="seconds">Seconds</string>
+    <string name="minutes">Minutes</string>
+    <string name="open">Open</string>
+    <string name="close">Close</string>
+
+    <!-- Settings strings-->
+    <string name="account">Account</string>
+    <string name="settings">Settings</string>
+    <string name="about_us">About Us</string>
+
+    <!-- Calendar Strings-->
+    <string name="calendar">Calendar</string>
+    <string name="sort_by">Sort By</string>
+    <string name="priority">Priority</string>
+    <string name="date">Date</string>
+    <string name="app_icon">App Icon</string>
 </resources>
