@@ -146,16 +146,12 @@ public class ClassesActivity extends AppCompatActivity {
             case android.R.id.home:
                 drawerLayout.openDrawer(GravityCompat.START);
                 return true;
-            case R.id.action_add_task:
-                // User chose the "Add" item, goes to add page
-                startActivity(new Intent(ClassesActivity.this, AddActivity.class));
-                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
     public void startAddClass(View view) {
-        startActivity(new Intent(ClassesActivity.this, AddClass.class));
+        startActivity(new Intent(ClassesActivity.this, AddClassActivity.class));
     }
 }

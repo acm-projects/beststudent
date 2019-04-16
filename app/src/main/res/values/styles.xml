@@ -8,7 +8,7 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="popupTheme">@style/ToolbarPopupTheme</item>
-        <item name="android:fontFamily">@font/quicksand_medium</item>
+        <item name="android:fontFamily">@font/montserrat</item>
         <item name="buttonStyle">@style/ButtonStyle</item>
     </style>
 

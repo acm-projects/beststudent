@@ -1,43 +1,49 @@
 package com.example.myapplication;
 
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 
-import java.text.SimpleDateFormat;
-import java.time.Duration;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.Locale;
+import java.util.HashMap;
 
 /**
  * Recyclerview adapter
  */
-public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
-    private static final String TAG = "MyAdapter";
+public class ToDoTaskAdapter extends RecyclerView.Adapter<ToDoTaskAdapter.MyViewHolder> {
+    private static final String TAG = "ToDoTaskAdapter";
     private ArrayList<Task> taskList;
     private Context mContext;
 
+    // Firebase variables
+    private DatabaseReference mTasksDatabaseRef;
+    private FirebaseDatabase mFirebaseDatabase;
+    private FirebaseUser user;
+
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public MyAdapter(ArrayList<Task> myDataset, Context context) {
+    public ToDoTaskAdapter(ArrayList<Task> myDataset, Context context) {
         taskList = myDataset;
         mContext = context;
     }
 
     // Create new views (invoked by the layout manager)
     @Override
-    public MyAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ToDoTaskAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         // create a new view
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.layout_listitem, parent, false);
@@ -49,39 +55,51 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     public void onBindViewHolder(MyViewHolder holder, final int position) {
         // tag for debug
         Log.d(TAG, "onBindViewHolder: called.");
-        // - get element from your dataset at this position
-        // - replace the contents of the view with that element
-        // sets task name
-        holder.taskName.setText(taskList.get(position).getTaskName());
 
-        // displays task name when task is clicked on
-        holder.parentLayout.setOnClickListener(new View.OnClickListener(){
+        holder.check.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d(TAG, "onClick: clicked on: " + taskList.get(position));
-                Toast.makeText(mContext, taskList.get(position).getTaskName(), Toast.LENGTH_SHORT).show();
+                taskList.get(position).setStatus();
+                Toast.makeText(mContext, Boolean.toString(taskList.get(position).isComplete()), Toast.LENGTH_SHORT).show();
             }
         });
+        Log.d(TAG, "Status changed");
 
-        // sets due date and formats
-        holder.date.setText(taskList.get(position).getDueDate());
+        if (!taskList.get(position).isComplete()) {
+            // - get element from your dataset at this position
+            // - replace the contents of the view with that element
+            // sets task name
+            holder.taskName.setText(taskList.get(position).getTaskName());
 
-        // sets notes if there are any
-        String notes = taskList.get(position).getNotes();
-        if (notes.isEmpty()){
-            holder.note.setVisibility(View.GONE);
-        } else {
-            holder.note.setText(notes);
+            // displays task name when task is clicked on
+            holder.parentLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Log.d(TAG, "onClick: clicked on: " + taskList.get(position));
+                    Toast.makeText(mContext, taskList.get(position).getTaskName(), Toast.LENGTH_SHORT).show();
+                }
+            });
+
+            // sets due date and formats
+            holder.date.setText(taskList.get(position).getDueDate());
+
+            // sets notes if there are any
+            String notes = taskList.get(position).getNotes();
+            if (notes.isEmpty()) {
+                holder.note.setVisibility(View.GONE);
+            } else {
+                holder.note.setText(notes);
+            }
+
+            // sets class name
+            holder.className.setText(taskList.get(position).getClassName());
+
+            // sets priority level
+            holder.priority.setText(String.valueOf(taskList.get(position).getPriority()));
+
+            // set duration
+            holder.duration.setText(taskList.get(position).getDuration());
         }
-
-        // sets class name
-        holder.className.setText(taskList.get(position).getClassName());
-
-        // sets priority level
-        holder.priority.setText(String.valueOf(taskList.get(position).getPriority()));
-
-        // set duration
-        holder.duration.setText(taskList.get(position).getDuration());
     }
 
     // Return the size of your dataset (invoked by the layout manager)
@@ -102,6 +120,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         public TextView note;
         public TextView duration;
         public TextView priority;
+        public CheckBox check;
         public LinearLayout parentLayout;
 
         public MyViewHolder(View v) {
@@ -113,6 +132,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
             duration = itemView.findViewById(R.id.duration);
             priority = itemView.findViewById(R.id.priority_level);
             parentLayout = itemView.findViewById(R.id.parent_layout);
+            check = itemView.findViewById(R.id.check_box);
         }
     }
 }

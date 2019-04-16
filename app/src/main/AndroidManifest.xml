@@ -24,32 +24,42 @@
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>
         </activity>
-        <activity android:name=".SignUpActivity"></activity>
+        <activity android:name=".SignUpActivity">
+        </activity>
         <activity
             android:name=".ToDoActivity"
-            android:label="@string/to_do"></activity>
+            android:label="@string/to_do">
+        </activity>
         <activity
             android:name=".AddActivity"
-            android:label="@string/add_task_event"></activity>
+            android:label="@string/add_task_event">
+        </activity>
         <activity
             android:name=".PomodoroActivity"
-            android:label="@string/pomodoro"></activity>
+            android:label="@string/pomodoro">
+        </activity>
         <activity
             android:name=".ChooseTimerActivity"
-            android:label="@string/choose_timer"></activity>
+            android:label="@string/choose_timer">
+        </activity>
         <activity
             android:name=".SettingsActivity"
-            android:label="@string/settings"></activity>
+            android:label="@string/settings">
+        </activity>
         <activity
             android:name=".CalendarActivity"
-            android:label="@string/calendar"></activity>
+            android:label="@string/calendar">
+        </activity>
         <activity
             android:name=".ClassesActivity"
-            android:label="Classes"></activity>
+            android:label="Classes">
+        </activity>
         <activity
-            android:name=".AddClass"
-            android:label="Add Class"></activity>
-        <activity android:name=".LogoutActivity"></activity>
+            android:name=".AddClassActivity"
+            android:label="Add Class">
+        </activity>
+        <activity android:name=".LogoutActivity">
+        </activity>
     </application>
 
 </manifest>

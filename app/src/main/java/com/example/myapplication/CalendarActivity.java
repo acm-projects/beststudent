@@ -103,7 +103,7 @@ public class CalendarActivity extends AppCompatActivity {
                     Collections.sort(myDataset);
                 }
                 // specify an adapter
-                mAdapter = new MyAdapter(myDataset, CalendarActivity.this);
+                mAdapter = new CalTaskAdapter(myDataset, CalendarActivity.this);
                 recyclerView.setAdapter(mAdapter);
             }
 
@@ -136,7 +136,7 @@ public class CalendarActivity extends AppCompatActivity {
                         // sort data by due date
                         Collections.sort(myDataset);
                         // specify an adapter (see also next example)
-                        mAdapter = new MyAdapter(myDataset, CalendarActivity.this);
+                        mAdapter = new CalTaskAdapter(myDataset, CalendarActivity.this);
                         recyclerView.setAdapter(mAdapter);
                     }
 
@@ -205,10 +205,6 @@ public class CalendarActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 drawerLayout.openDrawer(GravityCompat.START);
-                return true;
-            case R.id.action_add_task:
-                // User chose the "Settings" item, show the app settings UI...
-                startActivity(new Intent(CalendarActivity.this, AddActivity.class));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

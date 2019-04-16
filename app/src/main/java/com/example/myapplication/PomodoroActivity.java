@@ -144,10 +144,6 @@ public class PomodoroActivity extends AppCompatActivity {
             case android.R.id.home:
                 drawerLayout.openDrawer(GravityCompat.START);
                 return true;
-            case R.id.action_add_task:
-                // User chose the "Settings" item, show the app settings UI...
-                startActivity(new Intent(PomodoroActivity.this, AddActivity.class));
-                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
