@@ -44,6 +44,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private GoogleSignInClient mGoogleSignInClient;
     private static final String TAG = "GoogleActivity";
     private static final int RC_SIGN_IN = 9001;
+    private static boolean firstSignIn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -185,10 +186,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
                             FirebaseUser user = mAuth.getCurrentUser();
-                            // create user info
-                            User newUser = new User(acct.getDisplayName(), acct.getEmail());
-                            //push user to database
-                            mUsersDatabaseRef.child(user.getUid()).setValue(newUser);
+
+                            if(firstSignIn) {
+                                // create user info
+                                User newUser = new User(acct.getDisplayName(), acct.getEmail());
+                                //push user to database
+                                mUsersDatabaseRef.child(user.getUid()).setValue(newUser);
+                                firstSignIn = false;
+                            }
+                            
                             Toast.makeText(LoginActivity.this, "Signed In!", Toast.LENGTH_SHORT).show();
                             updateUI(user);
                         }
