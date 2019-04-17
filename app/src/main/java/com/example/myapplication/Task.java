@@ -1,5 +1,10 @@
 package com.example.myapplication;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -11,8 +16,15 @@ public class Task implements Comparable<Task>{
     private String className;
     private String notes;
     private String duration;
+    private String key;
     private int priority;
     private boolean isComplete;
+
+    // Firebase variables
+    private DatabaseReference mCompletedDatabaseRef;
+    private DatabaseReference mTasksDatabaseRef;
+    private FirebaseDatabase mFirebaseDatabase;
+    private FirebaseUser user;
 
     // constants
     public static final int DEFAULT_PRIORITY = 3;
@@ -20,7 +32,7 @@ public class Task implements Comparable<Task>{
 
     // constructors
     public Task() {}
-    public Task(String name, String date, String cl, String note, String d, int priorLvl) {
+    public Task(String name, String date, String cl, String note, String d, int priorLvl, String keyIn) {
         taskName = name;
         dueDate = date;
         if (cl.isEmpty())
@@ -31,8 +43,10 @@ public class Task implements Comparable<Task>{
         duration = d;
         priority = priorLvl;
         isComplete = false;
+        key = keyIn;
     }
 
+    // setters
     public void setTaskName(String name){
         taskName = name;
     }
@@ -61,6 +75,9 @@ public class Task implements Comparable<Task>{
         isComplete = !isComplete;
     }
 
+    public void setKey(String newKey) { key = newKey; }
+
+    // getters
     public String getTaskName(){
         return taskName;
     }
@@ -89,6 +106,8 @@ public class Task implements Comparable<Task>{
         return isComplete;
     }
 
+    public String getKey() { return key; }
+
     @Override
     public int compareTo(Task obj) {
         // get the due date in Date format
@@ -102,5 +121,21 @@ public class Task implements Comparable<Task>{
             e.getMessage();
         }
         return 0;
+    }
+
+    public void deleteTask(String keyIn) {
+        // initialize database
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        mFirebaseDatabase = FirebaseDatabase.getInstance();
+        mTasksDatabaseRef = mFirebaseDatabase.getReference().child("users").child(user.getUid()).child("tasks");
+        mTasksDatabaseRef.child(keyIn).removeValue();
+    }
+
+    public void deleteCompletedTask(String keyIn) {
+        // initialize database
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        mFirebaseDatabase = FirebaseDatabase.getInstance();
+        mCompletedDatabaseRef = mFirebaseDatabase.getReference().child("users").child(user.getUid()).child("completed tasks");
+        mCompletedDatabaseRef.child(keyIn).removeValue();
     }
 }

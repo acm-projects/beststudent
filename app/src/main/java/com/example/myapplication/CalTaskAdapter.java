@@ -3,6 +3,7 @@ package com.example.myapplication;
 
 import android.content.Context;
 import android.graphics.Paint;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,6 +15,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.ArrayList;
 
 /**
@@ -24,6 +30,11 @@ public class CalTaskAdapter extends RecyclerView.Adapter<CalTaskAdapter.MyViewHo
     private ArrayList<Task> taskList;
     private Context mContext;
 
+    // Firebase variables
+    private DatabaseReference mCompletedDatabaseRef;
+    private DatabaseReference mTasksDatabaseRef;
+    private FirebaseDatabase mFirebaseDatabase;
+    private FirebaseUser user;
 
     // Provide a suitable constructor (depends on the kind of dataset)
     public CalTaskAdapter(ArrayList<Task> myDataset, Context context) {
@@ -46,27 +57,60 @@ public class CalTaskAdapter extends RecyclerView.Adapter<CalTaskAdapter.MyViewHo
         // tag for debug
         Log.d(TAG, "onBindViewHolder: called.");
 
+        // delete a task
         holder.check.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                taskList.get(position).setStatus();
-                String s = Boolean.toString(taskList.get(position).isComplete()) + " " + taskList.get(position).getTaskName();
-                Toast.makeText(mContext, s, Toast.LENGTH_SHORT).show();
-                if (taskList.get(position).isComplete()) {
-                    taskList.remove(position);
-                    notifyItemRemoved(position);
-                    notifyItemRangeChanged(0, getItemCount());
-                }
+            public void onClick(View v) {
+                final String name = taskList.get(position).getTaskName();
+                final String strDate = taskList.get(position).getDueDate();
+                final String className = taskList.get(position).getClassName();
+                final String note = taskList.get(position).getNotes();
+                final String time = taskList.get(position).getDuration();
+                final int priority = taskList.get(position).getPriority();
+                final String key = taskList.get(position).getKey();
+
+                // create task copy
+                final Task redoTask = new Task(name, strDate, className, note, time, priority, key);
+
+                redoTask.setStatus();
+
+                taskList.get(position).deleteTask(key);
+
+                // initialize database
+                user = FirebaseAuth.getInstance().getCurrentUser();
+                mFirebaseDatabase = FirebaseDatabase.getInstance();
+                mCompletedDatabaseRef = mFirebaseDatabase.getReference().child("users").child(user.getUid()).child("completed tasks");
+                mCompletedDatabaseRef.child(key).setValue(redoTask);
+
+
+                // undo deletion
+                Snackbar undoDeletion = Snackbar
+                        .make(v, name + "Deleted", Snackbar.LENGTH_SHORT)
+                        .setAction("UNDO", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                // delete from completed tasks
+                                redoTask.deleteCompletedTask(key);
+                                redoTask.setStatus();
+
+                                // add to task list
+                                mTasksDatabaseRef = mFirebaseDatabase.getReference().child("users").child(user.getUid()).child("tasks");
+                                mTasksDatabaseRef.child(key).setValue(redoTask);
+                            }
+                        });
+                undoDeletion.show();
             }
         });
 
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        // sets task name
-        holder.taskName.setText(taskList.get(position).getTaskName());
-        if (holder.check.isChecked()) {
+        if (taskList.get(position).isComplete()) {
+            holder.check.setChecked(true);
             holder.taskName.setPaintFlags(holder.taskName.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
         }
+
+        // sets task name
+        holder.taskName.setText(taskList.get(position).getTaskName());
 
         // displays task name when task is clicked on
         holder.parentLayout.setOnClickListener(new View.OnClickListener() {

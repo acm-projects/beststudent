@@ -2,7 +2,9 @@ package com.example.myapplication;
 
 
 import android.content.Context;
+import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -35,10 +37,10 @@ public class ToDoTaskAdapter extends RecyclerView.Adapter<ToDoTaskAdapter.MyView
     private Context mContext;
 
     // Firebase variables
+    private DatabaseReference mCompletedDatabaseRef;
     private DatabaseReference mTasksDatabaseRef;
     private FirebaseDatabase mFirebaseDatabase;
     private FirebaseUser user;
-
 
     // Provide a suitable constructor (depends on the kind of dataset)
     public ToDoTaskAdapter(ArrayList<Task> myDataset, Context context) {
@@ -57,23 +59,55 @@ public class ToDoTaskAdapter extends RecyclerView.Adapter<ToDoTaskAdapter.MyView
 
     // Replace the contents of a view (invoked by the layout manager)
     @Override
-    public void onBindViewHolder(MyViewHolder holder, final int position) {
+    public void onBindViewHolder(final MyViewHolder holder, final int position) {
         // tag for debug
         Log.d(TAG, "onBindViewHolder: called.");
 
+        // delete a task
         holder.check.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                taskList.get(position).setStatus();
-                String s = Boolean.toString(taskList.get(position).isComplete()) + " " + taskList.get(position).getTaskName();
-                Toast.makeText(mContext, s, Toast.LENGTH_SHORT).show();
-                if (taskList.get(position).isComplete()) {
-                    taskList.remove(position);
-                    notifyItemRemoved(position);
-                    notifyItemRangeChanged(0, getItemCount());
-                }
+            public void onClick(View v) {
+                final String name = taskList.get(position).getTaskName();
+                final String strDate = taskList.get(position).getDueDate();
+                final String className = taskList.get(position).getClassName();
+                final String note = taskList.get(position).getNotes();
+                final String time = taskList.get(position).getDuration();
+                final int priority = taskList.get(position).getPriority();
+                final String key = taskList.get(position).getKey();
+
+                // create task copy
+                final Task redoTask = new Task(name, strDate, className, note, time, priority, key);
+
+                redoTask.setStatus();
+
+                taskList.get(position).deleteTask(key);
+
+                // initialize database
+                user = FirebaseAuth.getInstance().getCurrentUser();
+                mFirebaseDatabase = FirebaseDatabase.getInstance();
+                mCompletedDatabaseRef = mFirebaseDatabase.getReference().child("users").child(user.getUid()).child("completed tasks");
+                mCompletedDatabaseRef.child(key).setValue(redoTask);
+
+
+                // undo deletion
+                Snackbar undoDeletion = Snackbar
+                        .make(v, name + "Deleted", Snackbar.LENGTH_SHORT)
+                        .setAction("UNDO", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                // delete from completed tasks
+                                redoTask.deleteCompletedTask(key);
+                                redoTask.setStatus();
+
+                                // add to task list
+                                mTasksDatabaseRef = mFirebaseDatabase.getReference().child("users").child(user.getUid()).child("tasks");
+                                mTasksDatabaseRef.child(key).setValue(redoTask);
+                            }
+                        });
+                undoDeletion.show();
             }
         });
+
         Log.d(TAG, "Status changed");
 
         if (!taskList.get(position).isComplete()) {

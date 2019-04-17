@@ -45,12 +45,14 @@ public class CalendarActivity extends AppCompatActivity {
 
     // list of tasks
     private ArrayList<Task> myDataset;
+    private ArrayList<Task> deletedData;
 
     // recyclerview to show tasks
     private RecyclerView recyclerView;
     private RecyclerView.Adapter mAdapter;
 
     // Firebase variables
+    private DatabaseReference mCompleteDatabaseRef;
     private DatabaseReference mTasksDatabaseRef;
     private FirebaseDatabase mFirebaseDatabase;
     private FirebaseUser user;
@@ -98,8 +100,34 @@ public class CalendarActivity extends AppCompatActivity {
                             myDataset.add(tempTask);
                         }
                     }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
+
+        // add completed tasks to Calendar too
+        mCompleteDatabaseRef = mFirebaseDatabase.getReference().child("users").child(user.getUid()).child("completed tasks");
+        mCompleteDatabaseRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                // prevent multiple instances of same data
+                deletedData = new ArrayList<>();
+                // get all the data in database
+                if(dataSnapshot.hasChildren()) {
+                    for(DataSnapshot data: dataSnapshot.getChildren()) {
+                        Task tempTask = data.getValue(Task.class);
+                        tempTask.setStatus();
+                        if(tempTask.getDueDate().contains(match)) {
+                            deletedData.add(tempTask);
+                        }
+                    }
                     // sort data by due date
                     Collections.sort(myDataset);
+                    Collections.sort(deletedData);
+                    myDataset.addAll(deletedData);
                 }
                 // specify an adapter
                 mAdapter = new CalTaskAdapter(myDataset, CalendarActivity.this);
@@ -108,6 +136,7 @@ public class CalendarActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
+
             }
         });
 
@@ -132,8 +161,34 @@ public class CalendarActivity extends AppCompatActivity {
                                 myDataset.add(tempTask);
                             }
                         }
-                        // sort data by due date
-                        Collections.sort(myDataset);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                    }
+                });
+
+                mCompleteDatabaseRef.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        // prevent multiple instances of same data
+                        deletedData = new ArrayList<>();
+                        // get all the data in database
+                        if(dataSnapshot.hasChildren()) {
+                            for(DataSnapshot data: dataSnapshot.getChildren()) {
+                                Task tempTask = data.getValue(Task.class);
+                                tempTask.setStatus();
+                                if(tempTask.getDueDate().contains(match)) {
+                                    deletedData.add(tempTask);
+                                }
+                            }
+
+                            // sort data by due date
+                            Collections.sort(myDataset);
+                            Collections.sort(deletedData);
+                            myDataset.addAll(deletedData);
+                        }
+
                         // specify an adapter (see also next example)
                         mAdapter = new CalTaskAdapter(myDataset, CalendarActivity.this);
                         recyclerView.setAdapter(mAdapter);
@@ -141,6 +196,7 @@ public class CalendarActivity extends AppCompatActivity {
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
+
                     }
                 });
             }

@@ -256,15 +256,16 @@ public class AddActivity extends AppCompatActivity {
         SimpleDateFormat sdformat = new SimpleDateFormat("EEE MMMM dd, yyyy h:mm a", Locale.US);
         strDate = sdformat.format(dueDate.getTime());
 
-        // creates new task with all of user's info
-        Task t = new Task(name, strDate, className, notes, time, priority);
 
         // initialize database
         user = FirebaseAuth.getInstance().getCurrentUser();
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         mTasksDatabaseRef = mFirebaseDatabase.getReference().child("users").child(user.getUid()).child("tasks");
         // push task to database
-        mTasksDatabaseRef.push().setValue(t);
+        String key = mTasksDatabaseRef.push().getKey();
+        // creates new task with all of user's info
+        Task t = new Task(name, strDate, className, notes, time, priority, key);
+        mTasksDatabaseRef.child(key).setValue(t);
 
         // empty text fields
         nameField.setText("");

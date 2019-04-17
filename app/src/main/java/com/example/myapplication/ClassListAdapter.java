@@ -17,9 +17,6 @@ public class ClassListAdapter extends RecyclerView.Adapter<ClassListAdapter.Clas
     private List<SchoolClass> itemList;
     private Context context;
 
-    // to delete class
-    private CoordinatorLayout coordinatorLayout;
-
     public ClassListAdapter(Context context, List<SchoolClass> itemList)
     {
         this.itemList = itemList;
