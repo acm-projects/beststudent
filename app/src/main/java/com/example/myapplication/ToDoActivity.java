@@ -209,7 +209,7 @@ public class ToDoActivity extends AppCompatActivity {
                 {
                     for (int j = myDataset.size() - 1; j > i; j--)
                     {
-                        if (myDataset.get(i).getPriority() > myDataset.get(j).getPriority())
+                        if (myDataset.get(i).getPriority() < myDataset.get(j).getPriority())
                         {
                             int tmp = myDataset.get(i).getPriority();
                             myDataset.get(i).setPriority(myDataset.get(j).getPriority());
