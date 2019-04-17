@@ -99,7 +99,7 @@ public class AddActivity extends AppCompatActivity {
         timeEdit.setText(time);
 
         // Set date on button to current date
-        String date = (dueDate.get(Calendar.MONTH)) + "/" + dueDate.get(Calendar.DATE) + "/"
+        String date = (dueDate.get(Calendar.MONTH) + 1) + "/" + dueDate.get(Calendar.DATE) + "/"
                 + dueDate.get(Calendar.YEAR);
         dateEdit.setText(date);
 
@@ -161,10 +161,6 @@ public class AddActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 drawerLayout.openDrawer(GravityCompat.START);
-                return true;
-            case R.id.action_add_task:
-                // User chose the "Add" item, goes to add page
-                startActivity(new Intent(AddActivity.this, AddActivity.class));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

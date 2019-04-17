@@ -14,6 +14,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -79,7 +80,7 @@ public class ToDoActivity extends AppCompatActivity {
                 // sort the data in order of due date
                 Collections.sort(myDataset);
                 // specify an adapter
-                mAdapter = new MyAdapter(myDataset, ToDoActivity.this);
+                mAdapter = new ToDoTaskAdapter(myDataset, ToDoActivity.this);
                 recyclerView.setAdapter(mAdapter);
             }
 
@@ -219,7 +220,7 @@ public class ToDoActivity extends AppCompatActivity {
                 }
 
                 // specify an adapter
-                mAdapter = new MyAdapter(myDataset, ToDoActivity.this);
+                mAdapter = new ToDoTaskAdapter(myDataset, ToDoActivity.this);
                 recyclerView.setAdapter(mAdapter);
             }
 
@@ -254,7 +255,7 @@ public class ToDoActivity extends AppCompatActivity {
                 // sort the data in order of due date
                 Collections.sort(myDataset);
                 // specify an adapter
-                mAdapter = new MyAdapter(myDataset, ToDoActivity.this);
+                mAdapter = new ToDoTaskAdapter(myDataset, ToDoActivity.this);
                 recyclerView.setAdapter(mAdapter);
             }
 

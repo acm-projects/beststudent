@@ -20,7 +20,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-public class AddClass extends AppCompatActivity {
+public class AddClassActivity extends AppCompatActivity {
 
     // user input variables
     private EditText classNameField;
@@ -82,28 +82,28 @@ public class AddClass extends AppCompatActivity {
                 menuItem.setChecked(true);
                 drawerLayout.closeDrawers();
                 if (menuItem.getItemId() == R.id.action_pomodoro){
-                    startActivity(new Intent(AddClass.this, PomodoroActivity.class));
+                    startActivity(new Intent(AddClassActivity.this, PomodoroActivity.class));
                     return true;
                 } else if (menuItem.getItemId() == R.id.action_change_pomodoro) {
-                    startActivity(new Intent(AddClass.this, ChooseTimerActivity.class));
+                    startActivity(new Intent(AddClassActivity.this, ChooseTimerActivity.class));
                     return true;
                 } else if (menuItem.getItemId() == R.id.action_add_task) {
-                    startActivity(new Intent(AddClass.this, AddActivity.class));
+                    startActivity(new Intent(AddClassActivity.this, AddActivity.class));
                     return true;
                 } else if (menuItem.getItemId() == R.id.action_to_do) {
-                    startActivity(new Intent(AddClass.this, ToDoActivity.class));
+                    startActivity(new Intent(AddClassActivity.this, ToDoActivity.class));
                     return true;
                 } else if (menuItem.getItemId() == R.id.action_settings) {
-                    startActivity(new Intent(AddClass.this, SettingsActivity.class));
+                    startActivity(new Intent(AddClassActivity.this, SettingsActivity.class));
                     return true;
                 } else if (menuItem.getItemId() == R.id.action_calendar) {
-                    startActivity(new Intent(AddClass.this, CalendarActivity.class));
+                    startActivity(new Intent(AddClassActivity.this, CalendarActivity.class));
                     return true;
                 } else if (menuItem.getItemId() == R.id.sign_out) {
-                    startActivity(new Intent(AddClass.this, LogoutActivity.class));
+                    startActivity(new Intent(AddClassActivity.this, LogoutActivity.class));
                     return true;
                 } else if (menuItem.getItemId() == R.id.action_classes) {
-                    startActivity(new Intent(AddClass.this, ClassesActivity.class));
+                    startActivity(new Intent(AddClassActivity.this, ClassesActivity.class));
                 }
                 return true;
             }
@@ -115,10 +115,6 @@ public class AddClass extends AppCompatActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 drawerLayout.openDrawer(GravityCompat.START);
-                return true;
-            case R.id.action_add_task:
-                // User chose the "Add" item, goes to add page
-                startActivity(new Intent(AddClass.this, AddActivity.class));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

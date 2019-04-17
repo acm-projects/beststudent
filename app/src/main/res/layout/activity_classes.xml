@@ -22,10 +22,8 @@
             android:id="@+id/ClassList"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="15dp"
             android:scrollbars="vertical"
-            android:visibility="visible">
-        </android.support.v7.widget.RecyclerView>
+            android:visibility="visible"></android.support.v7.widget.RecyclerView>
 
 
     </LinearLayout>

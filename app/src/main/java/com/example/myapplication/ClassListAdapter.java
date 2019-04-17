@@ -33,10 +33,25 @@ public class ClassListAdapter extends RecyclerView.Adapter<ClassListAdapter.Clas
     {
         holder.className.setText(itemList.get(position).getClassName());
         holder.classTime.setText(itemList.get(position).getClassTime());
-        holder.room.setText(itemList.get(position).getRoom());
-        holder.professor.setText(itemList.get(position).getProfessor());
-        holder.office.setText(itemList.get(position).getOffice());
-        holder.officeHours.setText(itemList.get(position).getOfficeHours());
+        if (itemList.get(position).getRoom().isEmpty())
+            holder.room.setVisibility(View.GONE);
+        else
+            holder.room.setText(itemList.get(position).getRoom());
+
+        if (itemList.get(position).getProfessor().isEmpty())
+            holder.professor.setVisibility(View.GONE);
+        else
+            holder.professor.setText(itemList.get(position).getProfessor());
+
+        if (itemList.get(position).getOffice().isEmpty())
+            holder.office.setVisibility(View.GONE);
+        else
+            holder.office.setText(itemList.get(position).getOffice());
+
+        if (itemList.get(position).getOfficeHours().isEmpty())
+            holder.officeHours.setVisibility(View.GONE);
+        else
+            holder.officeHours.setText(itemList.get(position).getOfficeHours());
     }
 
     @Override

@@ -9,7 +9,7 @@
     android:background="@color/colorAccent">
 
     <CheckBox
-        android:id="@+id/checkBox"
+        android:id="@+id/check_box"
         android:layout_width="40dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="5dp"

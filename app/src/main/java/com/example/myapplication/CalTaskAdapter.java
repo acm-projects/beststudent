@@ -1,43 +1,39 @@
 package com.example.myapplication;
 
 
-import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Paint;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 
-import java.text.SimpleDateFormat;
-import java.time.Duration;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.Locale;
 
 /**
  * Recyclerview adapter
  */
-public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
-    private static final String TAG = "MyAdapter";
+public class CalTaskAdapter extends RecyclerView.Adapter<CalTaskAdapter.MyViewHolder> {
+    private static final String TAG = "ToDoTaskAdapter";
     private ArrayList<Task> taskList;
     private Context mContext;
 
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public MyAdapter(ArrayList<Task> myDataset, Context context) {
+    public CalTaskAdapter(ArrayList<Task> myDataset, Context context) {
         taskList = myDataset;
         mContext = context;
     }
 
     // Create new views (invoked by the layout manager)
     @Override
-    public MyAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public CalTaskAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         // create a new view
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.layout_listitem, parent, false);
@@ -49,13 +45,31 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     public void onBindViewHolder(MyViewHolder holder, final int position) {
         // tag for debug
         Log.d(TAG, "onBindViewHolder: called.");
+
+        holder.check.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                taskList.get(position).setStatus();
+                String s = Boolean.toString(taskList.get(position).isComplete()) + " " + taskList.get(position).getTaskName();
+                Toast.makeText(mContext, s, Toast.LENGTH_SHORT).show();
+                if (taskList.get(position).isComplete()) {
+                    taskList.remove(position);
+                    notifyItemRemoved(position);
+                    notifyItemRangeChanged(0, getItemCount());
+                }
+            }
+        });
+
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
         // sets task name
         holder.taskName.setText(taskList.get(position).getTaskName());
+        if (holder.check.isChecked()) {
+            holder.taskName.setPaintFlags(holder.taskName.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+        }
 
         // displays task name when task is clicked on
-        holder.parentLayout.setOnClickListener(new View.OnClickListener(){
+        holder.parentLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Log.d(TAG, "onClick: clicked on: " + taskList.get(position));
@@ -68,7 +82,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
         // sets notes if there are any
         String notes = taskList.get(position).getNotes();
-        if (notes.isEmpty()){
+        if (notes.isEmpty()) {
             holder.note.setVisibility(View.GONE);
         } else {
             holder.note.setText(notes);
@@ -82,6 +96,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
         // set duration
         holder.duration.setText(taskList.get(position).getDuration());
+
     }
 
     // Return the size of your dataset (invoked by the layout manager)
@@ -102,6 +117,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         public TextView note;
         public TextView duration;
         public TextView priority;
+        public CheckBox check;
         public LinearLayout parentLayout;
 
         public MyViewHolder(View v) {
@@ -113,6 +129,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
             duration = itemView.findViewById(R.id.duration);
             priority = itemView.findViewById(R.id.priority_level);
             parentLayout = itemView.findViewById(R.id.parent_layout);
+            check = itemView.findViewById(R.id.check_box);
         }
     }
 }

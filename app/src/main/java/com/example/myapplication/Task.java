@@ -57,8 +57,8 @@ public class Task implements Comparable<Task>{
         priority = p;
     }
 
-    public void setStatus(boolean b){
-        isComplete = b;
+    public void setStatus(){
+        isComplete = !isComplete;
     }
 
     public String getTaskName(){
