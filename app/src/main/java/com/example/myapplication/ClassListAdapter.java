@@ -1,6 +1,9 @@
 package com.example.myapplication;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +16,9 @@ public class ClassListAdapter extends RecyclerView.Adapter<ClassListAdapter.Clas
 
     private List<SchoolClass> itemList;
     private Context context;
+
+    // to delete class
+    private CoordinatorLayout coordinatorLayout;
 
     public ClassListAdapter(Context context, List<SchoolClass> itemList)
     {
@@ -29,29 +35,32 @@ public class ClassListAdapter extends RecyclerView.Adapter<ClassListAdapter.Clas
     }
 
     @Override
-    public void onBindViewHolder(ClassViewHolder holder, int position)
+    public void onBindViewHolder(ClassViewHolder holder, final int position)
     {
         holder.className.setText(itemList.get(position).getClassName());
         holder.classTime.setText(itemList.get(position).getClassTime());
-        if (itemList.get(position).getRoom().isEmpty())
-            holder.room.setVisibility(View.GONE);
-        else
-            holder.room.setText(itemList.get(position).getRoom());
+        holder.room.setText(itemList.get(position).getRoom());
+        holder.professor.setText(itemList.get(position).getProfessor());
+        holder.office.setText(itemList.get(position).getOffice());
+        holder.officeHours.setText(itemList.get(position).getOfficeHours());
 
-        if (itemList.get(position).getProfessor().isEmpty())
-            holder.professor.setVisibility(View.GONE);
-        else
-            holder.professor.setText(itemList.get(position).getProfessor());
-
-        if (itemList.get(position).getOffice().isEmpty())
-            holder.office.setVisibility(View.GONE);
-        else
-            holder.office.setText(itemList.get(position).getOffice());
-
-        if (itemList.get(position).getOfficeHours().isEmpty())
-            holder.officeHours.setVisibility(View.GONE);
-        else
-            holder.officeHours.setText(itemList.get(position).getOfficeHours());
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                final String className = itemList.get(position).getClassName();
+                Snackbar deleteClass = Snackbar
+                        .make(v, "Delete " + className + "?", Snackbar.LENGTH_LONG)
+                        .setAction("DELETE", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                itemList.get(position).deleteClass(className);
+                            }
+                        });
+                deleteClass.setActionTextColor(Color.RED);
+                deleteClass.show();
+                return true;
+            }
+        });
     }
 
     @Override

@@ -51,7 +51,6 @@ public class CalendarActivity extends AppCompatActivity {
     private RecyclerView.Adapter mAdapter;
 
     // Firebase variables
-    // Firebase variables
     private DatabaseReference mTasksDatabaseRef;
     private FirebaseDatabase mFirebaseDatabase;
     private FirebaseUser user;

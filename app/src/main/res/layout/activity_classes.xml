@@ -8,7 +8,7 @@
     android:layout_height="match_parent"
     android:layout_gravity="left"
     android:fitsSystemWindows="true"
-    tools:openDrawer="start">
+    tools:openDrawer="">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -23,7 +23,13 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scrollbars="vertical"
-            android:visibility="visible"></android.support.v7.widget.RecyclerView>
+            android:visibility="visible"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp">
+
+        </android.support.v7.widget.RecyclerView>
 
 
     </LinearLayout>

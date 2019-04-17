@@ -1,5 +1,10 @@
 package com.example.myapplication;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 public class SchoolClass {
     // instance variables
     private String className;
@@ -8,6 +13,11 @@ public class SchoolClass {
     private String professor;
     private String office;
     private String officeHours;
+
+    // Firebase variables
+    private DatabaseReference mClassesDatabaseRef;
+    private FirebaseDatabase mFirebaseDatabase;
+    private FirebaseUser user;
 
     // constructors
     public SchoolClass() {}
@@ -68,5 +78,14 @@ public class SchoolClass {
 
     public void setOfficeHours(String officeHours) {
         this.officeHours = officeHours;
+    }
+
+    // delete a class
+    public void deleteClass(String className) {
+        // initialize database
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        mFirebaseDatabase = FirebaseDatabase.getInstance();
+        mClassesDatabaseRef = mFirebaseDatabase.getReference().child("users").child(user.getUid()).child("classes");
+        mClassesDatabaseRef.child(className).removeValue();
     }
 }

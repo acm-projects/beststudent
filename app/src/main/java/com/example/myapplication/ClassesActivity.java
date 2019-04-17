@@ -2,6 +2,7 @@ package com.example.myapplication;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -44,9 +45,6 @@ public class ClassesActivity extends AppCompatActivity {
     private ActionBarDrawerToggle abdt;
     private Toolbar myToolbar;
 
-    // add class button
-    FloatingActionButton plus;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,6 +55,7 @@ public class ClassesActivity extends AppCompatActivity {
 
         // get recyclerview
         recyclerView = findViewById(R.id.ClassList);
+
 
         // initialize database
         user = FirebaseAuth.getInstance().getCurrentUser();
