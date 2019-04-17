@@ -46,11 +46,25 @@ public class CalTaskAdapter extends RecyclerView.Adapter<CalTaskAdapter.MyViewHo
         // tag for debug
         Log.d(TAG, "onBindViewHolder: called.");
 
+        holder.check.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                taskList.get(position).setStatus();
+                String s = Boolean.toString(taskList.get(position).isComplete()) + " " + taskList.get(position).getTaskName();
+                Toast.makeText(mContext, s, Toast.LENGTH_SHORT).show();
+                if (taskList.get(position).isComplete()) {
+                    taskList.remove(position);
+                    notifyItemRemoved(position);
+                    notifyItemRangeChanged(0, getItemCount());
+                }
+            }
+        });
+
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
         // sets task name
         holder.taskName.setText(taskList.get(position).getTaskName());
-        if (!holder.check.isChecked()) {
+        if (holder.check.isChecked()) {
             holder.taskName.setPaintFlags(holder.taskName.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
         }
 
