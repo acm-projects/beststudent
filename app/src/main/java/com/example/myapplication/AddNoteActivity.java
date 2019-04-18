@@ -39,7 +39,7 @@ public class AddNoteActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_class);
+        setContentView(R.layout.activity_add_note);
 
         // sets tool bar
         setToolbar();
@@ -118,7 +118,7 @@ public class AddNoteActivity extends AppCompatActivity {
     }
 
     // when button to add class is pushed
-    public void addClass(View view) {
+    public void addNote(View view) {
         // check if user input is valid
         if(!validateForm()) {
             return;
@@ -152,13 +152,13 @@ public class AddNoteActivity extends AppCompatActivity {
     private boolean validateForm() {
         boolean valid = true;
 
-        String className = noteTitleField.getText().toString();
-        if(TextUtils.isEmpty(className)) {
-            noteTitleField.setError("Notes Required");
+        String notes = notesField.getText().toString();
+        if(TextUtils.isEmpty(notes)) {
+            notesField.setError("Notes Required");
             valid = false;
         }
         else {
-            noteTitleField.setError(null);
+            notesField.setError(null);
         }
         return valid;
     }

@@ -241,7 +241,6 @@
                     android:nestedScrollingEnabled="true"
                     android:inputType="textMultiLine"
                     android:isScrollContainer="true"
-                    android:maxLines="8"
                     android:minLines="4"
                     android:scrollbars="vertical"
                     android:textColorLink="@color/colorPrimary"

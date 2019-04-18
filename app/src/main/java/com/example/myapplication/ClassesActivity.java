@@ -39,6 +39,7 @@ public class ClassesActivity extends AppCompatActivity {
     // recyclerview to show classes
     private RecyclerView recyclerView;
     private RecyclerView.Adapter mAdapter;
+    private FloatingActionButton fab;
 
     // drawer layout for navigation
     private DrawerLayout drawerLayout;
@@ -88,6 +89,23 @@ public class ClassesActivity extends AppCompatActivity {
 
         // use a linear layout manager
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        // hide add button when scrolling down
+        fab = findViewById(R.id.plus_class);
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener(){
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy){
+                if (dy<0 && !fab.isShown())
+                    fab.show();
+                else if(dy>0 && fab.isShown())
+                    fab.hide();
+            }
+
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+        });
     }
 
     /**

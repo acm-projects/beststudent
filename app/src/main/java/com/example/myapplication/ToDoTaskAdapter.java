@@ -84,7 +84,7 @@ public class ToDoTaskAdapter extends RecyclerView.Adapter<ToDoTaskAdapter.MyView
 
                 // undo deletion
                 Snackbar undoDeletion = Snackbar
-                        .make(v, name + "Deleted", Snackbar.LENGTH_SHORT)
+                        .make(v, name + " Deleted", Snackbar.LENGTH_SHORT)
                         .setAction("UNDO", new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
