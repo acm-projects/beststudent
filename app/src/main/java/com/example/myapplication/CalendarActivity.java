@@ -3,6 +3,7 @@ package com.example.myapplication;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -12,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.CalendarView;
 import android.widget.TextView;
@@ -25,6 +27,7 @@ import java.util.Locale;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -46,6 +49,7 @@ public class CalendarActivity extends AppCompatActivity {
     // list of tasks
     private ArrayList<Task> myDataset;
     private ArrayList<Task> deletedData;
+    private ArrayList<Task> fullSet = new ArrayList<>();
 
     // recyclerview to show tasks
     private RecyclerView recyclerView;
@@ -54,6 +58,7 @@ public class CalendarActivity extends AppCompatActivity {
     // Firebase variables
     private DatabaseReference mCompleteDatabaseRef;
     private DatabaseReference mTasksDatabaseRef;
+    private DatabaseReference mAllTasksDatabaseRef;
     private FirebaseDatabase mFirebaseDatabase;
     private FirebaseUser user;
 
@@ -85,52 +90,53 @@ public class CalendarActivity extends AppCompatActivity {
         // initialize database
         user = FirebaseAuth.getInstance().getCurrentUser();
         mFirebaseDatabase = FirebaseDatabase.getInstance();
-        mTasksDatabaseRef = mFirebaseDatabase.getReference().child("users").child(user.getUid()).child("tasks");
-        // get today's tasks
-        mTasksDatabaseRef.addValueEventListener(new ValueEventListener() {
+        mAllTasksDatabaseRef = mFirebaseDatabase.getReference().child("users").child(user.getUid()).child("all tasks");
+
+        // add uncompleted tasks to Calendar
+        mTasksDatabaseRef = mFirebaseDatabase.getReference().child("users").child(user.getUid()).child("all tasks").child("tasks");
+        // add completed tasks to Calendar too
+        mCompleteDatabaseRef = mFirebaseDatabase.getReference().child("users").child(user.getUid()).child("all tasks").child("completed tasks");
+
+        mAllTasksDatabaseRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                DataSnapshot tasksSnap = dataSnapshot.child("tasks");
+                DataSnapshot doneSnap = dataSnapshot.child("completed tasks");
+                fullSet = new ArrayList<>();
+
                 // prevent multiple instances of same data
                 myDataset = new ArrayList<>();
                 // get all the data in database
-                if(dataSnapshot.hasChildren()) {
-                    for(DataSnapshot data: dataSnapshot.getChildren()) {
+                if(tasksSnap.hasChildren()) {
+                    for (DataSnapshot data : tasksSnap.getChildren()) {
                         Task tempTask = data.getValue(Task.class);
-                        if(tempTask.getDueDate().contains(match)) {
+                        if (tempTask.getDueDate().contains(match)) {
                             myDataset.add(tempTask);
                         }
                     }
+                    // sort data by due date
+                    Collections.sort(myDataset);
+                    fullSet.addAll(myDataset);
                 }
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-            }
-        });
 
-        // add completed tasks to Calendar too
-        mCompleteDatabaseRef = mFirebaseDatabase.getReference().child("users").child(user.getUid()).child("completed tasks");
-        mCompleteDatabaseRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 // prevent multiple instances of same data
                 deletedData = new ArrayList<>();
                 // get all the data in database
-                if(dataSnapshot.hasChildren()) {
-                    for(DataSnapshot data: dataSnapshot.getChildren()) {
+                if(doneSnap.hasChildren()) {
+                    for(DataSnapshot data: doneSnap.getChildren()) {
                         Task tempTask = data.getValue(Task.class);
-                        tempTask.setStatus();
                         if(tempTask.getDueDate().contains(match)) {
                             deletedData.add(tempTask);
                         }
                     }
                     // sort data by due date
-                    Collections.sort(myDataset);
                     Collections.sort(deletedData);
-                    myDataset.addAll(deletedData);
+                    fullSet.addAll(deletedData);
                 }
-                // specify an adapter
-                mAdapter = new CalTaskAdapter(myDataset, CalendarActivity.this);
+
+                // specify an adapter (see also next example)
+                mAdapter = new CalTaskAdapter(fullSet, CalendarActivity.this);
                 recyclerView.setAdapter(mAdapter);
             }
 
@@ -148,49 +154,46 @@ public class CalendarActivity extends AppCompatActivity {
                 match = form.format((calendar.getTime()));
                 date.setText(match);
 
-                // get tasks of days when date is changed
-                mTasksDatabaseRef.addValueEventListener(new ValueEventListener() {
+                mAllTasksDatabaseRef.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        DataSnapshot tasksSnap = dataSnapshot.child("tasks");
+                        DataSnapshot doneSnap = dataSnapshot.child("completed tasks");
+                        fullSet = new ArrayList<>();
+
                         // prevent multiple instances of same data
                         myDataset = new ArrayList<>();
                         // get all the data in database
-                        for(DataSnapshot data: dataSnapshot.getChildren()) {
-                            Task tempTask = data.getValue(Task.class);
-                            if(tempTask.getDueDate().contains(match)) {
-                                myDataset.add(tempTask);
+                        if(tasksSnap.hasChildren()) {
+                            for (DataSnapshot data : tasksSnap.getChildren()) {
+                                Task tempTask = data.getValue(Task.class);
+                                if (tempTask.getDueDate().contains(match)) {
+                                    myDataset.add(tempTask);
+                                }
                             }
+                            // sort data by due date
+                            Collections.sort(myDataset);
+                            fullSet.addAll(myDataset);
                         }
-                    }
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-                    }
-                });
 
-                mCompleteDatabaseRef.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         // prevent multiple instances of same data
                         deletedData = new ArrayList<>();
                         // get all the data in database
-                        if(dataSnapshot.hasChildren()) {
-                            for(DataSnapshot data: dataSnapshot.getChildren()) {
+                        if(doneSnap.hasChildren()) {
+                            for(DataSnapshot data: doneSnap.getChildren()) {
                                 Task tempTask = data.getValue(Task.class);
-                                tempTask.setStatus();
                                 if(tempTask.getDueDate().contains(match)) {
                                     deletedData.add(tempTask);
                                 }
                             }
-
                             // sort data by due date
-                            Collections.sort(myDataset);
                             Collections.sort(deletedData);
-                            myDataset.addAll(deletedData);
+                            fullSet.addAll(deletedData);
                         }
 
                         // specify an adapter (see also next example)
-                        mAdapter = new CalTaskAdapter(myDataset, CalendarActivity.this);
+                        mAdapter = new CalTaskAdapter(fullSet, CalendarActivity.this);
                         recyclerView.setAdapter(mAdapter);
                     }
 

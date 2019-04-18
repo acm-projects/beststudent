@@ -18,7 +18,7 @@ public class Task implements Comparable<Task>{
     private String duration;
     private String key;
     private int priority;
-    private boolean isComplete;
+    private boolean complete;
 
     // Firebase variables
     private DatabaseReference mCompletedDatabaseRef;
@@ -32,7 +32,7 @@ public class Task implements Comparable<Task>{
 
     // constructors
     public Task() {}
-    public Task(String name, String date, String cl, String note, String d, int priorLvl, String keyIn) {
+    public Task(String name, String date, String cl, String note, String d, int priorLvl, String keyIn, boolean completed) {
         taskName = name;
         dueDate = date;
         if (cl.isEmpty())
@@ -42,7 +42,7 @@ public class Task implements Comparable<Task>{
         notes = note;
         duration = d;
         priority = priorLvl;
-        isComplete = false;
+        complete = completed;
         key = keyIn;
     }
 
@@ -72,7 +72,7 @@ public class Task implements Comparable<Task>{
     }
 
     public void setStatus(){
-        isComplete = !isComplete;
+        complete = !complete;
     }
 
     public void setKey(String newKey) { key = newKey; }
@@ -102,9 +102,7 @@ public class Task implements Comparable<Task>{
         return priority;
     }
 
-    public boolean isComplete() {
-        return isComplete;
-    }
+    public boolean getComplete() { return complete; }
 
     public String getKey() { return key; }
 
@@ -127,7 +125,7 @@ public class Task implements Comparable<Task>{
         // initialize database
         user = FirebaseAuth.getInstance().getCurrentUser();
         mFirebaseDatabase = FirebaseDatabase.getInstance();
-        mTasksDatabaseRef = mFirebaseDatabase.getReference().child("users").child(user.getUid()).child("tasks");
+        mTasksDatabaseRef = mFirebaseDatabase.getReference().child("users").child(user.getUid()).child("all tasks").child("tasks");
         mTasksDatabaseRef.child(keyIn).removeValue();
     }
 
@@ -135,7 +133,7 @@ public class Task implements Comparable<Task>{
         // initialize database
         user = FirebaseAuth.getInstance().getCurrentUser();
         mFirebaseDatabase = FirebaseDatabase.getInstance();
-        mCompletedDatabaseRef = mFirebaseDatabase.getReference().child("users").child(user.getUid()).child("completed tasks");
+        mCompletedDatabaseRef = mFirebaseDatabase.getReference().child("users").child(user.getUid()).child("all tasks").child("completed tasks");
         mCompletedDatabaseRef.child(keyIn).removeValue();
     }
 }
