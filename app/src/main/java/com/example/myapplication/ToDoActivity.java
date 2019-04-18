@@ -66,7 +66,7 @@ public class ToDoActivity extends AppCompatActivity {
         // initialize database
         user = FirebaseAuth.getInstance().getCurrentUser();
         mFirebaseDatabase = FirebaseDatabase.getInstance();
-        mTasksDatabaseRef = mFirebaseDatabase.getReference().child("users").child(user.getUid()).child("tasks");
+        mTasksDatabaseRef = mFirebaseDatabase.getReference().child("users").child(user.getUid()).child("all tasks").child("tasks");
         mTasksDatabaseRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -193,7 +193,7 @@ public class ToDoActivity extends AppCompatActivity {
         // initialize database
         user = FirebaseAuth.getInstance().getCurrentUser();
         mFirebaseDatabase = FirebaseDatabase.getInstance();
-        mTasksDatabaseRef = mFirebaseDatabase.getReference().child("users").child(user.getUid()).child("tasks");
+        mTasksDatabaseRef = mFirebaseDatabase.getReference().child("users").child(user.getUid()).child("all tasks").child("tasks");
         mTasksDatabaseRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -241,7 +241,7 @@ public class ToDoActivity extends AppCompatActivity {
         // initialize database
         user = FirebaseAuth.getInstance().getCurrentUser();
         mFirebaseDatabase = FirebaseDatabase.getInstance();
-        mTasksDatabaseRef = mFirebaseDatabase.getReference().child("users").child(user.getUid()).child("tasks");
+        mTasksDatabaseRef = mFirebaseDatabase.getReference().child("users").child(user.getUid()).child("all tasks").child("tasks");
         mTasksDatabaseRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

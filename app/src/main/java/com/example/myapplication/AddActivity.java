@@ -260,11 +260,11 @@ public class AddActivity extends AppCompatActivity {
         // initialize database
         user = FirebaseAuth.getInstance().getCurrentUser();
         mFirebaseDatabase = FirebaseDatabase.getInstance();
-        mTasksDatabaseRef = mFirebaseDatabase.getReference().child("users").child(user.getUid()).child("tasks");
+        mTasksDatabaseRef = mFirebaseDatabase.getReference().child("users").child(user.getUid()).child("all tasks").child("tasks");
         // push task to database
         String key = mTasksDatabaseRef.push().getKey();
         // creates new task with all of user's info
-        Task t = new Task(name, strDate, className, notes, time, priority, key);
+        Task t = new Task(name, strDate, className, notes, time, priority, key, false);
         mTasksDatabaseRef.child(key).setValue(t);
 
         // empty text fields

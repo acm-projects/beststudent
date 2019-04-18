@@ -53,61 +53,71 @@ public class CalTaskAdapter extends RecyclerView.Adapter<CalTaskAdapter.MyViewHo
 
     // Replace the contents of a view (invoked by the layout manager)
     @Override
-    public void onBindViewHolder(MyViewHolder holder, final int position) {
+    public void onBindViewHolder(final MyViewHolder holder, final int position) {
         // tag for debug
         Log.d(TAG, "onBindViewHolder: called.");
+
+        // - get element from your dataset at this position
+        // - replace the contents of the view with that element
+        if (taskList.get(position).getComplete()) {
+            holder.check.setChecked(true);
+            holder.taskName.setPaintFlags(holder.taskName.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+        }
+
+        final String name = taskList.get(position).getTaskName();
+        final String strDate = taskList.get(position).getDueDate();
+        final String className = taskList.get(position).getClassName();
+        final String note = taskList.get(position).getNotes();
+        final String time = taskList.get(position).getDuration();
+        final int priority = taskList.get(position).getPriority();
+        final String key = taskList.get(position).getKey();
+        final boolean completed = taskList.get(position).getComplete();
+
+        // create task copy
+        final Task redoTask = new Task(name, strDate, className, note, time, priority, key, completed);
 
         // delete a task
         holder.check.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final String name = taskList.get(position).getTaskName();
-                final String strDate = taskList.get(position).getDueDate();
-                final String className = taskList.get(position).getClassName();
-                final String note = taskList.get(position).getNotes();
-                final String time = taskList.get(position).getDuration();
-                final int priority = taskList.get(position).getPriority();
-                final String key = taskList.get(position).getKey();
-
-                // create task copy
-                final Task redoTask = new Task(name, strDate, className, note, time, priority, key);
-
-                redoTask.setStatus();
-
-                taskList.get(position).deleteTask(key);
 
                 // initialize database
                 user = FirebaseAuth.getInstance().getCurrentUser();
                 mFirebaseDatabase = FirebaseDatabase.getInstance();
-                mCompletedDatabaseRef = mFirebaseDatabase.getReference().child("users").child(user.getUid()).child("completed tasks");
-                mCompletedDatabaseRef.child(key).setValue(redoTask);
+                mCompletedDatabaseRef = mFirebaseDatabase.getReference().child("users").child(user.getUid()).child("all tasks").child("completed tasks");
+                mTasksDatabaseRef = mFirebaseDatabase.getReference().child("users").child(user.getUid()).child("all tasks").child("tasks");
 
+                // make a task complete
+                if(!redoTask.getComplete()) {
 
-                // undo deletion
-                Snackbar undoDeletion = Snackbar
-                        .make(v, name + "Deleted", Snackbar.LENGTH_SHORT)
-                        .setAction("UNDO", new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                // delete from completed tasks
-                                redoTask.deleteCompletedTask(key);
-                                redoTask.setStatus();
+                    // set a task to complete
+                    redoTask.setStatus();
+                    holder.check.setChecked(true);
+                    holder.taskName.setPaintFlags(holder.taskName.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
 
-                                // add to task list
-                                mTasksDatabaseRef = mFirebaseDatabase.getReference().child("users").child(user.getUid()).child("tasks");
-                                mTasksDatabaseRef.child(key).setValue(redoTask);
-                            }
-                        });
-                undoDeletion.show();
+                    // delete task from task list
+                    redoTask.deleteTask(key);
+
+                    // add completed task to completed database
+                    mCompletedDatabaseRef.child(key).setValue(redoTask);
+
+                }
+                // undo completion of task
+                else {
+                    // set a task to not completed
+                    redoTask.setStatus();
+                    holder.check.setChecked(false);
+                    holder.taskName.setPaintFlags(0);
+
+                    // delete task from completed database
+                    redoTask.deleteCompletedTask(key);
+
+                    // add incomplete task to task list
+                    mTasksDatabaseRef.child(key).setValue(redoTask);
+
+                }
             }
         });
-
-        // - get element from your dataset at this position
-        // - replace the contents of the view with that element
-        if (taskList.get(position).isComplete()) {
-            holder.check.setChecked(true);
-            holder.taskName.setPaintFlags(holder.taskName.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-        }
 
         // sets task name
         holder.taskName.setText(taskList.get(position).getTaskName());

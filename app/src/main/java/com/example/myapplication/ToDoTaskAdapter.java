@@ -74,9 +74,10 @@ public class ToDoTaskAdapter extends RecyclerView.Adapter<ToDoTaskAdapter.MyView
                 final String time = taskList.get(position).getDuration();
                 final int priority = taskList.get(position).getPriority();
                 final String key = taskList.get(position).getKey();
+                final boolean completed = taskList.get(position).getComplete();
 
                 // create task copy
-                final Task redoTask = new Task(name, strDate, className, note, time, priority, key);
+                final Task redoTask = new Task(name, strDate, className, note, time, priority, key, completed);
 
                 redoTask.setStatus();
 
@@ -85,7 +86,7 @@ public class ToDoTaskAdapter extends RecyclerView.Adapter<ToDoTaskAdapter.MyView
                 // initialize database
                 user = FirebaseAuth.getInstance().getCurrentUser();
                 mFirebaseDatabase = FirebaseDatabase.getInstance();
-                mCompletedDatabaseRef = mFirebaseDatabase.getReference().child("users").child(user.getUid()).child("completed tasks");
+                mCompletedDatabaseRef = mFirebaseDatabase.getReference().child("users").child(user.getUid()).child("all tasks").child("completed tasks");
                 mCompletedDatabaseRef.child(key).setValue(redoTask);
 
 
@@ -100,7 +101,7 @@ public class ToDoTaskAdapter extends RecyclerView.Adapter<ToDoTaskAdapter.MyView
                                 redoTask.setStatus();
 
                                 // add to task list
-                                mTasksDatabaseRef = mFirebaseDatabase.getReference().child("users").child(user.getUid()).child("tasks");
+                                mTasksDatabaseRef = mFirebaseDatabase.getReference().child("users").child(user.getUid()).child("all tasks").child("tasks");
                                 mTasksDatabaseRef.child(key).setValue(redoTask);
                             }
                         });
@@ -110,7 +111,7 @@ public class ToDoTaskAdapter extends RecyclerView.Adapter<ToDoTaskAdapter.MyView
 
         Log.d(TAG, "Status changed");
 
-        if (!taskList.get(position).isComplete()) {
+        if (!taskList.get(position).getComplete()) {
             // - get element from your dataset at this position
             // - replace the contents of the view with that element
             // sets task name
