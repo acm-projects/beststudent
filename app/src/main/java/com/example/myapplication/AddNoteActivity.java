@@ -27,11 +27,11 @@ public class AddNoteActivity extends AppCompatActivity {
     private EditText notesField;
 
     // Firebase variables
-    private DatabaseReference mClassesDatabaseRef;
+    private DatabaseReference mNotesDatabaseRef;
     private FirebaseDatabase mFirebaseDatabase;
     private FirebaseUser user;
 
-    // drawer layout for navicgation
+    // drawer layout for navigation
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle abdt;
     private Toolbar myToolbar;
@@ -50,7 +50,7 @@ public class AddNoteActivity extends AppCompatActivity {
         // initialize database
         user = FirebaseAuth.getInstance().getCurrentUser();
         mFirebaseDatabase = FirebaseDatabase.getInstance();
-        mClassesDatabaseRef = mFirebaseDatabase.getReference().child("users").child(user.getUid()).child("classes");
+        mNotesDatabaseRef = mFirebaseDatabase.getReference().child("users").child(user.getUid()).child("notes");
     }
 
     /**
@@ -128,11 +128,14 @@ public class AddNoteActivity extends AppCompatActivity {
         String noteTitle = noteTitleField.getText().toString();
         String notes = notesField.getText().toString();
 
-        // create a class
-        Note newClass = new Note(noteTitle, notes);
-//
-//        // push new class to database
-//        mClassesDatabaseRef.child(noteTitle).setValue(newClass);
+        // get notes key
+        String key = mNotesDatabaseRef.push().getKey();
+
+        // create a note
+        Note newNote = new Note(noteTitle, notes, key);
+
+        // push new class to database
+        mNotesDatabaseRef.child(key).setValue(newNote);
 
         // empty text fields
         noteTitleField.setText("");

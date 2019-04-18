@@ -8,17 +8,22 @@ import com.google.firebase.database.FirebaseDatabase;
 public class Note {
     private String title;
     private String notes;
+    private String noteKey;
 
     // Firebase variables
-    private DatabaseReference mClassesDatabaseRef;
+    private DatabaseReference mNotesDatabaseRef;
     private FirebaseDatabase mFirebaseDatabase;
     private FirebaseUser user;
 
-    public Note (String t, String n) {
+    public Note() {}
+
+    public Note (String t, String n, String keyIn) {
         title = t;
         notes = n;
+        noteKey = keyIn;
     }
 
+    // getters
     public String getTitle() {
         return title;
     }
@@ -27,6 +32,9 @@ public class Note {
         return  notes;
     }
 
+    public String getNoteKey() { return noteKey; }
+
+    // setters
     public void setTitle(String t) {
         title = t;
     }
@@ -35,12 +43,14 @@ public class Note {
         notes = n;
     }
 
+    public void setNoteKey(String keyIn) { noteKey = keyIn; }
+
     // delete a class
-    public void deleteClass(String className) {
-//        // initialize database
-//        user = FirebaseAuth.getInstance().getCurrentUser();
-//        mFirebaseDatabase = FirebaseDatabase.getInstance();
-//        mClassesDatabaseRef = mFirebaseDatabase.getReference().child("users").child(user.getUid()).child("classes");
-//        mClassesDatabaseRef.child(className).removeValue();
+    public void deleteNote(String noteKey) {
+        // initialize database
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        mFirebaseDatabase = FirebaseDatabase.getInstance();
+        mNotesDatabaseRef = mFirebaseDatabase.getReference().child("users").child(user.getUid()).child("notes");
+        mNotesDatabaseRef.child(noteKey).removeValue();
     }
 }

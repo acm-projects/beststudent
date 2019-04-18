@@ -47,7 +47,7 @@ public class CalTaskAdapter extends RecyclerView.Adapter<CalTaskAdapter.MyViewHo
     public CalTaskAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         // create a new view
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.layout_listitem, parent, false);
+                .inflate(R.layout.layout_todoitem, parent, false);
         return new MyViewHolder(view);
     }
 

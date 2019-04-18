@@ -22,8 +22,8 @@
             android:layout_alignParentBottom="true"
             android:background="@color/colorPrimary"
             android:gravity="center_horizontal"
-            android:paddingBottom="8dp"
-            android:paddingTop="8dp"
+            android:paddingBottom="6dp"
+            android:paddingTop="6dp"
             android:text="Note Title"
             android:textColor="@color/colorPrimaryDark"
             android:textSize="16sp" />
@@ -32,7 +32,8 @@
             android:id="@+id/text_note_body"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="5dp"
+            android:padding="10dp"
+            android:textSize="14sp"
             android:text="Notes..."
             android:textColor="@android:color/black" />
 

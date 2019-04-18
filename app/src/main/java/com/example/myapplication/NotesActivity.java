@@ -29,7 +29,7 @@ import java.util.ArrayList;
 
 public class NotesActivity extends AppCompatActivity {
     // Firebase variables
-    private DatabaseReference mClassesDatabaseRef;
+    private DatabaseReference mNotesDatabaseRef;
     private FirebaseDatabase mFirebaseDatabase;
     private FirebaseUser user;
 
@@ -57,33 +57,33 @@ public class NotesActivity extends AppCompatActivity {
         // get recyclerview
         recyclerView = findViewById(R.id.NoteList);
         myDataset = new ArrayList<Note>();
-        initTestData();
+        //initTestData();
 
 
-//        // initialize database
-//        user = FirebaseAuth.getInstance().getCurrentUser();
-//        mFirebaseDatabase = FirebaseDatabase.getInstance();
-//        mClassesDatabaseRef = mFirebaseDatabase.getReference().child("users").child(user.getUid()).child("classes");
-//        mClassesDatabaseRef.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                // prevent multiple instances of same data
-//                myDataset = new ArrayList<>();
-//                // get all the data in database
-//                for(DataSnapshot data: dataSnapshot.getChildren()) {
-//                    SchoolClass tempClass = data.getValue(SchoolClass.class);
-//                    myDataset.add(tempClass);
-//                }
+        // initialize database
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        mFirebaseDatabase = FirebaseDatabase.getInstance();
+        mNotesDatabaseRef = mFirebaseDatabase.getReference().child("users").child(user.getUid()).child("notes");
+        mNotesDatabaseRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                // prevent multiple instances of same data
+                myDataset = new ArrayList<>();
+                // get all the data in database
+                for(DataSnapshot data: dataSnapshot.getChildren()) {
+                    Note tempNote = data.getValue(Note.class);
+                    myDataset.add(tempNote);
+                }
                 // specify an adapter
                 mAdapter = new NoteListAdapter(NotesActivity.this, myDataset);
                 recyclerView.setAdapter(mAdapter);
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//            }
-//        });
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
@@ -178,7 +178,7 @@ public class NotesActivity extends AppCompatActivity {
         startActivity(new Intent(NotesActivity.this, AddNoteActivity.class));
     }
 
-    private void initTestData() {
+    /*private void initTestData() {
         myDataset.add(new Note("Yes", "This works great"));
         myDataset.add(new Note("OMG", "I love this app"));
         myDataset.add(new Note("", "10/10 would buy"));
@@ -192,5 +192,5 @@ public class NotesActivity extends AppCompatActivity {
                 "Sed euismod nisi porta lorem mollis aliquam ut porttitor. Amet porttitor eget dolor morbi non arcu risus quis. Luctus venenatis lectus magna fringilla urna porttitor rhoncus dolor purus. Lacus vel facilisis volutpat est velit egestas. Facilisis mauris sit amet massa vitae tortor condimentum lacinia. Nulla facilisi cras fermentum odio eu feugiat pretium. Diam maecenas ultricies mi eget mauris pharetra et. Tellus mauris a diam maecenas. Nullam non nisi est sit. Ridiculus mus mauris vitae ultricies leo integer malesuada nunc vel. Turpis egestas maecenas pharetra convallis posuere morbi leo. Diam maecenas sed enim ut sem viverra aliquet eget sit. Mi tempus imperdiet nulla malesuada pellentesque elit. Proin fermentum leo vel orci porta non pulvinar. Tristique senectus et netus et malesuada fames. Accumsan in nisl nisi scelerisque eu. Posuere urna nec tincidunt praesent semper feugiat. Gravida cum sociis natoque penatibus et magnis. Nulla aliquet porttitor lacus luctus accumsan tortor posuere.\n" +
                 "\n" +
                 "Sollicitudin nibh sit amet commodo. Et ligula ullamcorper malesuada proin libero nunc consequat interdum. Urna nec tincidunt praesent semper feugiat nibh sed. Tristique senectus et netus et malesuada fames. Tempus urna et pharetra pharetra massa massa ultricies mi quis. Turpis egestas maecenas pharetra convallis. Nibh ipsum consequat nisl vel. Felis imperdiet proin fermentum leo vel. Mattis nunc sed blandit libero volutpat sed cras ornare arcu. Quis hendrerit dolor magna eget est. Vitae justo eget magna fermentum iaculis eu non. Id ornare arcu odio ut sem nulla pharetra diam."));
-    }
+    }*/
 }

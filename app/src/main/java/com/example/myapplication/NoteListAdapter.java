@@ -40,16 +40,17 @@ public class NoteListAdapter extends RecyclerView.Adapter<NoteListAdapter.NoteVi
             @Override
             public boolean onLongClick(View v) {
                 final String noteTitle = itemList.get(position).getTitle();
-                Snackbar deleteClass = Snackbar
+                final String noteKey = itemList.get(position).getNoteKey();
+                Snackbar delete = Snackbar
                         .make(v, "Delete " + noteTitle + "?", Snackbar.LENGTH_LONG)
                         .setAction("DELETE", new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                itemList.get(position).deleteClass(noteTitle);
+                                itemList.get(position).deleteNote(noteKey);
                             }
                         });
-                deleteClass.setActionTextColor(Color.RED);
-                deleteClass.show();
+                delete.setActionTextColor(Color.RED);
+                delete.show();
                 return true;
             }
         });
