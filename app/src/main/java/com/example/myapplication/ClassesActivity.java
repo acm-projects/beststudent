@@ -39,6 +39,7 @@ public class ClassesActivity extends AppCompatActivity {
     // recyclerview to show classes
     private RecyclerView recyclerView;
     private RecyclerView.Adapter mAdapter;
+    private FloatingActionButton fab;
 
     // drawer layout for navigation
     private DrawerLayout drawerLayout;
@@ -88,6 +89,23 @@ public class ClassesActivity extends AppCompatActivity {
 
         // use a linear layout manager
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        // hide add button when scrolling down
+        fab = findViewById(R.id.plus_class);
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener(){
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy){
+                if (dy<0 && !fab.isShown())
+                    fab.show();
+                else if(dy>0 && fab.isShown())
+                    fab.hide();
+            }
+
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+        });
     }
 
     /**
@@ -133,6 +151,10 @@ public class ClassesActivity extends AppCompatActivity {
                     return true;
                 } else if (menuItem.getItemId() == R.id.action_classes) {
                     startActivity(new Intent(ClassesActivity.this, ClassesActivity.class));
+                    return true;
+                } else if (menuItem.getItemId() == R.id.action_notes) {
+                    startActivity(new Intent(ClassesActivity.this, NotesActivity.class));
+                    return true;
                 }
                 return true;
             }

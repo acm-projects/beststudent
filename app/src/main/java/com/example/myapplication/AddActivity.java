@@ -80,7 +80,7 @@ public class AddActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         // sets layout page
-        setContentView(R.layout.activity_add);
+        setContentView(R.layout.activity_add_task);
 
         // sets tool bar
         setToolbar();
@@ -149,6 +149,10 @@ public class AddActivity extends AppCompatActivity {
                     return true;
                 } else if (menuItem.getItemId() == R.id.action_classes) {
                     startActivity(new Intent(AddActivity.this, ClassesActivity.class));
+                    return true;
+                } else if (menuItem.getItemId() == R.id.action_notes) {
+                    startActivity(new Intent(AddActivity.this, NotesActivity.class));
+                    return true;
                 }
                 return true;
             }

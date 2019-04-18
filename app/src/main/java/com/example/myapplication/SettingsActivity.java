@@ -13,6 +13,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import java.util.Set;
+
 public class SettingsActivity extends AppCompatActivity {
     // tag for debugging
     private static final String TAG = "SettingsActivity";
@@ -74,6 +76,10 @@ public class SettingsActivity extends AppCompatActivity {
                     return true;
                 } else if (menuItem.getItemId() == R.id.action_classes) {
                     startActivity(new Intent(SettingsActivity.this, ClassesActivity.class));
+                    return true;
+                } else if (menuItem.getItemId() == R.id.action_notes) {
+                    startActivity(new Intent(SettingsActivity.this, NotesActivity.class));
+                    return true;
                 }
                 return true;
             }

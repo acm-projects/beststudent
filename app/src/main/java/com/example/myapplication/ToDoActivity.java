@@ -141,6 +141,10 @@ public class ToDoActivity extends AppCompatActivity {
                     return true;
                 } else if (menuItem.getItemId() == R.id.action_classes) {
                     startActivity(new Intent(ToDoActivity.this, ClassesActivity.class));
+                    return true;
+                } else if (menuItem.getItemId() == R.id.action_notes) {
+                    startActivity(new Intent(ToDoActivity.this, NotesActivity.class));
+                    return true;
                 }
                 return true;
             }

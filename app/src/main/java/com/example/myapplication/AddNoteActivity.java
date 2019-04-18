@@ -20,22 +20,18 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-public class AddClassActivity extends AppCompatActivity {
+public class AddNoteActivity extends AppCompatActivity {
 
     // user input variables
-    private EditText classNameField;
-    private EditText classTimeField;
-    private EditText roomField;
-    private EditText professorField;
-    private EditText officeHoursField;
-    private EditText officeField;
+    private EditText noteTitleField;
+    private EditText notesField;
 
     // Firebase variables
     private DatabaseReference mClassesDatabaseRef;
     private FirebaseDatabase mFirebaseDatabase;
     private FirebaseUser user;
 
-    // drawer layout for navigation
+    // drawer layout for navicgation
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle abdt;
     private Toolbar myToolbar;
@@ -43,17 +39,13 @@ public class AddClassActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_class);
+        setContentView(R.layout.activity_add_note);
 
         // sets tool bar
         setToolbar();
 
-        classNameField = findViewById(R.id.class_name_input);
-        classTimeField = findViewById(R.id.class_time_input);
-        roomField = findViewById(R.id.room_number_input);
-        professorField = findViewById(R.id.professor_input);
-        officeHoursField = findViewById(R.id.office_hours_input);
-        officeField = findViewById(R.id.office_room_input);
+        noteTitleField = findViewById(R.id.note_name_input);
+        notesField = findViewById(R.id.notes_input);
 
         // initialize database
         user = FirebaseAuth.getInstance().getCurrentUser();
@@ -82,31 +74,31 @@ public class AddClassActivity extends AppCompatActivity {
                 menuItem.setChecked(true);
                 drawerLayout.closeDrawers();
                 if (menuItem.getItemId() == R.id.action_pomodoro){
-                    startActivity(new Intent(AddClassActivity.this, PomodoroActivity.class));
+                    startActivity(new Intent(AddNoteActivity.this, PomodoroActivity.class));
                     return true;
                 } else if (menuItem.getItemId() == R.id.action_change_pomodoro) {
-                    startActivity(new Intent(AddClassActivity.this, ChooseTimerActivity.class));
+                    startActivity(new Intent(AddNoteActivity.this, ChooseTimerActivity.class));
                     return true;
                 } else if (menuItem.getItemId() == R.id.action_add_task) {
-                    startActivity(new Intent(AddClassActivity.this, AddActivity.class));
+                    startActivity(new Intent(AddNoteActivity.this, AddActivity.class));
                     return true;
                 } else if (menuItem.getItemId() == R.id.action_to_do) {
-                    startActivity(new Intent(AddClassActivity.this, ToDoActivity.class));
+                    startActivity(new Intent(AddNoteActivity.this, ToDoActivity.class));
                     return true;
                 } else if (menuItem.getItemId() == R.id.action_settings) {
-                    startActivity(new Intent(AddClassActivity.this, SettingsActivity.class));
+                    startActivity(new Intent(AddNoteActivity.this, SettingsActivity.class));
                     return true;
                 } else if (menuItem.getItemId() == R.id.action_calendar) {
-                    startActivity(new Intent(AddClassActivity.this, CalendarActivity.class));
+                    startActivity(new Intent(AddNoteActivity.this, CalendarActivity.class));
                     return true;
                 } else if (menuItem.getItemId() == R.id.sign_out) {
-                    startActivity(new Intent(AddClassActivity.this, LogoutActivity.class));
+                    startActivity(new Intent(AddNoteActivity.this, LogoutActivity.class));
                     return true;
                 } else if (menuItem.getItemId() == R.id.action_classes) {
-                    startActivity(new Intent(AddClassActivity.this, ClassesActivity.class));
+                    startActivity(new Intent(AddNoteActivity.this, ClassesActivity.class));
                     return true;
                 } else if (menuItem.getItemId() == R.id.action_notes) {
-                    startActivity(new Intent(AddClassActivity.this, NotesActivity.class));
+                    startActivity(new Intent(AddNoteActivity.this, NotesActivity.class));
                     return true;
                 }
                 return true;
@@ -126,36 +118,28 @@ public class AddClassActivity extends AppCompatActivity {
     }
 
     // when button to add class is pushed
-    public void addClass(View view) {
+    public void addNote(View view) {
         // check if user input is valid
         if(!validateForm()) {
             return;
         }
 
         // get user input
-        String className = classNameField.getText().toString();
-        String classTime = classTimeField.getText().toString();
-        String room = roomField.getText().toString();
-        String prof = professorField.getText().toString();
-        String officeHours = officeHoursField.getText().toString();
-        String office = officeField.getText().toString();
+        String noteTitle = noteTitleField.getText().toString();
+        String notes = notesField.getText().toString();
 
         // create a class
-        SchoolClass newClass = new SchoolClass(className, room, classTime, prof, office, officeHours);
-
-        // push new class to database
-        mClassesDatabaseRef.child(className).setValue(newClass);
+        Note newClass = new Note(noteTitle, notes);
+//
+//        // push new class to database
+//        mClassesDatabaseRef.child(noteTitle).setValue(newClass);
 
         // empty text fields
-        classNameField.setText("");
-        classTimeField.setText("");
-        roomField.setText("");
-        professorField.setText("");
-        officeHoursField.setText("");
-        officeField.setText("");
+        noteTitleField.setText("");
+        notesField.setText("");
 
         // notify the user the class was successfully added
-        Toast.makeText(this, "Class Added!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Note Added!", Toast.LENGTH_SHORT).show();
 
         // finished adding the class
         finish();
@@ -168,24 +152,14 @@ public class AddClassActivity extends AppCompatActivity {
     private boolean validateForm() {
         boolean valid = true;
 
-        String className = classNameField.getText().toString();
-        if(TextUtils.isEmpty(className)) {
-            classNameField.setError("Class Name Required");
+        String notes = notesField.getText().toString();
+        if(TextUtils.isEmpty(notes)) {
+            notesField.setError("Notes Required");
             valid = false;
         }
         else {
-            classNameField.setError(null);
+            notesField.setError(null);
         }
-
-        String classTime = classTimeField.getText().toString();
-        if(TextUtils.isEmpty(classTime)) {
-            classTimeField.setError("Class Time Required");
-            valid = false;
-        }
-        else {
-            classTimeField.setError(null);
-        }
-
         return valid;
     }
 }

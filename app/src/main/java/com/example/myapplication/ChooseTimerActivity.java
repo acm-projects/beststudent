@@ -140,6 +140,10 @@ public class ChooseTimerActivity extends AppCompatActivity {
                     return true;
                 } else if (menuItem.getItemId() == R.id.action_classes) {
                     startActivity(new Intent(ChooseTimerActivity.this, ClassesActivity.class));
+                    return true;
+                } else if (menuItem.getItemId() == R.id.action_notes) {
+                    startActivity(new Intent(ChooseTimerActivity.this, NotesActivity.class));
+                    return true;
                 }
                 return true;
             }

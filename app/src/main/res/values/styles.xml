@@ -10,6 +10,7 @@
         <item name="popupTheme">@style/ToolbarPopupTheme</item>
         <item name="android:fontFamily">@font/montserrat</item>
         <item name="buttonStyle">@style/ButtonStyle</item>
+        <item name="android:fitsSystemWindows">true</item>
     </style>
 
     <style name="ToolbarPopupTheme" >

@@ -29,9 +29,14 @@
             app:showAsAction="ifRoom"/>
         <item
             android:id="@+id/action_classes"
-            android:icon="@drawable/ic_class_black_24dp"
+            android:icon="@drawable/ic_outline_class_24px"
             android:title="Classes"
             app:showAsAction="ifRoom"/>
+        <item
+            android:id="@+id/action_notes"
+            android:icon="@drawable/ic_outline_note_add_24px"
+            android:title="Notes"
+            app:showAsAction="ifRoom" />
         <item
             android:id="@+id/action_settings"
             android:icon="@drawable/ic_baseline_settings_20px"
