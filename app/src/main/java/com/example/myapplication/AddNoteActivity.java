@@ -141,7 +141,7 @@ public class AddNoteActivity extends AppCompatActivity {
         noteTitleField.setText("");
         notesField.setText("");
 
-        // notify the user the class was successfully added
+        // notify the user the note was successfully added
         Toast.makeText(this, "Note Added!", Toast.LENGTH_SHORT).show();
 
         // finished adding the class
