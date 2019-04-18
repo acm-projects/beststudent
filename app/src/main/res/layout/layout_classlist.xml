@@ -35,7 +35,7 @@
             android:padding="5dp"
             android:text="Class Time"
             android:textColor="@android:color/black"
-            android:textSize="13sp" />
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/RoomNumber"
@@ -44,7 +44,7 @@
             android:padding="5dp"
             android:text="Room Number"
             android:textColor="@android:color/black"
-            android:textSize="13sp" />
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/Professor"
@@ -53,7 +53,7 @@
             android:padding="5dp"
             android:text="Professor"
             android:textColor="@android:color/black"
-            android:textSize="13sp" />
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/OfficeRoom"
@@ -62,7 +62,7 @@
             android:padding="5dp"
             android:text="Office"
             android:textColor="@android:color/black"
-            android:textSize="13sp" />
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/OfficeHours"
@@ -71,7 +71,7 @@
             android:padding="5dp"
             android:text="Office Hours"
             android:textColor="@android:color/black"
-            android:textSize="13sp" />
+            android:textSize="14sp" />
 
     </LinearLayout>
 

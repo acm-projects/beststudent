@@ -19,14 +19,13 @@
         <include layout="@layout/toolbar" />
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/ClassList"
+            android:id="@+id/NoteList"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scrollbars="vertical"
-            android:visibility="visible"
             android:paddingHorizontal="5dp"
+            android:visibility="visible"
             android:clipToPadding="false">
-
         </android.support.v7.widget.RecyclerView>
 
 
@@ -36,11 +35,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <android.support.design.widget.FloatingActionButton
-            android:id="@+id/plus_class"
+            android:id="@+id/plus_note"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end|bottom"
-            android:onClick="startAddClass"
+            android:onClick="startAddNote"
             android:src="@drawable/ic_baseline_add_circle_outline_24px"
             android:layout_margin="16dp" />
     </FrameLayout>

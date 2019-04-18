@@ -1,9 +1,6 @@
 package com.example.myapplication;
 
 import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -11,36 +8,30 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
-import java.util.ArrayList;
+public class AddNoteActivity extends AppCompatActivity {
 
-public class ClassesActivity extends AppCompatActivity {
+    // user input variables
+    private EditText noteTitleField;
+    private EditText notesField;
+
     // Firebase variables
     private DatabaseReference mClassesDatabaseRef;
     private FirebaseDatabase mFirebaseDatabase;
     private FirebaseUser user;
 
-    // list of classes
-    private ArrayList<SchoolClass> myDataset;
-
-    // recyclerview to show classes
-    private RecyclerView recyclerView;
-    private RecyclerView.Adapter mAdapter;
-
-    // drawer layout for navigation
+    // drawer layout for navicgation
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle abdt;
     private Toolbar myToolbar;
@@ -48,46 +39,18 @@ public class ClassesActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_classes);
+        setContentView(R.layout.activity_add_class);
 
         // sets tool bar
         setToolbar();
 
-        // get recyclerview
-        recyclerView = findViewById(R.id.ClassList);
-
+        noteTitleField = findViewById(R.id.note_name_input);
+        notesField = findViewById(R.id.notes_input);
 
         // initialize database
         user = FirebaseAuth.getInstance().getCurrentUser();
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         mClassesDatabaseRef = mFirebaseDatabase.getReference().child("users").child(user.getUid()).child("classes");
-        mClassesDatabaseRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                // prevent multiple instances of same data
-                myDataset = new ArrayList<>();
-                // get all the data in database
-                for(DataSnapshot data: dataSnapshot.getChildren()) {
-                    SchoolClass tempClass = data.getValue(SchoolClass.class);
-                    myDataset.add(tempClass);
-                }
-                // specify an adapter
-                mAdapter = new ClassListAdapter(ClassesActivity.this, myDataset);
-                recyclerView.setAdapter(mAdapter);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
-        // use this setting to improve performance if you know that changes
-        // in content do not change the layout size of the RecyclerView
-        recyclerView.setHasFixedSize(true);
-
-        // use a linear layout manager
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
     /**
@@ -111,31 +74,31 @@ public class ClassesActivity extends AppCompatActivity {
                 menuItem.setChecked(true);
                 drawerLayout.closeDrawers();
                 if (menuItem.getItemId() == R.id.action_pomodoro){
-                    startActivity(new Intent(ClassesActivity.this, PomodoroActivity.class));
+                    startActivity(new Intent(AddNoteActivity.this, PomodoroActivity.class));
                     return true;
                 } else if (menuItem.getItemId() == R.id.action_change_pomodoro) {
-                    startActivity(new Intent(ClassesActivity.this, ChooseTimerActivity.class));
+                    startActivity(new Intent(AddNoteActivity.this, ChooseTimerActivity.class));
                     return true;
                 } else if (menuItem.getItemId() == R.id.action_add_task) {
-                    startActivity(new Intent(ClassesActivity.this, AddActivity.class));
+                    startActivity(new Intent(AddNoteActivity.this, AddActivity.class));
                     return true;
                 } else if (menuItem.getItemId() == R.id.action_to_do) {
-                    startActivity(new Intent(ClassesActivity.this, ToDoActivity.class));
+                    startActivity(new Intent(AddNoteActivity.this, ToDoActivity.class));
                     return true;
                 } else if (menuItem.getItemId() == R.id.action_settings) {
-                    startActivity(new Intent(ClassesActivity.this, SettingsActivity.class));
+                    startActivity(new Intent(AddNoteActivity.this, SettingsActivity.class));
                     return true;
                 } else if (menuItem.getItemId() == R.id.action_calendar) {
-                    startActivity(new Intent(ClassesActivity.this, CalendarActivity.class));
+                    startActivity(new Intent(AddNoteActivity.this, CalendarActivity.class));
                     return true;
                 } else if (menuItem.getItemId() == R.id.sign_out) {
-                    startActivity(new Intent(ClassesActivity.this, LogoutActivity.class));
+                    startActivity(new Intent(AddNoteActivity.this, LogoutActivity.class));
                     return true;
                 } else if (menuItem.getItemId() == R.id.action_classes) {
-                    startActivity(new Intent(ClassesActivity.this, ClassesActivity.class));
+                    startActivity(new Intent(AddNoteActivity.this, ClassesActivity.class));
                     return true;
                 } else if (menuItem.getItemId() == R.id.action_notes) {
-                    startActivity(new Intent(ClassesActivity.this, NotesActivity.class));
+                    startActivity(new Intent(AddNoteActivity.this, NotesActivity.class));
                     return true;
                 }
                 return true;
@@ -154,7 +117,49 @@ public class ClassesActivity extends AppCompatActivity {
         }
     }
 
-    public void startAddClass(View view) {
-        startActivity(new Intent(ClassesActivity.this, AddClassActivity.class));
+    // when button to add class is pushed
+    public void addClass(View view) {
+        // check if user input is valid
+        if(!validateForm()) {
+            return;
+        }
+
+        // get user input
+        String noteTitle = noteTitleField.getText().toString();
+        String notes = notesField.getText().toString();
+
+        // create a class
+        Note newClass = new Note(noteTitle, notes);
+//
+//        // push new class to database
+//        mClassesDatabaseRef.child(noteTitle).setValue(newClass);
+
+        // empty text fields
+        noteTitleField.setText("");
+        notesField.setText("");
+
+        // notify the user the class was successfully added
+        Toast.makeText(this, "Note Added!", Toast.LENGTH_SHORT).show();
+
+        // finished adding the class
+        finish();
+    }
+
+    /**
+     * Validate that user input is in correct format
+     * @return if the user correctly input fields
+     */
+    private boolean validateForm() {
+        boolean valid = true;
+
+        String className = noteTitleField.getText().toString();
+        if(TextUtils.isEmpty(className)) {
+            noteTitleField.setError("Notes Required");
+            valid = false;
+        }
+        else {
+            noteTitleField.setError(null);
+        }
+        return valid;
     }
 }
