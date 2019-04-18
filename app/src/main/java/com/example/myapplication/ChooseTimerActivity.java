@@ -15,7 +15,13 @@ import android.view.View;
 import android.widget.NumberPicker;
 
 public class ChooseTimerActivity extends AppCompatActivity {
-    private static final int MAX_MINS = 60;
+    private static final int MIN_SHORT_BREAK = 5;
+    private static final int MAX_SHORT_BREAK = 10;
+    private static final int MIN_WORK_TIME = 20;
+    private static final int MAX_WORK_TIME = 45;
+    private static final int MIN_LONG_BREAK = 15;
+    private static final int MAX_LONG_BREAK = 30;
+
     private static final int MULTIPLIER = 60000;
     private static final int DEFAULT_WORK = 25;
     private static final int DEFAULT_SHORT = 5;
@@ -47,20 +53,20 @@ public class ChooseTimerActivity extends AppCompatActivity {
         setToolbar();
 
         workpicker = (NumberPicker) findViewById(R.id.work_picker);
-        workpicker.setMinValue(0);
-        workpicker.setMaxValue(MAX_MINS);
+        workpicker.setMinValue(MIN_WORK_TIME);
+        workpicker.setMaxValue(MAX_WORK_TIME);
         workpicker.setWrapSelectorWheel(true);
         workpicker.setValue(DEFAULT_WORK);
 
         shortpicker = (NumberPicker) findViewById(R.id.short_picker);
-        shortpicker.setMinValue(0);
-        shortpicker.setMaxValue(MAX_MINS);
+        shortpicker.setMinValue(MIN_SHORT_BREAK);
+        shortpicker.setMaxValue(MAX_SHORT_BREAK);
         shortpicker.setWrapSelectorWheel(true);
         shortpicker.setValue(DEFAULT_SHORT);
 
         longpicker = (NumberPicker) findViewById(R.id.long_picker);
-        longpicker.setMinValue(0);
-        longpicker.setMaxValue(MAX_MINS);
+        longpicker.setMinValue(MIN_LONG_BREAK);
+        longpicker.setMaxValue(MAX_LONG_BREAK);
         longpicker.setWrapSelectorWheel(true);
         longpicker.setValue(DEFAULT_LONG);
 

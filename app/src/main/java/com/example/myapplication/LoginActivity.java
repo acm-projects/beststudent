@@ -194,7 +194,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                 mUsersDatabaseRef.child(user.getUid()).setValue(newUser);
                                 firstSignIn = false;
                             }
-                            
+
                             Toast.makeText(LoginActivity.this, "Signed In!", Toast.LENGTH_SHORT).show();
                             updateUI(user);
                         }
