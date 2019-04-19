@@ -42,6 +42,7 @@
                         android:id="@+id/note_name_input"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:inputType="text"
                         android:textColor="@color/colorTextGrey"
                         android:textColorLink="@color/colorPrimary" />
                 </android.support.design.widget.TextInputLayout>
