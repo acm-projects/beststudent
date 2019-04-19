@@ -76,6 +76,7 @@
                     android:layout_marginBottom="20dp"
                     android:onClick="addNote"
                     android:layout_gravity="center"
+                    android:background="@drawable/signup_btn_rounded"
                     android:text="Add Note"
                     android:textColor="@color/colorPrimaryDark"/>
 
@@ -90,7 +91,7 @@
         android:layout_gravity="start"
         android:background="@color/colorAccent"
         android:fitsSystemWindows="true"
-        android:visibility="gone"
+        android:visibility="visible"
         app:headerLayout="@layout/layout_header"
         app:itemIconTint="@color/colorPrimary"
         app:itemTextColor="@color/colorTextGrey"
